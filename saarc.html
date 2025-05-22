@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SAARC MCQs: Lok Sewa Exam Prep</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(to right, #f8ffae, #43c6ac);
+            margin: 0;
+            padding: 2rem;
+            color: #333;
+            min-height: 100vh;
+        }
+        .quiz-container {
+            max-width: 800px;
+            margin: auto;
+            background: #fff;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+        }
+        .question {
+            margin-bottom: 1.5rem;
+            animation: fadeIn 0.5s;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 1rem;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        .options button {
+            display: block;
+            margin: 0.5rem 0;
+            padding: 0.75rem 1rem;
+            width: 100%;
+            background: #e3f2fd;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 1rem;
+        }
+        .options button:hover {
+            background: #bbdefb;
+            transform: translateX(5px);
+        }
+        .correct {
+            background-color: #c8e6c9 !important;
+            animation: pulse 0.5s;
+        }
+        .wrong {
+            background-color: #ffcdd2 !important;
+            animation: shake 0.3s;
+        }
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+        .progress-bar {
+            width: 100%;
+            height: 10px;
+            background: #eee;
+            border-radius: 5px;
+            margin-bottom: 1rem;
+            overflow: hidden;
+        }
+        .progress {
+            height: 100%;
+            background: #42a5f5;
+            transition: width 0.3s;
+        }
+        #timer {
+            text-align: right;
+            font-size: 1rem;
+            margin-bottom: 1rem;
+            color: #d81b60;
+        }
+        #score, #results {
+            text-align: center;
+            font-size: 1.2rem;
+            margin-top: 2rem;
+            font-weight: bold;
+        }
+        .results-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+        }
+        .results-table th, .results-table td {
+            border: 1px solid #ddd;
+            padding: 0.5rem;
+            text-align: left;
+        }
+        .results-table th {
+            background: #f5f5f5;
+        }
+        .explanation {
+            margin-top: 0.5rem;
+            font-size: 0.9rem;
+            color: #555;
+        }
+        .hidden {
+            display: none;
+        }
+        @media (max-width: 600px) {
+            .quiz-container {
+                padding: 1rem;
+            }
+            .options button {
+                font-size: 0.9rem;
+                padding: 0.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="quiz-container">
+        <h1 class="text-2xl font-bold text-center mb-4 text-blue-600">लोक सेवा आयोग – SAARC MCQs (20 Questions)</h1>
+        <div id="timer" class="text-right text-lg mb-4 text-pink-600">Time: 00:00</div>
+        <div class="progress-bar">
+            <div class="progress" id="progress"></div>
+        </div>
+        <div id="quiz"></div>
+        <div id="score" class="text-center text-xl mt-6 font-bold"></div>
+        <div id="results" class="hidden">
+            <h2 class="text-xl font-semibold mb-4">Quiz Results</h2>
+            <table class="results-table">
+                <thead>
+                    <tr>
+                        <th>Question</th>
+                        <th>Your Answer</th>
+                        <th>Correct Answer</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody id="results-body"></tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        const questions = [
+            { q: "सार्कको स्थापना कहिले भएको थियो?", options: ["सन् १९८०", "सन् १९८५", "सन् १९९०", "सन् १९७५"], answer: 1, explanation: "सार्कको स्थापना सन् १९८५ डिसेम्बर ८ मा ढाकामा भएको थियो। **टिप**: यो तथ्यलाई सधैं सम्झनुहोस्, किनभने स्थापनाको मिति बारम्बार सोधिन्छ।" },
+            { q: "सार्कको सचिवालय कहाँ स्थापना भएको छ?", options: ["नयाँ दिल्ली", "ढाका", "काठमाडौँ", "इस्लामाबाद"], answer: 2, explanation: "सार्कको सचिवालय काठमाडौँमा सन् १९८७ जनवरी १६ मा स्थापना भएको हो। **टिप**: नेपालको राजधानीसँग जोडिएको यो तथ्य महत्वपूर्ण छ।" },
+            { q: "सार्कको सचिवालय कहिले स्थापना भएको थियो?", options: ["१९८५ डिसेम्बर ८", "१९८७ जनवरी १६", "१९९० मार्च १", "१९८० अप्रिल १०"], answer: 1, explanation: "सचिवालय सन् १९८७ जनवरी १६ मा काठमाडौँमा स्थापना भएको हो। **टिप**: स्थापना मिति र सचिवालय मिति छुट्याउनुहोस्।" },
+            { q: "सार्कका सदस्य राष्ट्रहरू कति वटा छन्?", options: ["६", "७", "८", "९"], answer: 2, explanation: "सार्कका ८ सदस्य राष्ट्रहरू छन्: अफगानिस्तान, बङ्गलादेश, भुटान, भारत, माल्दिभ्स, नेपाल, पाकिस्तान, श्रीलङ्का। **टिप**: ‘A-B-B-I-M-N-P-S’ mnemonic बनाउनुहोस्।" },
+            { q: "निम्नमध्ये कुन देश सार्कको सदस्य होइन?", options: ["नेपाल", "थाइल्याण्ड", "भुटान", "माल्दिभ्स"], answer: 1, explanation: "थाइल्याण्ड BIMSTEC को सदस्य हो, तर SAARC को होइन। **टिप**: BIMSTEC र SAARC का सदस्यहरू छुट्याउनुहोस्।" },
+            { q: "सार्कको पहिलो उद्देश्य के हो?", options: ["आर्थिक वृद्धि तीव्र बनाउने", "दक्षिण एसियाली जनताको कल्याण प्रवर्द्धन", "सैन्य सहकार्य", "पर्यटन विकास"], answer: 1, explanation: "पहिलो उद्देश्य जनताको कल्याण र जीवनस्तर सुधार हो। **टिप**: पहिलो उद्देश्यलाई प्राथमिकताका रूपमा सम्झनुहोस्।" },
+            { q: "सार्कको चार्टरमा कति वटा धारा छन्?", options: ["६", "८", "१०", "१२"], answer: 2, explanation: "सार्कको चार्टरमा १० वटा धारा छन्। **टिप**: NEA पेपरमा यही प्रश्न आएको थियो, त्यसैले यो महत्वपूर्ण छ।" },
+            { q: "सार्कको निर्णय प्रक्रिया कसरी हुन्छ?", options: ["बहुमतद्वारा", "सर्वसम्मतिद्वारा", "अध्यक्षको निर्णयद्वारा", "मतदानद्वारा"], answer: 1, explanation: "सार्कमा सर्वसम्मति आवश्यक हुन्छ। **टिप**: ‘सर्वसम्मति’ शब्द सम्झनुहोस्, यो बारम्बार सोधिन्छ।" },
+            { q: "सार्कले कुन विषयलाई छलफलबाट हटाउँछ?", options: ["आर्थिक सहकार्य", "द्विपक्षीय र विवादास्पद मुद्दा", "पर्यावरण संरक्षण", "सांस्कृतिक सहकार्य"], answer: 1, explanation: "द्विपक्षीय र विवादास्पद मुद्दाहरू छलफलमा समावेश हुँदैन। **टिप**: भारत-पाकिस्तान जस्ता विवादलाई सम्झनुहोस्।" },
+            { q: "सार्कको कुन उद्देश्यले अन्य विकासशील देशहरूसँग सहकार्यमा जोड दिन्छ?", options: ["सामूहिक आत्मनिर्भरता", "अन्तर्राष्ट्रिय संगठनसँग सहकार्य", "जनताको कल्याण", "सांस्कृतिक सहयोग"], answer: 1, explanation: "अन्य विकासशील देशहरूसँग सहकार्य छैटौँ उद्देश्य हो। **टिप**: उद्देश्यहरूको क्रम सम्झनुहोस्।" },
+            { q: "सार्कको पहिलो शिखर सम्मेलन कहाँ भएको थियो?", options: ["काठमाडौँ", "ढाका", "नयाँ दिल्ली", "इस्लामाबाद"], answer: 1, explanation: "पहिलो शिखर सम्मेलन सन् १९८५ मा ढाकामा भएको थियो। **टिप**: स्थापना र पहिलो सम्मेलन एकै ठाउँ भएको सम्झनुहोस्।" },
+            { q: "सार्कको उद्देश्यमा कुन क्षेत्रमा सक्रिय सहकार्यलाई जोड दिइएको छ?", options: ["सैन्य र रक्षा", "आर्थिक, सामाजिक, र प्राविधिक", "राजनीतिक सुधार", "खेलकुद"], answer: 1, explanation: "आर्थिक, सामाजिक, र प्राविधिक क्षेत्रमा सहकार्य हो। **टिप**: सैन्य सहकार्य SAARC मा हुँदैन।" },
+            { q: "सार्कले कुन मञ्चमा साझा हितमा सहयोगलाई प्राथमिकता दिन्छ?", options: ["अन्तर्राष्ट्रिय मञ्च", "क्षेत्रीय मञ्च", "द्विपक्षीय मञ्च", "स्थानीय मञ्च"], answer: 0, explanation: "सार्कले अन्तर्राष्ट्रिय मञ्चमा साझा हितलाई जोड दिन्छ। **टिप**: UN जस्ता मञ्चहरूसँग जोड्नुहोस्।" },
+            { q: "सार्कको कुन सिद्धान्तले क्षेत्रीय अखण्डताको सम्मान गर्छ?", options: ["सर्वसम्मति", "गैर-हस्तक्षेप", "क्षेत्रीय सहकार्य", "सामूहिक आत्मनिर्भरता"], answer: 1, explanation: "गैर-हस्तक्षेप सिद्धान्तले क्षेत्रीय अखण्डता र स्वतन्त्रताको सम्मान गर्छ। **टिप**: यो सिद्धान्त BIMSTEC मा पनि लागू हुन्छ।" },
+            { q: "सार्कको चार्टरमा कुन कुरालाई प्राथमिकता दिइएको छैन?", options: ["जनताको जीवनस्तर सुधार", "सैन्य गठबन्धन", "सामाजिक प्रगति", "प्राविधिक सहकार्य"], answer: 1, explanation: "सार्कले सैन्य गठबन्धनलाई समावेश गर्दैन। **टिप**: सैन्य विषय SAARC को दायराभन्दा बाहिर छ।" },
+            { q: "सार्कको कुन उद्देश्यले एकअर्काको समस्याप्रति विश्वास र समझ बढाउँछ?", options: ["सामूहिक आत्मनिर्भरता", "आपसी विश्वास र प्रशंसा", "आर्थिक सहकार्य", "पर्यावरण संरक्षण"], answer: 1, explanation: "आपसी विश्वास र प्रशंसा चौथो उद्देश्य हो। **टिप**: यो सामाजिक एकतासँग सम्बन्धित छ।" },
+            { q: "सार्कको सचिवालयको प्रमुख कार्य के हो?", options: ["सैन्य रणनीति निर्माण", "क्षेत्रीय सहकार्य समन्वय", "व्यापार नियमन", "पर्यटन प्रवर्द्धन"], answer: 1, explanation: "सचिवालयले क्षेत्रीय सहकार्य समन्वय गर्छ। **टिप**: सचिवालयको भूमिका प्रशासनिक हुन्छ।" },
+            { q: "सार्कको कुन उद्देश्यले अन्य अन्तर्राष्ट्रिय सङ्गठनहरूसँग सहकार्यमा जोड दिन्छ?", options: ["सामाजिक प्रगति", "साझा उद्देश्य भएका सङ्गठनहरूसँग सहकार्य", "आर्थिक आत्मनिर्भरता", "सांस्कृतिक आदानप्रदान"], answer: 1, explanation: "अन्य सङ्गठनहरूसँग सहकार्य आठौँ उद्देश्य हो। **टिप**: यो उद्देश्य विश्वव्यापी सहकार्यसँग जोडिन्छ।" },
+            { q: "सार्कको कुन सिद्धान्तले द्विपक्षीय विवादलाई छलफलमा समावेश गर्दैन?", options: ["सर्वसम्मति", "गैर-हस्तक्षेप", "क्षेत्रीय सहकार्य", "सामूहिक आत्मनिर्भरता"], answer: 1, explanation: "गैर-हस्तक्षेप सिद्धान्तले द्विपक्षीय विवादलाई हटाउँछ। **टिप**: यो सिद्धान्तले विवादास्पद मुद्दालाई रोक्छ।" },
+            { q: "सार्कको स्थापना कुन शहरमा भएको थियो?", options: ["काठमाडौँ", "ढाका", "नयाँ दिल्ली", "कोलम्बो"], answer: 1, explanation: "सार्कको स्थापना ढाकामा भएको थियो। **टिप**: ढाका पहिलो शिखर सम्मेलन र स्थापनास्थल हो।" }
+        ];
+
+        let score = 0;
+        let userAnswers = Array(questions.length).fill(null);
+        let timerSeconds = 0;
+        let timerInterval;
+
+        // Audio for correct and incorrect answers
+        const correctSound = new Audio('https://www.soundjay.com/buttons/sounds/button-09.mp3'); // Cheerful tune
+        const wrongSound = new Audio('https://www.soundjay.com/buttons/sounds/button-16.mp3'); // Buzzer tune
+
+        const quizEl = document.getElementById("quiz");
+        const scoreEl = document.getElementById("score");
+        const resultsEl = document.getElementById("results");
+        const resultsBody = document.getElementById("results-body");
+        const progressEl = document.getElementById("progress");
+        const timerEl = document.getElementById("timer");
+
+        // Load progress from localStorage
+        function loadProgress() {
+            const saved = localStorage.getItem("saarcQuizProgress");
+            if (saved) {
+                const { score: savedScore, answers: savedAnswers, time: savedTime } = JSON.parse(saved);
+                score = savedScore;
+                userAnswers = savedAnswers || Array(questions.length).fill(null);
+                timerSeconds = savedTime || 0;
+            }
+        }
+
+        // Save progress to localStorage
+        function saveProgress() {
+            localStorage.setItem("saarcQuizProgress", JSON.stringify({
+                score,
+                answers: userAnswers,
+                time: timerSeconds
+            }));
+        }
+
+        // Start timer
+        function startTimer() {
+            timerInterval = setInterval(() => {
+                timerSeconds++;
+                const minutes = Math.floor(timerSeconds / 60);
+                const seconds = timerSeconds % 60;
+                timerEl.textContent = `Time: ${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+            }, 1000);
+        }
+
+        // Update progress bar
+        function updateProgress() {
+            const answered = userAnswers.filter(a => a !== null).length;
+            const percentage = (answered / questions.length) * 100;
+            progressEl.style.width = `${percentage}%`;
+        }
+
+        // Show all questions on one page
+        function showQuestions() {
+            let html = '';
+            questions.forEach((q, i) => {
+                const options = q.options
+                    .map((opt, j) => `<button onclick="checkAnswer(this, ${i}, ${j}, '${opt.replace(/'/g, "\\'")}')" aria-label="Option ${opt}">${opt}</button>`)
+                    .join('');
+                html += `
+                    <div class="question" data-index="${i}">
+                        <p class="font-bold text-lg">Q${i + 1}. ${q.q} (SAARC)</p>
+                        <div class="options">${options}</div>
+                        <div class="explanation hidden"></div>
+                    </div>
+                `;
+            });
+            quizEl.innerHTML = html;
+            updateProgress();
+            saveProgress();
+        }
+
+        // Check answer
+        function checkAnswer(button, questionIndex, selected, selectedText) {
+            if (button.disabled) return; // Prevent multiple clicks
+            const q = questions[questionIndex];
+            const correct = q.answer;
+            const buttons = button.parentElement.querySelectorAll("button");
+            const explanationEl = button.parentElement.parentElement.querySelector('.explanation');
+            buttons.forEach((btn) => {
+                btn.disabled = true;
+                if (q.options.indexOf(btn.innerText) === correct) btn.classList.add("correct");
+                if (btn === button && selected !== correct) btn.classList.add("wrong");
+            });
+
+            userAnswers[questionIndex] = selectedText;
+            if (selected === correct) {
+                score++;
+                correctSound.play();
+            } else {
+                wrongSound.play();
+            }
+            explanationEl.textContent = q.explanation;
+            explanationEl.classList.remove('hidden');
+
+            saveProgress();
+            updateProgress();
+
+            // Check if all questions are answered
+            if (userAnswers.every(a => a !== null)) {
+                endQuiz();
+            }
+        }
+
+        // End quiz and show results
+        function endQuiz() {
+            clearInterval(timerInterval);
+            quizEl.innerHTML = "";
+            scoreEl.innerHTML = `Your score: ${score} / ${questions.length} (${((score / questions.length) * 100).toFixed(2)}%)`;
+            resultsEl.classList.remove("hidden");
+
+            resultsBody.innerHTML = questions.map((q, i) => {
+                const userAnswer = userAnswers[i] === null ? "Not attempted" : userAnswers[i];
+                const correctAnswer = q.options[q.answer];
+                const status = userAnswers[i] === q.options[q.answer] ? "Correct" : userAnswers[i] === null ? "Not attempted" : "Wrong";
+                return `
+                    <tr>
+                        <td>${i + 1}. ${q.q} (SAARC)</td>
+                        <td>${userAnswer}</td>
+                        <td>${correctAnswer}</td>
+                        <td class="${status.toLowerCase()}">${status}</td>
+                    </tr>
+                `;
+            }).join('');
+
+            localStorage.removeItem("saarcQuizProgress");
+        }
+
+        // Initialize
+        loadProgress();
+        startTimer();
+        showQuestions();
+    </script>
+</body>
+</html>
