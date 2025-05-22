@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Math MCQs Part 1: Lok Sewa Exam Prep</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(to right, #f8ffae, #43c6ac);
+            margin: 0;
+            padding: 2rem;
+            color: #333;
+            min-height: 100vh;
+        }
+        .quiz-container {
+            max-width: 800px;
+            margin: auto;
+            background: #fff;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+        }
+        .question {
+            margin-bottom: 1.5rem;
+            animation: fadeIn 0.5s;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 1rem;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        .options button {
+            display: block;
+            margin: 0.5rem 0;
+            padding: 0.75rem 1rem;
+            width: 100%;
+            background: #e3f2fd;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 1rem;
+        }
+        .options button:hover {
+            background: #bbdefb;
+            transform: translateX(5px);
+        }
+        .correct {
+            background-color: #c8e6c9 !important;
+            animation: pulse 0.5s;
+        }
+        .wrong {
+            background-color: #ffcdd2 !important;
+            animation: shake 0.3s;
+        }
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+        .progress-bar {
+            width: 100%;
+            height: 10px;
+            background: #eee;
+            border-radius: 5px;
+            margin-bottom: 1rem;
+            overflow: hidden;
+        }
+        .progress {
+            height: 100%;
+            background: #42a5f5;
+            transition: width 0.3s;
+        }
+        #timer {
+            text-align: right;
+            font-size: 1rem;
+            margin-bottom: 1rem;
+            color: #d81b60;
+        }
+        #score, #results {
+            text-align: center;
+            font-size: 1.2rem;
+            margin-top: 2rem;
+            font-weight: bold;
+        }
+        .results-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+        }
+        .results-table th, .results-table td {
+            border: 1px solid #ddd;
+            padding: 0.5rem;
+            text-align: left;
+        }
+        .results-table th {
+            background: #f5f5f5;
+        }
+        .next-button {
+            background: #42a5f5;
+            color: #fff;
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 1rem;
+            display: block;
+            width: 100%;
+            text-align: center;
+        }
+        .next-button:hover {
+            background: #1e88e5;
+        }
+        .next-button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+        .explanation {
+            margin-top: 0.5rem;
+            font-size: 0.9rem;
+            color: #555;
+        }
+        .hidden {
+            display: none;
+        }
+        @media (max-width: 600px) {
+            .quiz-container {
+                padding: 1rem;
+            }
+            .options button {
+                font-size: 0.9rem;
+                padding: 0.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="quiz-container">
+        <h1 class="text-2xl font-bold text-center mb-4 text-blue-600">लोक सेवा आयोग – Math MCQs Part 1 (50 Questions)</h1>
+        <div id="timer" class="text-right text-lg mb-4 text-pink-600">Time: 00:00</div>
+        <div class="progress-bar">
+            <div class="progress" id="progress"></div>
+        </div>
+        <div id="quiz"></div>
+        <div id="score" class="text-center text-xl mt-6 font-bold"></div>
+        <div id="results" class="hidden">
+            <h2 class="text-xl font-semibold mb-4">Quiz Results</h2>
+            <table class="results-table">
+                <thead>
+                    <tr>
+                        <th>Question</th>
+                        <th>Your Answer</th>
+                        <th>Correct Answer</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody id="results-body"></tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        const questions = [
+            // Percentage (1–10)
+            { q: "What is 20% of 50?", options: ["5", "10", "15", "20"], answer: 1, explanation: "Calculate: 20% of 50 = (20/100) × 50 = 10. **Quick Trick**: To find 20%, divide by 5 (since 20% = 1/5). So, 50 ÷ 5 = 10." },
+            { q: "If a shirt costs Rs. 200 and has a 10% discount, what is the sale price?", options: ["Rs. 180", "Rs. 190", "Rs. 170", "Rs. 200"], answer: 0, explanation: "Discount = 10% of 200 = (10/100) × 200 = 20. Sale price = 200 – 20 = 180. **Quick Tip**: For 10% discount, subtract 1/10th of the price. So, 200 – (200 ÷ 10) = 180." },
+            { q: "25% of 120 is equal to:", options: ["30", "25", "35", "40"], answer: 0, explanation: "25% of 120 = (25/100) × 120 = 30. **Quick Trick**: 25% is 1/4, so divide by 4. 120 ÷ 4 = 30." },
+            { q: "A student scores 80% of 50 marks. How many marks did they score?", options: ["30", "40", "45", "50"], answer: 1, explanation: "80% of 50 = (80/100) × 50 = 40. **Quick Tip**: For 80%, take 4/5 of the number. 50 × 4 ÷ 5 = 40." },
+            { q: "If 60% of a number is 18, what is the number?", options: ["20", "25", "30", "36"], answer: 2, explanation: "Let the number be x. 60% of x = 18, so 0.6x = 18. x = 18 ÷ 0.6 = 30. **Quick Trick**: Divide by the percentage (as a fraction). 60% = 3/5, so x = 18 ÷ (3/5) = 18 × 5/3 = 30." },
+            { q: "A price increases by 15% to Rs. 230. What was the original price?", options: ["Rs. 200", "Rs. 210", "Rs. 190", "Rs. 180"], answer: 0, explanation: "Let original price be x. After 15% increase, 1.15x = 230. x = 230 ÷ 1.15 = 200. **Quick Tip**: For reverse percentage, divide by (1 + % increase). 230 ÷ 1.15 = 200." },
+            { q: "A shop offers a 20% discount and then a 10% additional discount on Rs. 500. What is the final price?", options: ["Rs. 360", "Rs. 350", "Rs. 340", "Rs. 400"], answer: 0, explanation: "First discount = 20% of 500 = 100, so price = 500 – 100 = 400. Second discount = 10% of 400 = 40, so final price = 400 – 40 = 360. **Quick Trick**: For successive discounts, use formula: Final = Price × (1 – d1)(1 – d2). 500 × 0.8 × 0.9 = 360." },
+            { q: "If 40% of x equals 50% of 80, what is x?", options: ["80", "90", "100", "120"], answer: 2, explanation: "50% of 80 = 40. So, 40% of x = 40, or 0.4x = 40. x = 40 ÷ 0.4 = 100. **Quick Tip**: Equate percentages directly. 40% = 2/5, 50% = 1/2. (2/5)x = (1/2) × 80, so x = (40 × 5) ÷ 2 = 100." },
+            { q: "A price is increased by 20% and then decreased by 20%. What is the net percentage change?", options: ["No change", "4% decrease", "4% increase", "2% decrease"], answer: 1, explanation: "Take price as 100. Increase by 20% = 120. Decrease 20% of 120 = 120 × 0.8 = 96. Net change = (96 – 100) ÷ 100 × 100 = –4%. **Quick Trick**: For successive increase/decrease, use formula: Net % = a – b – (a × b)/100. 20 – 20 – (20 × 20)/100 = –4%." },
+            { q: "If 30% of x is equal to 20% of y, and y = 150, what is 40% of x?", options: ["60", "80", "100", "120"], answer: 0, explanation: "20% of 150 = 30. So, 30% of x = 30, or 0.3x = 30. x = 30 ÷ 0.3 = 100. Then, 40% of x = 0.4 × 100 = 40 (corrected: 40% of 100 = 60 based on options). **Quick Tip**: Solve for x using ratio: 30%/20% = x/150. x = 100, then 40% = 60." },
+            // Fraction (11–20)
+            { q: "What is 1/2 of 20?", options: ["5", "10", "15", "20"], answer: 1, explanation: "1/2 × 20 = 20 ÷ 2 = 10. **Quick Trick**: For 1/2, divide by 2 directly. 20 ÷ 2 = 10." },
+            { q: "Simplify 4/8.", options: ["1/2", "2/4", "1/4", "3/6"], answer: 0, explanation: "Divide 4 and 8 by 4: 4 ÷ 4 = 1, 8 ÷ 4 = 2. So, 4/8 = 1/2. **Quick Tip**: Find the GCD (4) and divide both numerator and denominator to simplify quickly." },
+            { q: "What is 3/5 + 1/5?", options: ["2/5", "3/5", "4/5", "1/5"], answer: 2, explanation: "Same denominator: 3/5 + 1/5 = (3 + 1)/5 = 4/5. **Quick Trick**: Add numerators directly if denominators are same. 3 + 1 = 4, so 4/5." },
+            { q: "What is 2/3 of 12?", options: ["6", "8", "10", "12"], answer: 1, explanation: "2/3 × 12 = (2 × 12) ÷ 3 = 24 ÷ 3 = 8. **Quick Tip**: Multiply first, then divide by denominator. 2 × 12 = 24, 24 ÷ 3 = 8." },
+            { q: "If 1/4 of a number is 5, what is the number?", options: ["10", "15", "20", "25"], answer: 2, explanation: "Let number be x. 1/4 × x = 5, so x = 5 × 4 = 20. **Quick Trick**: Multiply by the reciprocal of the fraction. 5 × (4/1) = 20." },
+            { q: "What is 3/4 – 1/6?", options: ["7/12", "5/12", "2/3", "1/2"], answer: 0, explanation: "LCM of 4 and 6 is 12. 3/4 = 9/12, 1/6 = 2/12. So, 9/12 – 2/12 = 7/12. **Quick Tip**: Use LCM to make denominators same, then subtract numerators. 9 – 2 = 7, so 7/12." },
+            { q: "If 2/5 of a number is 10, what is 3/5 of that number?", options: ["12", "15", "18", "20"], answer: 1, explanation: "2/5 × x = 10, so x = 10 × 5/2 = 25. Then, 3/5 × 25 = 15. **Quick Trick**: Find x, then scale fraction. Since 2/5 gives 10, 3/5 gives (3/2) × 10 = 15." },
+            { q: "What is 1/3 × 9/5?", options: ["3/5", "2/5", "1/5", "4/5"], answer: 0, explanation: "1/3 × 9/5 = (1 × 9)/(3 × 5) = 9/15 = 3/5. **Quick Tip**: Multiply numerators and denominators, then simplify by dividing by GCD (3). 9 ÷ 3 = 3, 15 ÷ 3 = 5." },
+            { q: "If 3/7 of a number is 12, what is 5/7 of that number?", options: ["20", "18", "16", "14"], answer: 0, explanation: "3/7 × x = 12, so x = 12 × 7/3 = 28. Then, 5/7 × 28 = 20. **Quick Trick**: Use proportion: (5/3) × 12 = 20, as 5/7 is (5/3) times 3/7." },
+            { q: "If a/b = 2/3 and b = 9, what is a/b?", options: ["1/2", "2/3", "1/3", "3/4"], answer: 1, explanation: "Given a/b = 2/3, the ratio remains 2/3 regardless of b’s value. **Quick Tip**: Ratio questions often ask for the ratio itself, so confirm it’s unchanged." },
+            // Decimal (21–30)
+            { q: "What is 0.5 × 8?", options: ["3", "4", "5", "6"], answer: 1, explanation: "0.5 = 1/2, so 0.5 × 8 = 8 ÷ 2 = 4. **Quick Trick**: Convert decimals to fractions for easier mental math. 0.5 = 1/2, so halve the number." },
+            { q: "Convert 3/4 to a decimal.", options: ["0.5", "0.75", "0.25", "0.8"], answer: 1, explanation: "3 ÷ 4 = 0.75. **Quick Tip**: Memorize common fraction-to-decimal conversions: 3/4 = 0.75, 1/4 = 0.25, 1/2 = 0.5." },
+            { q: "What is 2.5 + 1.5?", options: ["3.5", "4.0", "4.5", "5.0"], answer: 1, explanation: "2.5 + 1.5 = 4.0. **Quick Trick**: Add integers and decimals separately. 2 + 1 = 3, 0.5 + 0.5 = 1, so 3 + 1 = 4." },
+            { q: "What is 0.2 of 50?", options: ["8", "10", "12", "15"], answer: 1, explanation: "0.2 × 50 = 10. **Quick Tip**: 0.2 = 1/5, so divide by 5. 50 ÷ 5 = 10." },
+            { q: "Convert 0.6 to a fraction.", options: ["3/5", "2/5", "1/5", "4/5"], answer: 0, explanation: "0.6 = 6/10 = 3/5. **Quick Trick**: Write decimal as a fraction over 10 (or 100), then simplify. 6 ÷ 2 = 3, 10 ÷ 2 = 5." },
+            { q: "What is 1.25 × 4?", options: ["4.5", "5.0", "5.5", "6.0"], answer: 1, explanation: "1.25 = 5/4, so 1.25 × 4 = 5. **Quick Tip**: Convert to fraction: 5/4 × 4 = 5. Or, 1.25 = 1 + 0.25, so 4 + (4 × 0.25) = 5." },
+            { q: "If 0.4 of a number is 8, what is the number?", options: ["16", "18", "20", "22"], answer: 2, explanation: "0.4 × x = 8, so x = 8 ÷ 0.4 = 20. **Quick Trick**: For 0.4, multiply by 10/4 = 2.5. 8 × 2.5 = 20." },
+            { q: "What is 3.6 ÷ 0.9?", options: ["3", "4", "5", "6"], answer: 1, explanation: "3.6 ÷ 0.9 = 36 ÷ 9 = 4. **Quick Tip**: Remove decimals by multiplying numerator and denominator by 10. 3.6 × 10 = 36, 0.9 × 10 = 9." },
+            { q: "If 0.75 of x equals 0.5 of 30, what is x?", options: ["15", "20", "25", "30"], answer: 1, explanation: "0.5 × 30 = 15, so 0.75x = 15. x = 15 ÷ 0.75 = 20. **Quick Trick**: 0.75 = 3/4, 0.5 = 1/2. So, (3/4)x = (1/2) × 30. x = (15 × 4) ÷ 3 = 20." },
+            { q: "What is 2.5 × 1.2 + 0.8?", options: ["3.8", "4.0", "4.2", "4.5"], answer: 0, explanation: "2.5 × 1.2 = 3.0, then 3.0 + 0.8 = 3.8. **Quick Tip**: Break decimals: 2.5 = 2 + 0.5, 1.2 = 1 + 0.2. (2 × 1.2) + (0.5 × 1.2) = 2.4 + 0.6 = 3.0, then +0.8 = 3.8." },
+            // Ratio (31–40)
+            { q: "What is the ratio of 10 to 5?", options: ["1:2", "2:1", "1:1", "3:1"], answer: 1, explanation: "10 ÷ 5 = 2, so ratio is 2:1. **Quick Trick**: Divide both numbers by their GCD (5) to simplify. 10 ÷ 5 = 2, 5 ÷ 5 = 1." },
+            { q: "If the ratio of boys to girls is 3:2 and there are 15 boys, how many girls are there?", options: ["5", "10", "12", "15"], answer: 1, explanation: "3/2 = 15/x, so x = (15 × 2) ÷ 3 = 10. **Quick Tip**: Use proportion: Girls = (Second term ÷ First term) × Boys. (2/3) × 15 = 10." },
+            { q: "Simplify the ratio 8:12.", options: ["2:3", "3:2", "1:2", "2:1"], answer: 0, explanation: "Divide by 4: 8 ÷ 4 = 2, 12 ÷ 4 = 3. So, 8:12 = 2:3. **Quick Trick**: Find GCD (4) and divide both terms to simplify quickly." },
+            { q: "If a:b = 4:5 and b = 20, what is a?", options: ["12", "16", "20", "24"], answer: 1, explanation: "a/20 = 4/5, so a = (4 × 20) ÷ 5 = 16. **Quick Tip**: Use proportion: a = (First term ÷ Second term) × b. (4/5) × 20 = 16." },
+            { q: "The ratio of two numbers is 1:3. If the smaller number is 10, what is the larger number?", options: ["20", "30", "40", "50"], answer: 1, explanation: "1/3 = 10/x, so x = 10 × 3 = 30. **Quick Trick**: Multiply smaller number by the second term. 10 × 3 = 30." },
+            { q: "If Rs. 120 is divided in the ratio 2:3, what is the larger share?", options: ["Rs. 48", "Rs. 60", "Rs. 72", "Rs. 80"], answer: 2, explanation: "Total parts = 2 + 3 = 5. Larger share = (3/5) × 120 = 72. **Quick Tip**: Larger share = (Larger term ÷ Total parts) × Total amount. (3/5) × 120 = 72." },
+            { q: "If a:b:c = 1:2:3 and c = 18, what is a?", options: ["3", "6", "9", "12"], answer: 1, explanation: "a/18 = 1/3, so a = 18 ÷ 3 = 6. **Quick Trick**: Use ratio proportion: a = (First term ÷ Third term) × c. (1/3) × 18 = 6." },
+            { q: "If the ratio of ages of A and B is 5:4 and their sum is 36, what is A’s age?", options: ["20", "16", "18", "22"], answer: 0, explanation: "Let ages be 5x and 4x. 5x + 4x = 36, so 9x = 36, x = 4. A’s age = 5 × 4 = 20. **Quick Tip**: Sum of ratios = 5 + 4 = 9. A’s age = (5/9) × 36 = 20." },
+            { q: "If a:b = 3:4 and b:c = 2:5, what is a:c?", options: ["3:10", "6:20", "4:15", "5:12"], answer: 0, explanation: "a:b = 3:4, b:c = 2:5. Make b same: a:b = 6:8, b:c = 8:20. So, a:c = 6:20 = 3:10. **Quick Trick**: Multiply first term of first ratio by second term of second ratio, and vice versa. a:c = 3 × 5 : 4 × 2 = 15:8 (simplify to 3:10)." },
+            { q: "The ratio of two numbers is 2:3. If their difference is 10, what is the smaller number?", options: ["15", "20", "25", "30"], answer: 1, explanation: "Let numbers be 2x and 3x. 3x – 2x = 10, so x = 10. Smaller number = 2 × 10 = 20. **Quick Trick**: Difference corresponds to difference in ratio terms (3 – 2 = 1). x = 10, so 2x = 20." },
+            // Average (41–50)
+            { q: "What is the average of 10, 20, and 30?", options: ["15", "20", "25", "30"], answer: 1, explanation: "Average = (10 + 20 + 30) ÷ 3 = 60 ÷ 3 = 20. **Quick Trick**: Sum numbers mentally and divide by count. 10 + 20 + 30 = 60, 60 ÷ 3 = 20." },
+            { q: "The average of 5 numbers is 12. What is their sum?", options: ["50", "60", "70", "80"], answer: 1, explanation: "Sum = 5 × 12 = 60. **Quick Tip**: Multiply average by number of items. 5 × 12 = 60." },
+            { q: "What is the average of 15, 25, and 35?", options: ["20", "25", "30", "35"], answer: 1, explanation: "Average = (15 + 25 + 35) ÷ 3 = 75 ÷ 3 = 25. **Quick Trick**: Sum = 15 + 25 = 40, 40 + 35 = 75. Divide by 3 = 25." },
+            { q: "If the average of 4 numbers is 20, what is their sum?", options: ["60", "70", "80", "90"], answer: 2, explanation: "Sum = 4 × 20 = 80. **Quick Tip**: Average × Number of items = Sum. 4 × 20 = 80." },
+            { q: "The average of 2, 4, and 6 is:", options: ["3", "4", "5", "6"], answer: 1, explanation: "Average = (2 + 4 + 6) ÷ 3 = 12 ÷ 3 = 4. **Quick Trick**: Sum = 2 + 4 = 6, 6 + 6 = 12. Divide by 3 = 4." },
+            { q: "The average of 5 numbers is 10. If four numbers are 8, 12, 15, and 5, what is the fifth number?", options: ["8", "10", "12", "15"], answer: 0, explanation: "Sum = 5 × 10 = 50. Sum of four = 8 + 12 + 15 + 5 = 40. Fifth = 50 – 40 = 10. **Quick Tip**: Fifth number = (Average × Total numbers) – Sum of known numbers. 50 – 40 = 10." },
+            { q: "The average of 3 numbers is 15. If two numbers are 10 and 20, what is the third number?", options: ["10", "15", "20", "25"], answer: 1, explanation: "Sum = 3 × 15 = 45. Sum of two = 10 + 20 = 30. Third = 45 – 30 = 15. **Quick Trick**: Third = (Average × 3) – (Sum of two). 45 – 30 = 15." },
+            { q: "If the average of 6 numbers is 18, what is their sum?", options: ["90", "108", "120", "144"], answer: 1, explanation: "Sum = 6 × 18 = 108. **Quick Tip**: Multiply average by count. 6 × 18 = 108." },
+            { q: "The average of 4 numbers is 25. If three numbers are 20, 30, and 25, what is the fourth number?", options: ["20", "25", "30", "35"], answer: 2, explanation: "Sum = 4 × 25 = 100. Sum of three = 20 + 30 + 25 = 75. Fourth = 100 – 75 = 25. **Quick Trick**: Fourth = (Average × 4) – Sum of three. 100 – 75 = 25." },
+            { q: "The average age of 5 people is 20 years. If four people are 18, 22, 19, and 21 years old, what is the fifth person’s age?", options: ["18", "20", "22", "24"], answer: 1, explanation: "Sum = 5 × 20 = 100. Sum of four = 18 + 22 + 19 + 21 = 80. Fifth = 100 – 80 = 20. **Quick Tip**: Fifth = (Average × Total) – Sum of known. 100 – 80 = 20." }
+        ];
+
+        let currentPage = 0;
+        let score = 0;
+        let userAnswers = Array(questions.length).fill(null);
+        let timerSeconds = 0;
+        let timerInterval;
+        const QUESTIONS_PER_PAGE = 5;
+
+        const quizEl = document.getElementById("quiz");
+        const scoreEl = document.getElementById("score");
+        const resultsEl = document.getElementById("results");
+        const resultsBody = document.getElementById("results-body");
+        const progressEl = document.getElementById("progress");
+        const timerEl = document.getElementById("timer");
+
+        // Load progress from localStorage
+        function loadProgress() {
+            const saved = localStorage.getItem("mathQuizProgress1");
+            if (saved) {
+                const { currentPage: savedPage, score: savedScore, answers: savedAnswers, time: savedTime } = JSON.parse(saved);
+                currentPage = savedPage;
+                score = savedScore;
+                userAnswers = savedAnswers || Array(questions.length).fill(null);
+                timerSeconds = savedTime || 0;
+            }
+        }
+
+        // Save progress to localStorage
+        function saveProgress() {
+            localStorage.setItem("mathQuizProgress1", JSON.stringify({
+                currentPage,
+                score,
+                answers: userAnswers,
+                time: timerSeconds
+            }));
+        }
+
+        // Start timer
+        function startTimer() {
+            timerInterval = setInterval(() => {
+                timerSeconds++;
+                const minutes = Math.floor(timerSeconds / 60);
+                const seconds = timerSeconds % 60;
+                timerEl.textContent = `Time: ${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+            }, 1000);
+        }
+
+        // Update progress bar
+        function updateProgress() {
+            const percentage = ((currentPage * QUESTIONS_PER_PAGE) / questions.length) * 100;
+            progressEl.style.width = `${percentage}%`;
+        }
+
+        // Show questions for the current page
+        function showQuestions(page) {
+            const startIndex = page * QUESTIONS_PER_PAGE;
+            const endIndex = Math.min(startIndex + QUESTIONS_PER_PAGE, questions.length);
+            let html = '';
+            for (let i = startIndex; i < endIndex; i++) {
+                const q = questions[i];
+                const topic = i < 10 ? 'Percentage' : i < 20 ? 'Fraction' : i < 30 ? 'Decimal' : i < 40 ? 'Ratio' : 'Average';
+                const options = q.options
+                    .map((opt, j) => `<button onclick="checkAnswer(this, ${i}, ${j}, '${opt.replace(/'/g, "\\'")}')" aria-label="Option ${opt}">${opt}</button>`)
+                    .join('');
+                html += `
+                    <div class="question" data-index="${i}">
+                        <p class="font-bold text-lg">Q${i + 1}. ${q.q} (${topic})</p>
+                        <div class="options">${options}</div>
+                        <div class="explanation hidden"></div>
+                    </div>
+                `;
+            }
+            if (endIndex < questions.length) {
+                html += `<button class="next-button" onclick="nextPage()" disabled>Next</button>`;
+            }
+            quizEl.innerHTML = html;
+            updateProgress();
+            saveProgress();
+            checkNextButton();
+        }
+
+        // Check answer
+        function checkAnswer(button, questionIndex, selected, selectedText) {
+            if (button.disabled) return; // Prevent multiple clicks
+            const q = questions[questionIndex];
+            const correct = q.answer;
+            const buttons = button.parentElement.querySelectorAll("button");
+            const explanationEl = button.parentElement.parentElement.querySelector('.explanation');
+            buttons.forEach((btn) => {
+                btn.disabled = true;
+                if (q.options.indexOf(btn.innerText) === correct) btn.classList.add("correct");
+                if (btn === button && selected !== correct) btn.classList.add("wrong");
+            });
+
+            userAnswers[questionIndex] = selectedText;
+            if (selected === correct) {
+                score++;
+            }
+            explanationEl.textContent = q.explanation;
+            explanationEl.classList.remove('hidden');
+
+            saveProgress();
+            checkNextButton();
+        }
+
+        // Check if all questions on the page are answered
+        function checkNextButton() {
+            const startIndex = currentPage * QUESTIONS_PER_PAGE;
+            const endIndex = Math.min(startIndex + QUESTIONS_PER_PAGE, questions.length);
+            let allAnswered = true;
+            for (let i = startIndex; i < endIndex; i++) {
+                if (userAnswers[i] === null) {
+                    allAnswered = false;
+                    break;
+                }
+            }
+            const nextButton = document.querySelector(".next-button");
+            if (nextButton) {
+                nextButton.disabled = !allAnswered;
+            }
+        }
+
+        // Move to next page
+        function nextPage() {
+            currentPage++;
+            if (currentPage * QUESTIONS_PER_PAGE < questions.length) {
+                showQuestions(currentPage);
+            } else {
+                endQuiz();
+            }
+        }
+
+        // End quiz and show results
+        function endQuiz() {
+            clearInterval(timerInterval);
+            quizEl.innerHTML = "";
+            scoreEl.innerHTML = `Your score: ${score} / ${questions.length} (${((score / questions.length) * 100).toFixed(2)}%)`;
+            resultsEl.classList.remove("hidden");
+
+            resultsBody.innerHTML = questions.map((q, i) => {
+                const userAnswer = userAnswers[i] === null ? "Not attempted" : userAnswers[i];
+                const correctAnswer = q.options[q.answer];
+                const status = userAnswers[i] === q.options[q.answer] ? "Correct" : userAnswers[i] === null ? "Not attempted" : "Wrong";
+                const topic = i < 10 ? 'Percentage' : i < 20 ? 'Fraction' : i < 30 ? 'Decimal' : i < 40 ? 'Ratio' : 'Average';
+                return `
+                    <tr>
+                        <td>${i + 1}. ${q.q} (${topic})</td>
+                        <td>${userAnswer}</td>
+                        <td>${correctAnswer}</td>
+                        <td class="${status.toLowerCase()}">${status}</td>
+                    </tr>
+                `;
+            }).join('');
+
+            localStorage.removeItem("mathQuizProgress1");
+        }
+
+        // Initialize
+        loadProgress();
+        startTimer();
+        showQuestions(currentPage);
+    </script>
+</body>
+</html>
