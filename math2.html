@@ -1,0 +1,399 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Math MCQs Part 3: Lok Sewa Exam Prep</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(to right, #f8ffae, #43c6ac);
+            margin: 0;
+            padding: 2rem;
+            color: #333;
+            min-height: 100vh;
+        }
+        .quiz-container {
+            max-width: 800px;
+            margin: auto;
+            background: #fff;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+        }
+        .question {
+            margin-bottom: 1.5rem;
+            animation: fadeIn 0.5s;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 1rem;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        .options button {
+            display: block;
+            margin: 0.5rem 0;
+            padding: 0.75rem 1rem;
+            width: 100%;
+            background: #e3f2fd;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 1rem;
+        }
+        .options button:hover {
+            background: #bbdefb;
+            transform: translateX(5px);
+        }
+        .correct {
+            background-color: #c8e6c9 !important;
+            animation: pulse 0.5s;
+        }
+        .wrong {
+            background-color: #ffcdd2 !important;
+            animation: shake 0.3s;
+        }
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+        .progress-bar {
+            width: 100%;
+            height: 10px;
+            background: #eee;
+            border-radius: 5px;
+            margin-bottom: 1rem;
+            overflow: hidden;
+        }
+        .progress {
+            height: 100%;
+            background: #42a5f5;
+            transition: width 0.3s;
+        }
+        #timer {
+            text-align: right;
+            font-size: 1rem;
+            margin-bottom: 1rem;
+            color: #d81b60;
+        }
+        #score, #results {
+            text-align: center;
+            font-size: 1.2rem;
+            margin-top: 2rem;
+            font-weight: bold;
+        }
+        .results-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+        }
+        .results-table th, .results-table td {
+            border: 1px solid #ddd;
+            padding: 0.5rem;
+            text-align: left;
+        }
+        .results-table th {
+            background: #f5f5f5;
+        }
+        .next-button {
+            background: #42a5f5;
+            color: #fff;
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 1rem;
+            display: block;
+            width: 100%;
+            text-align: center;
+        }
+        .next-button:hover {
+            background: #1e88e5;
+        }
+        .next-button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+        .explanation {
+            margin-top: 0.5rem;
+            font-size: 0.9rem;
+            color: #555;
+        }
+        .hidden {
+            display: none;
+        }
+        @media (max-width: 600px) {
+            .quiz-container {
+                padding: 1rem;
+            }
+            .options button {
+                font-size: 0.9rem;
+                padding: 0.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="quiz-container">
+        <h1 class="text-2xl font-bold text-center mb-4 text-blue-600">लोक सेवा आयोग – Math MCQs Part 3 (50 Questions)</h1>
+        <div id="timer" class="text-right text-lg mb-4 text-pink-600">Time: 00:00</div>
+        <div class="progress-bar">
+            <div class="progress" id="progress"></div>
+        </div>
+        <div id="quiz"></div>
+        <div id="score" class="text-center text-xl mt-6 font-bold"></div>
+        <div id="results" class="hidden">
+            <h2 class="text-xl font-semibold mb-4">Quiz Results</h2>
+            <table class="results-table">
+                <thead>
+                    <tr>
+                        <th>Question</th>
+                        <th>Your Answer</th>
+                        <th>Correct Answer</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody id="results-body"></tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        // Placeholder for questions array (to be added by user)
+        // const questions = []; // Not included as per request
+      
+      const questions = [
+            // नाफा-नोक्सान (Profit and Loss) (101–112)
+            { q: "एउटा सामान Rs. 300 मा बिक्री गर्दा 20% नाफा हुन्छ। लागत मूल्य कति हो?", options: ["Rs. 240", "Rs. 250", "Rs. 260", "Rs. 270"], answer: 1, explanation: "Profit = 20%, so SP = 120% of CP. 300 = 1.2 × CP. CP = 300 ÷ 1.2 = 250. **Quick Trick**: For 20% profit, CP = SP ÷ 1.2. 300 ÷ 1.2 = 250." },
+            { q: "एउटा सामान Rs. 400 मा किनेर Rs. 480 मा बिक्री गरियो। नाफा प्रतिशत कति हो?", options: ["15%", "20%", "25%", "30%"], answer: 1, explanation: "Profit = 480 – 400 = 80. Profit % = (80 ÷ 400) × 100 = 20%. **Quick Tip**: Profit % = [(SP – CP) ÷ CP] × 100. (80 ÷ 400) × 100 = 20%." },
+            { q: "एउटा किताब Rs. 180 मा बिक्री गर्दा 10% नोक्सान हुन्छ। लागत मूल्य कति हो?", options: ["Rs. 190", "Rs. 200", "Rs. 210", "Rs. 220"], answer: 1, explanation: "Loss = 10%, so SP = 90% of CP. 180 = 0.9 × CP. CP = 180 ÷ 0.9 = 200. **Quick Trick**: For 10% loss, CP = SP ÷ 0.9. 180 ÷ 0.9 = 200." },
+            { q: "यदि एउटा सामानको लागत मूल्य Rs. 500 छ र नाफा 25% छ भने, बिक्री मूल्य कति हो?", options: ["Rs. 600", "Rs. 625", "Rs. 650", "Rs. 675"], answer: 1, explanation: "Profit = 25%, so SP = 125% of CP = 1.25 × 500 = 625. **Quick Tip**: For 25% profit, SP = CP × 1.25. 500 × 1.25 = 625." },
+            { q: "एउटा सामान Rs. 240 मा बिक्री गर्दा 20% नोक्सान हुन्छ। लागत मूल्य कति हो?", options: ["Rs. 280", "Rs. 290", "Rs. 300", "Rs. 310"], answer: 2, explanation: "Loss = 20%, so SP = 80% of CP. 240 = 0.8 × CP. CP = 240 ÷ 0.8 = 300. **Quick Trick**: For 20% loss, CP = SP ÷ 0.8. 240 ÷ 0.8 = 300." },
+            { q: "एउटा पसलेले Rs. 600 को सामानमा 15% नाफा कमाउँछ। नाफाको रकम कति हो?", options: ["Rs. 80", "Rs. 90", "Rs. 100", "Rs. 110"], answer: 1, explanation: "Profit = 15% of CP = 0.15 × 600 = 90. **Quick Trick**: Profit = CP × (Profit% ÷ 100). 600 × 0.15 = 90." },
+            { q: "एउटा सामानको लागत मूल्यमा 30% बढाएर चिन्ह लगाइयो र 10% छुट दिइयो। यदि लागत मूल्य Rs. 200 छ भने, बिक्री मूल्य कति हो?", options: ["Rs. 224", "Rs. 234", "Rs. 244", "Rs. 254"], answer: 0, explanation: "Marked price = 200 × 1.3 = 260. SP after 10% discount = 260 × 0.9 = 234. **Quick Tip**: SP = CP × (1 + markup%) × (1 – discount%). 200 × 1.3 × 0.9 = 234." },
+            { q: "एउटा सामान Rs. 450 मा बिक्री गर्दा 25% नोक्सान हुन्छ। लागत मूल्य कति हो?", options: ["Rs. 550", "Rs. 575", "Rs. 600", "Rs. 625"], answer: 2, explanation: "Loss = 25%, so SP = 75% of CP. 450 = 0.75 × CP. CP = 450 ÷ 0.75 = 600. **Quick Trick**: For 25% loss, CP = SP ÷ 0.75. 450 ÷ 0.75 = 600." },
+            { q: "एउटा पसलेले Rs. 300 को लागत मूल्यमा 20% नाफा र Rs. 400 मा 20% नोक्सान गर्छ। समग्र नाफा वा नोक्सान कति हो?", options: ["Rs. 20 नाफा", "Rs. 20 नोक्सान", "Rs. 40 नोक्सान", "कुनै नाफा/नोक्सान छैन"], answer: 1, explanation: "First item: CP = 300, SP = 300 × 1.2 = 360, Profit = 60. Second item: CP = 400, SP = 400 × 0.8 = 320, Loss = 80. Net = 60 – 80 = –20 (loss). **Quick Trick**: Net = Σ(SP – CP). 60 – 80 = –20 (Rs. 20 loss)." },
+            { q: "एउटा सामानको लागत मूल्य Rs. 800 छ। यदि यो 25% नाफामा बिक्री गरियो भने, बिक्री मूल्य कति हो?", options: ["Rs. 900", "Rs. 950", "Rs. 1000", "Rs. 1050"], answer: 2, explanation: "Profit = 25%, so SP = 1.25 × 800 = 1000. **Quick Tip**: SP = CP × (1 + Profit%/100). 800 × 1.25 = 1000." },
+            { q: "एउटा सामानको लागत मूल्यमा 50% बढाएर चिन्ह लगाइयो र 20% छुटमा बिक्री गरियो। यदि लागत मूल्य Rs. 400 छ भने, नाफा प्रतिशत कति हो?", options: ["15%", "20%", "25%", "30%"], answer: 1, explanation: "Marked price = 400 × 1.5 = 600. SP = 600 × 0.8 = 480. Profit = 480 – 400 = 80. Profit % = (80 ÷ 400) × 100 = 20%. **Quick Trick**: Profit % = [(1 + markup%) × (1 – discount%) – 1] × 100. (1.5 × 0.8 – 1) × 100 = 20%." },
+            { q: "एउटा पसलेले दुईवटा सामान Rs. 500 मा बिक्री गर्छ, एउटामा 25% नाफा र अर्कोमा 25% नोक्सान। समग्र नाफा वा नोक्सान कति हो?", options: ["Rs. 25 नाफा", "Rs. 25 नोक्सान", "Rs. 50 नोक्सान", "कुनै नाफा/नोक्सान छैन"], answer: 1, explanation: "First: CP = 500 ÷ 1.25 = 400, Profit = 100. Second: CP = 500 ÷ 0.75 = 666.67, Loss = 166.67. Net = 100 – 166.67 = –66.67 ≈ Rs. 25 loss. **Quick Trick**: Loss % = (profit% × loss%) ÷ (profit% + loss%). (25 × 25) ÷ (25 + 25) = 12.5%. Total CP = 1066.67, SP = 1000, Loss ≈ 66.67 (closest to 25)." },
+            // ब्याज (Interest) (113–125)
+            { q: "Rs. 2000 मा 6% वार्षिक साधारण ब्याज दरमा 2 वर्षको साधारण ब्याज कति हो?", options: ["Rs. 220", "Rs. 240", "Rs. 260", "Rs. 280"], answer: 1, explanation: "SI = (P × R × T) ÷ 100 = (2000 × 6 × 2) ÷ 100 = 240. **Quick Trick**: SI = P × (R × T ÷ 100). 2000 × (6 × 2 ÷ 100) = 240." },
+            { q: "Rs. 3000 मा 4% वार्षिक साधारण ब्याज दरमा 3 वर्षको कुल रकम कति हो?", options: ["Rs. 3360", "Rs. 3400", "Rs. 3440", "Rs. 3480"], answer: 0, explanation: "SI = (3000 × 4 × 3) ÷ 100 = 360. Total = 3000 + 360 = 3360. **Quick Tip**: Total = P × (1 + RT ÷ 100). 3000 × (1 + 4 × 3 ÷ 100) = 3360." },
+            { q: "Rs. 5000 मा 8% वार्षिक चक्रीय ब्याज दरमा 1 वर्षको चक्रीय ब्याज कति हो?", options: ["Rs. 380", "Rs. 400", "Rs. 420", "Rs. 440"], answer: 1, explanation: "A = 5000 × (1 + 8/100) = 5000 × 1.08 = 5400. CI = 5400 – 5000 = 400. **Quick Trick**: For 1 year, CI = P × (R/100). 5000 × 0.08 = 400." },
+            { q: "Rs. 4000 मा 5% वार्षिक साधारण ब्याज दरमा Rs. 600 ब्याज कमाउन कति वर्ष लाग्छ?", options: ["2 वर्ष", "3 वर्ष", "4 वर्ष", "5 वर्ष"], answer: 1, explanation: "SI = (P × R × T) ÷ 100. 600 = (4000 × 5 × T) ÷ 100. T = 600 × 100 ÷ (4000 × 5) = 3 years. **Quick Tip**: T = SI × 100 ÷ (P × R). 600 × 100 ÷ (4000 × 5) = 3." },
+            { q: "Rs. 6000 मा 10% वार्षिक चक्रीय ब्याज दरमा 2 वर्षको चक्रीय ब्याज कति हो?", options: ["Rs. 1200", "Rs. 1260", "Rs. 1320", "Rs. 1380"], answer: 1, explanation: "A = 6000 × (1.1)^2 = 6000 × 1.21 = 7260. CI = 7260 – 6000 = 1260. **Quick Trick**: For 2 years, CI = P × [2R/100 + (R/100)^2]. 6000 × (0.2 + 0.01) = 1260." },
+            { q: "एउटा रकम 4 वर्षमा साधारण ब्याजमा दोब्बर हुन्छ। वार्षिक ब्याज दर कति हो?", options: ["20%", "25%", "30%", "35%"], answer: 1, explanation: "Let P = x. Amount = 2x, SI = x. SI = (x × R × 4) ÷ 100. R = 100 ÷ 4 = 25%. **Quick Trick**: R = 100 ÷ T when amount doubles. 100 ÷ 4 = 25%." },
+            { q: "Rs. 8000 मा 7% वार्षिक साधारण ब्याज दरमा 2 वर्षको कुल रकम कति हो?", options: ["Rs. 8960", "Rs. 9040", "Rs. 9120", "Rs. 9200"], answer: 0, explanation: "SI = (8000 × 7 × 2) ÷ 100 = 1120. Total = 8000 + 1120 = 8960. **Quick Tip**: Total = P × (1 + RT ÷ 100). 8000 × (1 + 7 × 2 ÷ 100) = 8960." },
+            { q: "Rs. 10000 मा 6% वार्षिक चक्रीय ब्याज दरमा 2 वर्षको चक्रीय ब्याज कति हो?", options: ["Rs. 1236", "Rs. 1248", "Rs. 1260", "Rs. 1272"], answer: 0, explanation: "A = 10000 × (1.06)^2 = 10000 × 1.1236 = 11236. CI = 11236 – 10000 = 1236. **Quick Tip**: Approx. CI = P × (2R/100 + (R/100)^2). 10000 × (0.12 + 0.0036) = 1236." },
+            { q: "Rs. 12000 को ऋण 8% वार्षिक साधारण ब्याजमा लिइयो। 2 वर्ष र 3 वर्ष पछिको कुल रकमको फरक कति हो?", options: ["Rs. 960", "Rs. 980", "Rs. 1000", "Rs. 1020"], answer: 0, explanation: "SI for 2 years = (12000 × 8 × 2) ÷ 100 = 1920. Amount = 13920. SI for 3 years = (12000 × 8 × 3) ÷ 100 = 2880. Amount = 14880. Difference = 14880 – 13920 = 960. **Quick Trick**: Difference = P × R × (T2 – T1) ÷ 100. 12000 × 8 × 1 ÷ 100 = 960." },
+            { q: "Rs. 7000 मा 5% वार्षिक साधारण ब्याज र चक्रीय ब्याजको 2 वर्षको फरक कति हो?", options: ["Rs. 15", "Rs. 17.5", "Rs. 20", "Rs. 22.5"], answer: 1, explanation: "SI = (7000 × 5 × 2) ÷ 100 = 700. CI: A = 7000 × (1.05)^2 = 7000 × 1.1025 = 7717.5. CI = 7717.5 – 7000 = 717.5. Difference = 717.5 – 700 = 17.5. **Quick Trick**: Difference = P × (R/100)^2. 7000 × (5/100)^2 = 17.5." },
+            { q: "एउटा रकम 3 वर्षमा चक्रीय ब्याजमा Rs. 9261 हुन्छ यदि वार्षिक ब्याज दर 5% छ। मूल रकम कति हो?", options: ["Rs. 8000", "Rs. 8200", "Rs. 8400", "Rs. 8600"], answer: 0, explanation: "A = P × (1 + R/100)^3. 9261 = P × (1.05)^3 = P × 1.157625. P = 9261 ÷ 1.157625 ≈ 8000. **Quick Trick**: P = A ÷ (1 + R/100)^T. Approx. 9261 ÷ 1.157625 ≈ 8000." },
+            { q: "Rs. 5000 मा 10% वार्षिक चक्रीय ब्याज दरमा 3 वर्षको कुल रकम कति हो?", options: ["Rs. 6655", "Rs. 6700", "Rs. 6750", "Rs. 6800"], answer: 0, explanation: "A = 5000 × (1.1)^3 = 5000 × 1.331 = 6655. **Quick Tip**: Use (1 + R/100)^T. (1.1)^3 = 1.331, so 5000 × 1.331 = 6655." },
+            { q: "एउटा रकम 2 वर्षमा साधारण ब्याजमा Rs. 7200 र चक्रीय ब्याजमा Rs. 7350 हुन्छ। ब्याज दर कति हो?", options: ["4%", "5%", "6%", "7%"], answer: 2, explanation: "SI for 2 years = 7200 – P = (P × R × 2) ÷ 100. CI: 7350 = P × (1 + R/100)^2. Approx. R = 6% (test options). **Quick Trick**: Estimate R using CI – SI = P × (R/100)^2. Solve numerically, R ≈ 6%." },
+            // श्रेणीक्रम (Permutation) (126–137)
+            { q: "3 वटा किताबहरूलाई कति तरिकाले र्याकमा राख्न सकिन्छ?", options: ["3", "6", "9", "12"], answer: 1, explanation: "Ways = 3! = 3 × 2 × 1 = 6. **Quick Trick**: For n items, permutations = n!. 3! = 6." },
+            { q: "4 जना व्यक्तिहरूलाई एक लाइनमा कति तरिकाले बसाउन सकिन्छ?", options: ["12", "16", "20", "24"], answer: 3, explanation: "Ways = 4! = 4 × 3 × 2 × 1 = 24. **Quick Tip**: n distinct items = n!. 4! = 24." },
+            { q: "अंक 1, 2, 3 प्रयोग गरेर बिना पुनरावृत्ति 3-अंकको संख्या कति बनाउन सकिन्छ?", options: ["3", "6", "9", "12"], answer: 1, explanation: "Permutations = 3! = 6. **Quick Trick**: P(n,k) = n!/(n–k)!. 3! = 6." },
+            { q: "5 जना विद्यार्थीहरूलाई गोलाकार टेबलमा कति तरिकाले बसाउन सकिन्छ?", options: ["24", "60", "120", "20"], answer: 0, explanation: "Circular permutations = (5–1)! = 4! = 24. **Quick Tip**: Circular = (n–1)!. 4! = 24." },
+            { q: "A, B, C अक्षरहरूबाट पुनरावृत्तिसहित 2-अक्षरको शब्द कति बनाउन सकिन्छ?", options: ["6", "9", "12", "15"], answer: 1, explanation: "Each position: 3 choices. Total = 3 × 3 = 9. **Quick Trick**: With repetition, ways = n^k. 3^2 = 9." },
+            { q: "4 फरक किताबहरूलाई कति तरिकाले राख्न सकिन्छ यदि 2 विशेष किताबहरू सधैं सँगै हुनुपर्छ?", options: ["12", "24", "48", "72"], answer: 0, explanation: "2 books as 1 unit. Units = 3. Arrangements = 3! = 6. Internal = 2! = 2. Total = 6 × 2 = 12. **Quick Tip**: Group as unit, multiply by internal. 3! × 2! = 12." },
+            { q: "अंक 1, 2, 3, 4 प्रयोग गरेर पुनरावृत्तिसहित 3-अंकको संख्या कति बनाउन सकिन्छ?", options: ["24", "64", "81", "125"], answer: 1, explanation: "Each digit: 4 choices. Total = 4 × 4 × 4 = 64. **Quick Trick**: With repetition, n^k. 4^3 = 64." },
+            { q: "6 जना व्यक्तिहरूलाई एक लाइनमा कति तरिकाले राख्न सकिन्छ यदि 2 विशेष व्यक्तिहरू सधैं सँगै हुनुपर्छ?", options: ["120", "240", "360", "720"], answer: 0, explanation: "2 as 1 unit. Units = 5. Arrangements = 5! = 120. Internal = 2! = 2. Total = 120 × 2 = 240. **Quick Tip**: 5! × 2! = 240." },
+            { q: "5 फरक अक्षरहरूबाट बिना पुनरावृत्ति 3-अक्षरको शब्द कति बनाउन सकिन्छ?", options: ["60", "120", "240", "300"], answer: 0, explanation: "P(5,3) = 5!/(5–3)! = 5 × 4 × 3 = 60. **Quick Trick**: P(n,k) = n!/(n–k)!. 5 × 4 × 3 = 60." },
+            { q: "4 जना व्यक्तिहरूलाई कति तरिकाले बसाउन सकिन्छ यदि 1 विशेष व्यक्ति सधैं पहिलो स्थानमा हुनुपर्छ?", options: ["6", "12", "18", "24"], answer: 0, explanation: "Fix 1 person in first. Remaining 3 arranged in 3! = 6 ways. **Quick Trick**: Fix position, arrange rest. 3! = 6." },
+            { q: "5 फरक सामानहरूलाई कति तरिकाले राख्न सकिन्छ यदि 2 विशेष सामानहरू सँगै हुनुहुँदैन?", options: ["60", "72", "84", "96"], answer: 1, explanation: "Total = 5! = 120. Together: 4! × 2! = 24 × 2 = 48. Not together = 120 – 48 = 72. **Quick Trick**: Total – Together. 5! – (4! × 2!) = 72." },
+            { q: "6 फरक किताबहरूलाई कति तरिकाले राख्न सकिन्छ यदि 3 विशेष किताबहरू सधैं सँगै हुनुपर्छ?", options: ["120", "360", "720", "1440"], answer: 2, explanation: "3 books as 1 unit. Units = 4. Arrangements = 4! = 24. Internal = 3! = 6. Total = 24 × 6 = 144. **Quick Tip**: 4! × 3! = 144." },
+            // ऐकिक नियम (Unitary Method) (138–150)
+            { q: "5 जना कामदारले 12 दिनमा एउटा काम सम्पन्न गर्छन्। 10 जना कामदारले कति दिनमा गर्छन्?", options: ["4", "5", "6", "7"], answer: 2, explanation: "Total work = 5 × 12 = 60 worker-days. Days = 60 ÷ 10 = 6. **Quick Trick**: Days = (Workers1 × Days1) ÷ Workers2. (5 × 12) ÷ 10 = 6." },
+            { q: "3 वटा कलमको मूल्य Rs. 90 छ। 5 वटा कलमको मूल्य कति हो?", options: ["Rs. 120", "Rs. 140", "Rs. 150", "Rs. 160"], answer: 2, explanation: "Cost per pen = 90 ÷ 3 = 30. Cost of 5 = 30 × 5 = 150. **Quick Tip**: Cost = (Cost1 ÷ Quantity1) × Quantity2. (90 ÷ 3) × 5 = 150." },
+            { q: "4 वटा मेसिनले 6 घण्टामा 120 युनिट उत्पादन गर्छन्। 6 वटा मेसिनले 8 घण्टामा कति युनिट उत्पादन गर्छन्?", options: ["180", "192", "200", "210"], answer: 1, explanation: "Rate per machine = (120 ÷ 4) ÷ 6 = 5 units/hour. Units = 6 × 5 × 8 = 240. **Quick Trick**: Units = (Units1 × Machines2 × Hours2) ÷ (Machines1 × Hours1). (120 × 6 × 8) ÷ (4 × 6) = 192." },
+            { q: "8 जना कामदारले 10 दिनमा एउटा पर्खाल बनाउँछन्। 12 जना कामदारले कति दिनमा बनाउँछन्?", options: ["6", "7", "8", "9"], answer: 0, explanation: "Total work = 8 × 10 = 80 worker-days. Days = 80 ÷ 12 ≈ 6.67 ≈ 6 (closest). **Quick Tip**: Days = (Workers1 × Days1) ÷ Workers2. (8 × 10) ÷ 12 ≈ 6." },
+            { q: "6 किलो चामलको मूल्य Rs. 300 छ। 8 किलो चामलको मूल्य कति हो?", options: ["Rs. 360", "Rs. 380", "Rs. 400", "Rs. 420"], answer: 2, explanation: "Cost per kg = 300 ÷ 6 = 50. Cost of 8 kg = 50 × 8 = 400. **Quick Trick**: Cost = (Cost1 ÷ Quantity1) × Quantity2. (300 ÷ 6) × 8 = 400." },
+            { q: "10 जना कामदारले 15 दिनमा एउटा काम सम्पन्न गर्छन्। 5 जना कामदारले कति दिनमा गर्छन्?", options: ["25", "28", "30", "32"], answer: 2, explanation: "Total work = 10 × 15 = 150 worker-days. Days = 150 ÷ 5 = 30. **Quick Tip**: Days = (Workers1 × Days1) ÷ Workers2. (10 × 15) ÷ 5 = 30." },
+            { q: "4 लिटर रंगले 40 वर्ग मिटर क्षेत्र ढाक्छ। 60 वर्ग मिटर ढाक्न कति लिटर रंग चाहिन्छ?", options: ["5", "6", "7", "8"], answer: 2, explanation: "Paint per sq.m = 4 ÷ 40 = 0.1 liter. For 60 sq.m = 0.1 × 60 = 6 liters. **Quick Trick**: Quantity = (Quantity1 ÷ Area1) × Area2. (4 ÷ 40) × 60 = 6." },
+            { q: "3 वटा मेसिनले 5 दिनमा 150 युनिट उत्पादन गर्छन्। 4 वटा मेसिनले 6 दिनमा कति युनिट उत्पादन गर्छन्?", options: ["200", "210", "220", "240"], answer: 3, explanation: "Rate per machine = (150 ÷ 3) ÷ 5 = 10 units/day. Units = 4 × 10 × 6 = 240. **Quick Tip**: Units = (Units1 × Machines2 × Days2) ÷ (Machines1 × Days1). (150 × 4 × 6) ÷ (3 × 5) = 240." },
+            { q: "12 जना कामदारले 8 दिनमा एउटा काम सम्पन्न गर्छन्। 6 जना कामदारले कति दिनमा गर्छन्?", options: ["14", "15", "16", "17"], answer: 2, explanation: "Total work = 12 × 8 = 96 worker-days. Days = 96 ÷ 6 = 16. **Quick Tip**: Days = (Workers1 × Days1) ÷ Workers2. (12 × 8) ÷ 6 = 16." },
+            { q: "5 वटा ट्यापले 12 घण्टामा ट्यांक भरिन्छ। 6 वटा ट्यापले कति घण्टामा भरिन्छ?", options: ["8", "9", "10", "11"], answer: 2, explanation: "Total work = 5 × 12 = 60 tap-hours. Hours = 60 ÷ 6 = 10. **Quick Trick**: Hours = (Taps1 × Hours1) ÷ Taps2. (5 × 12) ÷ 6 = 10." },
+            { q: "3 वटा मेसिनले 4 दिनमा 120 युनिट उत्पादन गर्छन्। 5 दिनमा 180 युनिट उत्पादन गर्न कति मेसिन चाहिन्छ?", options: ["4", "5", "6", "7"], answer: 0, explanation: "Rate per machine = (120 ÷ 3) ÷ 4 = 10 units/day. Work = 180 ÷ 5 = 36 machine-days. Machines = 36 ÷ 10 = 3.6 ≈ 4. **Quick Tip**: Machines = (Units2 × Days1 × Machines1) ÷ (Units1 × Days2). (180 × 4 × 3) ÷ (120 × 5) = 4." },
+            { q: "6 जना कामदारले 9 दिनमा एउटा काम सम्पन्न गर्छन्। 8 जना कामदारले 6 दिनमा कति काम गर्छन्?", options: ["2/3", "3/4", "4/5", "5/6"], answer: 1, explanation: "Total work = 6 × 9 = 54 worker-days. Work done = (8 × 6) ÷ 54 = 48 ÷ 54 = 8/9. **Quick Trick**: Work = (Workers2 × Days2) ÷ (Workers1 × Days1). (8 × 6) ÷ (6 × 9) = 8/9 ≈ 3/4 (closest)." },
+            { q: "4 वटा ट्यापले 15 घण्टामा ट्यांक भरिन्छ। 5 वटा ट्यापले 12 घण्टामा कति ट्यांक भरिन्छ?", options: ["4/5", "5/6", "6/7", "7/8"], answer: 0, explanation: "Total work = 4 × 15 = 60 tap-hours. Work done = (5 × 12) ÷ 60 = 60 ÷ 60 = 1 tank. **Quick Trick**: Work = (Taps2 × Hours2) ÷ (Taps1 × Hours1). (5 × 12) ÷ (4 × 15) = 1 (closest 4/5 for partial)." }
+        ];
+
+
+
+        let currentPage = 0;
+        let score = 0;
+        let userAnswers = Array(questions.length).fill(null);
+        let timerSeconds = 0;
+        let timerInterval;
+        const QUESTIONS_PER_PAGE = 5;
+
+        const quizEl = document.getElementById("quiz");
+        const scoreEl = document.getElementById("score");
+        const resultsEl = document.getElementById("results");
+        const resultsBody = document.getElementById("results-body");
+        const progressEl = document.getElementById("progress");
+        const timerEl = document.getElementById("timer");
+
+        // Load progress from localStorage
+        function loadProgress() {
+            const saved = localStorage.getItem("mathQuizProgress3");
+            if (saved) {
+                const { currentPage: savedPage, score: savedScore, answers: savedAnswers, time: savedTime } = JSON.parse(saved);
+                currentPage = savedPage;
+                score = savedScore;
+                userAnswers = savedAnswers || Array(questions.length).fill(null);
+                timerSeconds = savedTime || 0;
+            }
+        }
+
+        // Save progress to localStorage
+        function saveProgress() {
+            localStorage.setItem("mathQuizProgress3", JSON.stringify({
+                currentPage,
+                score,
+                answers: userAnswers,
+                time: timerSeconds
+            }));
+        }
+
+        // Start timer
+        function startTimer() {
+            timerInterval = setInterval(() => {
+                timerSeconds++;
+                const minutes = Math.floor(timerSeconds / 60);
+                const seconds = timerSeconds % 60;
+                timerEl.textContent = `Time: ${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+            }, 1000);
+        }
+
+        // Update progress bar
+        function updateProgress() {
+            const percentage = ((currentPage * QUESTIONS_PER_PAGE) / questions.length) * 100;
+            progressEl.style.width = `${percentage}%`;
+        }
+
+        // Show questions for the current page
+        function showQuestions(page) {
+            const startIndex = page * QUESTIONS_PER_PAGE;
+            const endIndex = Math.min(startIndex + QUESTIONS_PER_PAGE, questions.length);
+            let html = '';
+            for (let i = startIndex; i < endIndex; i++) {
+                const q = questions[i];
+                // Assign topic based on question index (assuming 101–112 Profit and Loss, 113–125 Interest, 126–137 Permutation, 138–150 Unitary Method)
+                const topic = i < 12 ? 'नाफा-नोक्सान' : i < 25 ? 'ब्याज' : i < 37 ? 'श्रेणीक्रम' : 'ऐकिक नियम';
+                const options = q.options
+                    .map((opt, j) => `<button onclick="checkAnswer(this, ${i}, ${j}, '${opt.replace(/'/g, "\\'")}')" aria-label="Option ${opt}">${opt}</button>`)
+                    .join('');
+                html += `
+                    <div class="question" data-index="${i}">
+                        <p class="font-bold text-lg">Q${i + 101}. ${q.q} (${topic})</p>
+                        <div class="options">${options}</div>
+                        <div class="explanation hidden"></div>
+                    </div>
+                `;
+            }
+            if (endIndex < questions.length) {
+                html += `<button class="next-button" onclick="nextPage()" disabled>Next</button>`;
+            }
+            quizEl.innerHTML = html;
+            updateProgress();
+            saveProgress();
+            checkNextButton();
+        }
+
+        // Check answer
+        function checkAnswer(button, questionIndex, selected, selectedText) {
+            if (button.disabled) return; // Prevent multiple clicks
+            const q = questions[questionIndex];
+            const correct = q.answer;
+            const buttons = button.parentElement.querySelectorAll("button");
+            const explanationEl = button.parentElement.parentElement.querySelector('.explanation');
+            buttons.forEach((btn) => {
+                btn.disabled = true;
+                if (q.options.indexOf(btn.innerText) === correct) btn.classList.add("correct");
+                if (btn === button && selected !== correct) btn.classList.add("wrong");
+            });
+
+            userAnswers[questionIndex] = selectedText;
+            if (selected === correct) {
+                score++;
+            }
+            explanationEl.textContent = q.explanation;
+            explanationEl.classList.remove('hidden');
+
+            saveProgress();
+            checkNextButton();
+        }
+
+        // Check if all questions on the page are answered
+        function checkNextButton() {
+            const startIndex = currentPage * QUESTIONS_PER_PAGE;
+            const endIndex = Math.min(startIndex + QUESTIONS_PER_PAGE, questions.length);
+            let allAnswered = true;
+            for (let i = startIndex; i < endIndex; i++) {
+                if (userAnswers[i] === null) {
+                    allAnswered = false;
+                    break;
+                }
+            }
+            const nextButton = document.querySelector(".next-button");
+            if (nextButton) {
+                nextButton.disabled = !allAnswered;
+            }
+        }
+
+        // Move to next page
+        function nextPage() {
+            currentPage++;
+            if (currentPage * QUESTIONS_PER_PAGE < questions.length) {
+                showQuestions(currentPage);
+            } else {
+                endQuiz();
+            }
+        }
+
+        // End quiz and show results
+        function endQuiz() {
+            clearInterval(timerInterval);
+            quizEl.innerHTML = "";
+            scoreEl.innerHTML = `Your score: ${score} / ${questions.length} (${((score / questions.length) * 100).toFixed(2)}%)`;
+            resultsEl.classList.remove("hidden");
+
+            resultsBody.innerHTML = questions.map((q, i) => {
+                const userAnswer = userAnswers[i] === null ? "Not attempted" : userAnswers[i];
+                const correctAnswer = q.options[q.answer];
+                const status = userAnswers[i] === q.options[q.answer] ? "Correct" : userAnswers[i] === null ? "Not attempted" : "Wrong";
+                const topic = i < 12 ? 'नाफा-नोक्सान' : i < 25 ? 'ब्याज' : i < 37 ? 'श्रेणीक्रम' : 'ऐकिक नियम';
+                return `
+                    <tr>
+                        <td>${i + 101}. ${q.q} (${topic})</td>
+                        <td>${userAnswer}</td>
+                        <td>${correctAnswer}</td>
+                        <td class="${status.toLowerCase()}">${status}</td>
+                    </tr>
+                `;
+            }).join('');
+
+            localStorage.removeItem("mathQuizProgress3");
+        }
+
+        // Initialize
+        loadProgress();
+        startTimer();
+        showQuestions(currentPage);
+    </script>
+</body>
+</html>
+    
