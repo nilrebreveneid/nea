@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="ne">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>क्षेत्रीय सङ्गठन MCQs: NEA 4th Level लोकसेवा तयारी</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Preeti', Arial, sans-serif;
+            background: linear-gradient(to right, #f8ffae, #43c6ac);
+            margin: 0;
+            padding: 2rem;
+            color: #333;
+            min-height: 100vh;
+        }
+        .quiz-container {
+            max-width: 900px;
+            margin: auto;
+            background: #fff;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+        }
+        .question {
+            margin-bottom: 1.5rem;
+            animation: fadeIn 0.5s;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 1rem;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        .options button {
+            display: block;
+            margin: 0.5rem 0;
+            padding: 0.75rem 1rem;
+            width: 100%;
+            background: #e3f2fd;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 1rem;
+        }
+        .options button:hover {
+            background: #bbdefb;
+            transform: translateX(5px);
+        }
+        .correct {
+            background-color: #c8e6c9 !important;
+            animation: pulse 0.5s;
+        }
+        .wrong {
+            background-color: #ffcdd2 !important;
+            animation: shake 0.3s;
+        }
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+        .progress-bar {
+            width: 100%;
+            height: 10px;
+            background: #eee;
+            border-radius: 5px;
+            margin-bottom: 1rem;
+            overflow: hidden;
+        }
+        .progress {
+            height: 100%;
+            background: #42a5f5;
+            transition: width 0.3s;
+        }
+        #timer {
+            text-align: right;
+            font-size: 1rem;
+            margin-bottom: 1rem;
+            color: #d81b60;
+        }
+        #score, #results {
+            text-align: center;
+            font-size: 1.2rem;
+            margin-top: 2rem;
+            font-weight: bold;
+        }
+        .results-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+        }
+        .results-table th, .results-table td {
+            border: 1px solid #ddd;
+            padding: 0.5rem;
+            text-align: left;
+        }
+        .results-table th {
+            background: #f5f5f5;
+        }
+        .explanation {
+            margin-top: 0.5rem;
+            font-size: 0.9rem;
+            color: #555;
+        }
+        .hidden {
+            display: none;
+        }
+        @media (max-width: 600px) {
+            .quiz-container {
+                padding: 1rem;
+            }
+            .options button {
+                font-size: 0.9rem;
+                padding: 0.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="quiz-container">
+        <h1 class="text-2xl font-bold text-center mb-4 text-blue-600">लोकसेवा तयारी – क्षेत्रीय सङ्गठन MCQs (30 प्रश्नहरू)</h1>
+        <div id="timer" class="text-right text-lg mb-4 text-pink-600">समय: 00:00</div>
+        <div class="progress-bar">
+            <div class="progress" id="progress"></div>
+        </div>
+        <div id="quiz"></div>
+        <div id="score" class="text-center text-xl mt-6 font-bold"></div>
+        <div id="results" class="hidden">
+            <h2 class="text-xl font-semibold mb-4">क्विज परिणाम</h2>
+            <table class="results-table">
+                <thead>
+                    <tr>
+                        <th>प्रश्न</th>
+                        <th>तपाईंको उत्तर</th>
+                        <th>सही उत्तर</th>
+                        <th>स्थिति</th>
+                    </tr>
+                </thead>
+                <tbody id="results-body"></tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        const questions = [
+            {
+                q: "SAARC को स्थापना कहिले भयो?",
+                options: ["१९८०", "१९८५", "१९९०", "१९९५"],
+                answer: 1,
+                explanation: "SAARC ८ डिसेम्बर १९८५ मा ढाकामा स्थापना भएको हो।"
+            },
+            {
+                q: "SAARC मा कति सदस्य राष्ट्र छन्?",
+                options: ["६", "७", "८", "९"],
+                answer: 2,
+                explanation: "SAARC मा ८ सदस्य राष्ट्र छन्: अफगानिस्तान, बङ्गलादेश, भुटान, भारत, माल्दिभ्स, नेपाल, पाकिस्तान, श्रीलङ्का।"
+            },
+            {
+                q: "SAARC को मुख्यालय कहाँ छ?",
+                options: ["नयाँ दिल्ली, भारत", "काठमाडौँ, नेपाल", "ढाका, बङ्गलादेश", "कोलम्बो, श्रीलङ्का"],
+                answer: 1,
+                explanation: "SAARC को मुख्यालय १९८७ मा काठमाडौँमा स्थापना भएको हो।"
+            },
+            {
+                q: "SAARC को कुल जनसङ्ख्या विश्वको कति प्रतिशत हो?",
+                options: ["१०%", "१५%", "२१%", "२५%"],
+                answer: 2,
+                explanation: "SAARC ले विश्वको १.९ अर्ब जनसङ्ख्या (२१%) समेट्छ।"
+            },
+            {
+                q: "SAFTA (South Asian Free Trade Area) कहिले लागू भयो?",
+                options: ["२०००", "२००४", "२००६", "२००८"],
+                answer: 2,
+                explanation: "SAFTA २००६ मा लागू भएको हो।"
+            },
+            {
+                q: "अफगानिस्तान SAARC को सदस्य कहिले बन्यो?",
+                options: ["२००५", "२००७", "२०१०", "२०१२"],
+                answer: 1,
+                explanation: "अफगानिस्तान २००७ मा १४औँ शिखर सम्मेलनमा सदस्य बन्यो।"
+            },
+            {
+                q: "नेपालमा SAARC को कति शिखर सम्मेलन भए?",
+                options: ["१", "२", "३", "४"],
+                answer: 2,
+                explanation: "नेपालमा १९८७, २००२, र २०१४ मा ३ शिखर सम्मेलन भए।"
+            },
+            {
+                q: "SAARC को क्षेत्रीय व्यापार कुल GDP को कति प्रतिशत छ?",
+                options: ["१%", "५%", "१०%", "१५%"],
+                answer: 0,
+                explanation: "SAARC को क्षेत्रीय व्यापार GDP को १% मात्र छ।"
+            },
+            {
+                q: "SAARC को वर्तमान महासचिव को हुन् (२०२५ सम्म)?",
+                options: ["अमजद हुसेन सियाल", "गोलाम सरवर", "अर्जुन बहादुर थापा", "इसाला रुवान वीराकुन"],
+                answer: 1,
+                explanation: "गोलाम सरवर बङ्गलादेशबाट SAARC को वर्तमान महासचिव छन्।"
+            },
+            {
+                q: "SAARC को कुल शिखर सम्मेलन कति भए?",
+                options: ["१५", "१८", "२०", "२२"],
+                answer: 1,
+                explanation: "SAARC को १८ शिखर सम्मेलन भए, अन्तिम २०१४ मा काठमाडौँमा।"
+            },
+            {
+                q: "बिम्सटेकको स्थापना कहिले भयो?",
+                options: ["६ जुन १९९७", "८ अगस्त १९६७", "१ नोभेम्बर १९९३", "८ डिसेम्बर १९८५"],
+                answer: 0,
+                explanation: "बिम्सटेक ६ जुन १९९७ मा बैङ्ककमा स्थापना भएको हो।"
+            },
+            {
+                q: "बिम्सटेकमा कति सदस्य राष्ट्र छन्?",
+                options: ["५", "६", "७", "८"],
+                answer: 2,
+                explanation: "बिम्सटेकमा ७ सदस्य राष्ट्र छन्।"
+            },
+            {
+                q: "बिम्सटेकको मुख्यालय कहाँ छ?",
+                options: ["काठमाडौँ, नेपाल", "ढाका, बङ्गलादेश", "जाकार्ता, इन्डोनेसिया", "ब्रसेल्स, बेल्जियम"],
+                answer: 1,
+                explanation: "बिम्सटेकको मुख्यालय २०१४ मा ढाकामा स्थापना भएको हो।"
+            },
+            {
+                q: "बिम्सटेकको कुल जनसङ्ख्या विश्वको कति प्रतिशत हो?",
+                options: ["१०%", "१५%", "२२%", "२५%"],
+                answer: 2,
+                explanation: "बिम्सटेकले १.७ अर्ब जनसङ्ख्या (२२%) समेट्छ।"
+            },
+            {
+                q: "बिम्सटेक चार्टर कहिले लागू भयो?",
+                options: ["२०१८", "२०२०", "२०२२", "२०२४"],
+                answer: 2,
+                explanation: "बिम्सटेक चार्टर २०२२ मा लागू भएको हो।"
+            },
+            {
+                q: "आसियानको स्थापना मिति के हो?",
+                options: ["८ अगस्त १९६७", "६ जुन १९९७", "१ नोभेम्बर १९९३", "८ डिसेम्बर १९८५"],
+                answer: 0,
+                explanation: "आसियान ८ अगस्त १९६७ मा बैङ्ककमा स्थापना भएको हो।"
+            },
+            {
+                q: "आसियानमा कति सदस्य राष्ट्र छन्?",
+                options: ["८", "१०", "१२", "१५"],
+                answer: 1,
+                explanation: "आसियानमा १० सदस्य राष्ट्र छन्।"
+            },
+            {
+                q: "आसियानको क्षेत्रीय व्यापार कुल GDP को कति प्रतिशत हो?",
+                options: ["१%", "५%", "१०%", "१५%"],
+                answer: 2,
+                explanation: "आसियानको क्षेत्रीय व्यापार GDP को १०% छ।"
+            },
+            {
+                q: "आसियान आर्थिक समुदाय (AEC) कहिले स्थापना भयो?",
+                options: ["२००३", "२००७", "२०१०", "२०१५"],
+                answer: 1,
+                explanation: "AEC २००७ मा स्थापना भयो र २०१५ मा पूर्ण कार्यान्वयन भएको हो।"
+            },
+            {
+                q: "RCEP मा कति देश सामेल छन्?",
+                options: ["१०", "१२", "१५", "१८"],
+                answer: 2,
+                explanation: "RCEP मा १० ASEAN + ५ अन्य देश छन्।"
+            },
+            {
+                q: "EU को स्थापना कहिले भयो?",
+                options: ["१९८५", "१९९०", "१९९३", "१९९५"],
+                answer: 2,
+                explanation: "EU मास्ट्रिक्ट सन्धिमार्फत १ नोभेम्बर १९९३ मा स्थापना भएको हो।"
+            },
+            {
+                q: "EU मा कति सदस्य राष्ट्र छन्?",
+                options: ["२५", "२७", "२८", "३०"],
+                answer: 1,
+                explanation: "बेलायत २०२० मा बाहिरिएपछि EU मा २७ सदस्य छन्।"
+            },
+            {
+                q: "EU को कुल GDP विश्व GDP को कति प्रतिशत हो?",
+                options: ["१०%", "१२%", "१६%", "२०%"],
+                answer: 2,
+                explanation: "EU को GDP US$१८.३ ट्रिलियन (विश्व GDP को १६%) छ।"
+            },
+            {
+                q: "युरो मुद्रा कति देशमा प्रयोग हुन्छ?",
+                options: ["१५", "१९", "२२", "२५"],
+                answer: 1,
+                explanation: "युरो १९ EU देशहरूमा प्रयोग हुन्छ।"
+            },
+            {
+                q: "सेङ्गेन क्षेत्रमा कति देश सामेल छन्?",
+                options: ["२२", "२४", "२६", "२८"],
+                answer: 2,
+                explanation: "सेङ्गेन क्षेत्रमा २२ EU + ४ गैर-EU देश छन्।"
+            },
+            {
+                q: "नेपालमा विद्युत उत्पादन, प्रसारण, र वितरण नियमन गर्ने निकाय कुन हो?",
+                options: ["विद्युत विकास विभाग", "नेपाल विद्युत प्राधिकरण", "विद्युत उत्पादन कम्पनी", "विद्युत नियमन आयोग"],
+                answer: 3,
+                explanation: "4thnea.pdf अनुसार, विद्युत नियमन आयोगले नियमन गर्छ।"
+            },
+            {
+                q: "आर्थिक सर्वेक्षण २०१८/१९ अनुसार नेपालको कुल जडित विद्युत क्षमता कति मेगावाट थियो?",
+                options: ["११४९", "१२९०", "१३८८", "१५६६"],
+                answer: 0,
+                explanation: "4thnea.pdf अनुसार, २०१८ असारसम्म ११४९ मेगावाट थियो।"
+            },
+            {
+                q: "५ वटा सुतलको मूल्य रु. x छ। यदि सबै सुतलको मूल्य बराबर छ भने २५ वटा सुतलको मूल्य कति होला?",
+                options: ["x/5", "5x", "x+5", "x"],
+                answer: 1,
+                explanation: "4thnea.pdf अनुसार, ५ सुतल = x, त्यसैले २५ सुतल = ५x।"
+            },
+            {
+                q: "२०० को कति प्रतिशत २४ हुन्छ?",
+                options: ["१०%", "१२%", "१५%", "२०%"],
+                answer: 1,
+                explanation: "4thnea.pdf अनुसार, (२४/२००) × १०० = १२%।"
+            },
+            {
+                q: "नेपाल पर्यटन तथ्याङ्क, २००३ अनुसार विदेशी पर्यटकको औसत बसाइ अवधि कति दिन छ?",
+                options: ["११", "१२", "१३.२", "१४"],
+                answer: 2,
+                explanation: "4thnea.pdf अनुसार, औसत बसाइ १३.२ दिन छ।"
+            }
+        ];
+
+        let score = 0;
+        let userAnswers = Array(questions.length).fill(null);
+        let timerSeconds = 0;
+        let timerInterval;
+
+        // Audio for correct and incorrect answers
+        const correctSound = new Audio('https://www.soundjay.com/buttons/sounds/button-09.mp3');
+        const wrongSound = new Audio('https://www.soundjay.com/buttons/sounds/button-16.mp3');
+
+        const quizEl = document.getElementById("quiz");
+        const scoreEl = document.getElementById("score");
+        const resultsEl = document.getElementById("results");
+        const resultsBody = document.getElementById("results-body");
+        const progressEl = document.getElementById("progress");
+        const timerEl = document.getElementById("timer");
+
+        // Load progress from localStorage
+        function loadProgress() {
+            const saved = localStorage.getItem("regionalOrgQuizProgress");
+            if (saved) {
+                const { score: savedScore, answers: savedAnswers, time: savedTime } = JSON.parse(saved);
+                score = savedScore;
+                userAnswers = savedAnswers || Array(questions.length).fill(null);
+                timerSeconds = savedTime || 0;
+            }
+        }
+
+        // Save progress to localStorage
+        function saveProgress() {
+            localStorage.setItem("regionalOrgQuizProgress", JSON.stringify({
+                score,
+                answers: userAnswers,
+                time: timerSeconds
+            }));
+        }
+
+        // Start timer
+        function startTimer() {
+            timerInterval = setInterval(() => {
+                timerSeconds++;
+                const minutes = Math.floor(timerSeconds / 60);
+                const seconds = timerSeconds % 60;
+                timerEl.textContent = `समय: ${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+            }, 1000);
+        }
+
+        // Update progress bar
+        function updateProgress() {
+            const answered = userAnswers.filter(a => a !== null).length;
+            const percentage = (answered / questions.length) * 100;
+            progressEl.style.width = `${percentage}%`;
+        }
+
+        // Show all questions on one page
+        function showQuestions() {
+            let html = '';
+            questions.forEach((q, i) => {
+                const options = q.options
+                    .map((opt, j) => `<button onclick="checkAnswer(this, ${i}, ${j}, '${opt.replace(/'/g, "\\'")}')" aria-label="Option ${opt}">${opt}</button>`)
+                    .join('');
+                html += `
+                    <div class="question" data-index="${i}">
+                        <p class="font-bold text-lg">प्रश्न ${i + 1}. ${q.q}</p>
+                        <div class="options">${options}</div>
+                        <div class="explanation hidden"></div>
+                    </div>
+                `;
+            });
+            quizEl.innerHTML = html;
+            updateProgress();
+            saveProgress();
+        }
+
+        // Check answer
+        function checkAnswer(button, questionIndex, selected, selectedText) {
+            if (button.disabled) return;
+            const q = questions[questionIndex];
+            const correct = q.answer;
+            const buttons = button.parentElement.querySelectorAll("button");
+            const explanationEl = button.parentElement.parentElement.querySelector('.explanation');
+            buttons.forEach((btn) => {
+                btn.disabled = true;
+                if (q.options.indexOf(btn.innerText) === correct) btn.classList.add("correct");
+                if (btn === button && selected !== correct) btn.classList.add("wrong");
+            });
+
+            userAnswers[questionIndex] = selectedText;
+            if (selected === correct) {
+                score++;
+                correctSound.play();
+            } else {
+                wrongSound.play();
+            }
+            explanationEl.textContent = q.explanation;
+            explanationEl.classList.remove('hidden');
+
+            saveProgress();
+            updateProgress();
+
+            if (userAnswers.every(a => a !== null)) {
+                endQuiz();
+            }
+        }
+
+        // End quiz and show results
+        function endQuiz() {
+            clearInterval(timerInterval);
+            quizEl.innerHTML = "";
+            scoreEl.innerHTML = `तपाईंको स्कोर: ${score} / ${questions.length} (${((score / questions.length) * 100).toFixed(2)}%)`;
+            resultsEl.classList.remove("hidden");
+
+            resultsBody.innerHTML = questions.map((q, i) => {
+                const userAnswer = userAnswers[i] === null ? "प्रयास गरिएको छैन" : userAnswers[i];
+                const correctAnswer = q.options[q.answer];
+                const status = userAnswers[i] === q.options[q.answer] ? "सही" : userAnswers[i] === null ? "प्रयास गरिएको छैन" : "गलत";
+                return `
+                    <tr>
+                        <td>${i + 1}. ${q.q}</td>
+                        <td>${userAnswer}</td>
+                        <td>${correctAnswer}</td>
+                        <td class="${status === 'सही' ? 'correct' : status === 'गलत' ? 'wrong' : ''}">${status}</td>
+                    </tr>
+                `;
+            }).join('');
+
+            localStorage.removeItem("regionalOrgQuizProgress");
+        }
+
+        // Initialize
+        loadProgress();
+        startTimer();
+        showQuestions();
+    </script>
+</body>
+</html>
