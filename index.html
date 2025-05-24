@@ -2,8 +2,8 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Math Practice – NEA</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Math & Lok Sewa Practice – NEA</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
   <style>
     * {
@@ -31,7 +31,8 @@
       color: #e0e0e0;
     }
 
-    body.dark-mode header {
+    body.dark-mode header,
+    body.dark-mode .section-header {
       background: linear-gradient(to right, #1e3a8a, #3b82f6);
     }
 
@@ -52,6 +53,10 @@
       background: #1f2937;
     }
 
+    body.dark-mode .intro-section {
+      background: rgba(45, 55, 72, 0.8);
+    }
+
     @keyframes gradientShift {
       0% { background-position: 0% 50%; }
       50% { background-position: 100% 50%; }
@@ -69,13 +74,13 @@
     }
 
     header h1 {
-      font-size: 2.5rem;
+      font-size: clamp(2rem, 5vw, 2.5rem);
       margin-bottom: 0.5rem;
       font-weight: 700;
     }
 
     header p {
-      font-size: 1.1rem;
+      font-size: clamp(1rem, 3vw, 1.1rem);
       font-weight: 300;
       opacity: 0.9;
     }
@@ -123,13 +128,59 @@
       transform: translateX(30px);
     }
 
-    .container {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-      gap: 2rem;
-      padding: 3rem 2rem;
+    .intro-section {
+      text-align: center;
+      padding: 2rem 1rem;
+      background: rgba(255, 255, 255, 0.8);
+      margin: 2rem auto;
+      max-width: 1200px;
+      border-radius: 12px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+      animation: fadeIn 1s ease-in;
+    }
+
+    .intro-section h2 {
+      font-size: clamp(1.5rem, 4vw, 2rem);
+      color: #003366;
+      margin-bottom: 1rem;
+    }
+
+    .intro-section p {
+      font-size: clamp(0.9rem, 2.5vw, 1rem);
+      line-height: 1.6;
+      color: #333;
+    }
+
+    .quiz-section {
+      padding: 2rem;
       max-width: 1400px;
       margin: 0 auto;
+    }
+
+    .section-header {
+      text-align: center;
+      padding: 1rem;
+      background: linear-gradient(to right, #0073e6, #005bb5);
+      color: white;
+      border-radius: 8px;
+      margin-bottom: 2rem;
+      transition: transform 0.3s ease;
+    }
+
+    .section-header:hover {
+      transform: scale(1.02);
+    }
+
+    .section-header h2 {
+      font-size: clamp(1.4rem, 3.5vw, 1.8rem);
+      font-weight: 600;
+    }
+
+    .card-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+      padding: 1rem 0;
       animation: fadeIn 1s ease-in;
     }
 
@@ -172,14 +223,14 @@
     }
 
     .card h3 {
-      font-size: 1.3rem;
+      font-size: clamp(1.2rem, 3vw, 1.3rem);
       color: #003366;
       margin-bottom: 1rem;
       font-weight: 600;
     }
 
     .card p {
-      font-size: 0.95rem;
+      font-size: clamp(0.85rem, 2.5vw, 0.95rem);
       margin-bottom: 1.5rem;
       line-height: 1.6;
     }
@@ -228,7 +279,7 @@
       padding: 2rem;
       background: #003366;
       color: #eee;
-      font-size: 0.95rem;
+      font-size: clamp(0.85rem, 2.5vw, 0.95rem);
       margin-top: auto;
       position: relative;
       z-index: 10;
@@ -244,19 +295,62 @@
       opacity: 0.3;
     }
 
-    @media (max-width: 600px) {
-      header h1 {
-        font-size: 1.8rem;
+    @media (max-width: 768px) {
+      header {
+        padding: 2rem 1rem;
       }
 
-      .container {
+      .intro-section {
+        margin: 1rem;
+        padding: 1.5rem;
+      }
+
+      .quiz-section {
+        padding: 1rem;
+      }
+
+      .card-container {
         grid-template-columns: 1fr;
-        padding: 2rem 1rem;
+        gap: 1.5rem;
       }
 
       .card {
         width: 100%;
         max-width: 400px;
+        margin: 0 auto;
+      }
+    }
+
+    @media (max-width: 480px) {
+      header h1 {
+        font-size: 1.8rem;
+      }
+
+      .intro-section h2 {
+        font-size: 1.4rem;
+      }
+
+      .section-header h2 {
+        font-size: 1.3rem;
+      }
+
+      .toggle-container {
+        top: 0.5rem;
+        right: 0.5rem;
+      }
+
+      .toggle-label {
+        width: 50px;
+        height: 25px;
+      }
+
+      .toggle-label::after {
+        width: 21px;
+        height: 21px;
+      }
+
+      .toggle:checked + .toggle-label::after {
+        transform: translateX(25px);
       }
     }
 
@@ -264,114 +358,151 @@
       outline: 3px solid #0073e6;
       outline-offset: 2px;
     }
+
+    /* Accessibility Enhancements */
+    .toggle-label:focus-within {
+      outline: 3px solid #0073e6;
+      outline-offset: 2px;
+    }
+
+    .card[aria-label]:focus-within h3 {
+      text-decoration: underline;
+    }
   </style>
 </head>
 <body>
   <div class="toggle-container">
-    <input type="(RegExp.prototype.test('checkbox'))" id="dark-mode-toggle" class="toggle">
-    <label for="dark-mode-toggle" class="toggle-label"></label>
+    <input type="checkbox" id="dark-mode-toggle" class="toggle">
+    <label for="dark-mode-toggle" class="toggle-label" aria-label="Toggle dark mode"></label>
   </div>
 
   <header>
-    <h1>📘 Math Practice Portal by Berlin</h1>
-    <p>Prepare with confidence – MCQs for MATHS NEA</p>
+    <h1>📘 Lok Sewa Practice Portal by Berlin</h1>
+    <p>Prepare with confidence for NEA 4th & 5th Level Exams</p>
   </header>
 
-  <main class="container">
-    <div class="card" aria-label="Math 1 English Section">
-      <h3>Math 1 – English (MCQs 1–50)</h3>
+  <main>
+    <section class="intro-section">
+      <h2>Welcome to Your NEA Lok Sewa Prep Hub</h2>
       <p>
-        1–10: Percentage<br>
-        11–20: Fractions<br>
-        21–30: Decimals<br>
-        31–40: Ratio & Proportion<br>
-        41–50: Average
+        Master your preparation with curated quizzes covering Math, Geography, Culture, Environment, and more. Designed for NEA aspirants, our interactive MCQs and short-answer questions help you excel in the Lok Sewa exams. Toggle dark mode for comfortable studying and dive in!
       </p>
-      <a href="math1.html" class="btn">Open Math 1</a>
-    </div>
+    </section>
 
-    <div class="card" aria-label="Math 2 Nepali Section">
-      <h3>Math 2 – Nepali</h3>
-      <p>
-        प्रतिशत (Percentage)<br>
-        भिन्न (Fractions)<br>
-        दशमलव (Decimals)<br>
-        अनुपात (Ratio and Proportion)<br>
-        औसत (Average)
-      </p>
-      <a href="math3.html" class="btn">Open Math 2</a>
-    </div>
+    <section class="quiz-section" aria-labelledby="math-quizzes">
+      <div class="section-header">
+        <h2 id="math-quizzes">Math Quizzes</h2>
+      </div>
+      <div class="card-container">
+        <div class="card" aria-label="Math 1 English Section">
+          <h3>Math 1 – English (MCQs 1–50)</h3>
+          <p>
+            1–10: Percentage<br>
+            11–20: Fractions<br>
+            21–30: Decimals<br>
+            31–40: Ratio & Proportion<br>
+            41–50: Average
+          </p>
+          <a href="math1.html" class="btn">Open Math 1</a>
+        </div>
 
-    <div class="card" aria-label="Math 3 Advanced Section">
-      <h3>Math 3 – Profit, Interest, Ranking in Nepali</h3>
-      <p>
-        नाफा-नोक्सान (Profit & Loss)<br>
-        ब्याज (Interest)<br>
-        श्रेणीक्रम (Ranking / Order)<br>
-        ऐकिक नियम (Unitary Method)
-      </p>
-      <a href="math2.html" class="btn">Open Math 3</a>
-    </div>
+        <div class="card" aria-label="Math 2 Nepali Section">
+          <h3>Math 2 – Nepali</h3>
+          <p>
+            प्रतिशत (Percentage)<br>
+            भिन्न (Fractions)<br>
+            दशमलव (Decimals)<br>
+            अनुपात (Ratio and Proportion)<br>
+            औसत (Average)
+          </p>
+          <a href="math3.html" class="btn">Open Math 2</a>
+        </div>
 
-    <div class="card" aria-label="Math 4 Advanced Section">
-      <h3>Math 4 – Profit, Interest, Ranking in Nepali</h3>
-      <p>
-        नाफा-नोक्सान (Profit & Loss)<br>
-        ब्याज (Interest)<br>
-        श्रेणीक्रम (Ranking / Order)<br>
-        ऐकिक नियम (Unitary Method)
-      </p>
-      <a href="math4.html" class="btn">Open Math 4</a>
-    </div>
+        <div class="card" aria-label="Math 3 Advanced Section">
+          <h3>Math 3 – Profit, Interest, Ranking in Nepali</h3>
+          <p>
+            नाफा-नोक्सान (Profit & Loss)<br>
+            ब्याज (Interest)<br>
+            श्रेणीक्रम (Ranking / Order)<br>
+            ऐकिक नियम (Unitary Method)
+          </p>
+          <a href="math2.html" class="btn">Open Math 3</a>
+        </div>
 
-    <div class="card" aria-label="SAARC Mock Test Section">
-      <h3>SAARC MCQ Mock Test in Nepali</h3>
-      <p>
-        सार्क (SAARC)<br>
-      </p>
-      <a href="saarc.html" class="btn">Open SAARC Mock Test</a>
-    </div>
+        <div class="card" aria-label="Math 4 Advanced Section">
+          <h3>Math 4 – Profit, Interest, Ranking in Nepali</h3>
+          <p>
+            नाफा-नोक्सान (Profit & Loss)<br>
+            ब्याज (Interest)<br>
+            श्रेणीक्रम (Ranking / Order)<br>
+            ऐकिक नियम (Unitary Method)
+          </p>
+          <a href="math4.html" class="btn">Open Math 4</a>
+        </div>
+      </div>
+    </section>
 
-      <div class="card" aria-label="SAARC Mock Test Section">
-      <h3>क्षेत्रीय सङ्गठनहरू (SAARC, BIMSTEC, ASEAN, EU) </h3>
-      <p>
-        (SAARC, BIMSTEC, ASEAN, EU)<br>
-      </p>
-      <a href="1.7saarc.html" class="btn">Open 1.7 SAARC, BIMSTEC, ASEAN, EU Mock Test</a>
-    </div>
-     <div class="card" aria-label="SAARC Mock Test Section">
-      <h3>विद्युत चोरी नियन्त्रण नियमावली</h3>
-      <p>
-        विद्युत चोरी नियन्त्रण नियमावली<br>
-      </p>
-      <a href="chori.html" class="btn">Open विद्युत चोरी नियन्त्रण नियमावली Mock Test</a>
-    </div>
-    <div class="card" aria-label="SAARC Mock Test Section">
-      <h3>उर्जा जलस्रोत तथा सिचाई मन्त्रालय MCQs for NEA Lok Sewa</h3>
-      <p>
-        उर्जा जलस्रोत तथा सिचाई मन्त्रालय<br>
-      </p>
-      <a href="urja.html" class="btn">Openउर्जा जलस्रोत तथा सिचाई मन्त्रालयMock Test</a>
-    </div>
+    <section class="quiz-section" aria-labelledby="nepal-quizzes">
+      <div class="section-header">
+        <h2 id="nepal-quizzes">Nepal-Specific Quizzes</h2>
+      </div>
+      <div class="card-container">
+        <div class="card" aria-label="Nepal Geography Quiz Section">
+          <h3>1.3 नेपालको भूगोल MCQs & Short Questions</h3>
+          <p>
+            भौगोलिक अवस्थिति, क्षेत्रफल, खनिज, र प्राकृतिक विशेषताहरू<br>(NEA 5th Level)
+          </p>
+          <a href="nepal_geography_quiz.html" class="btn">Open Nepal Geography Quiz</a>
+        </div>
 
-    
-    <div class="card" aria-label="Nepal Geography Quiz Section">
-    <h3>1.3 नेपालको भूगोल MCQs & Short Questions</h3>
-    <p>भौगोलिक अवस्थिति, क्षेत्रफल, खनिज, र प्राकृतिक विशेषताहरू<br>(NEA 5th Level)</p>
-    <a href="nepal_geography_quiz.html" class="btn">Open Nepal Geography Quiz</a>
-</div>
+        <div class="card" aria-label="Nepal Culture Quiz Section">
+          <h3>1.6 नेपालको संस्कृति MCQs & Short Questions</h3>
+          <p>
+            जनसंख्या, साक्षरता, साहित्य, पुरस्कार, र वास्तुकला<br>(NEA 5th Level)
+          </p>
+          <a href="nepal_culture_quiz.html" class="btn">Open Nepal Culture Quiz</a>
+        </div>
 
-<div class="card" aria-label="Nepal Culture Quiz Section">
-    <h3>1.6 नेपालको संस्कृति MCQs & Short Questions</h3>
-    <p>जनसंख्या, साक्षरता, साहित्य, पुरस्कार, र वास्तुकला<br>(NEA 5th Level)</p>
-    <a href="nepal_culture_quiz.html" class="btn">Open Nepal Culture Quiz</a>
-</div>
+        <div class="card" aria-label="Nepal Environment Quiz Section">
+          <h3>1.6 नेपालको वातावरण MCQs & Short Questions</h3>
+          <p>
+            हरितगृह प्रभाव, संरक्षण संगठन, सम्मेलन, पुरस्कार, र सिमसार<br>(NEA 5th Level)
+          </p>
+          <a href="1.6-बाताबारान-Sudarshan-Sir.html" class="btn">Open Nepal Environment Quiz</a>
+        </div>
+      </div>
+    </section>
 
-    <div class="card" aria-label="Nepal Environment Quiz Section">
-    <h3>1.6 नेपालको वातावरण MCQs & Short Questions</h3>
-    <p>हरितगृह प्रभाव, संरक्षण संगठन, सम्मेलन, पुरस्कार, र सिमसार<br>(NEA 5th Level)</p>
-    <a href="1.6-बाताबारान-Sudarshan-Sir.html" class="btn">Open Nepal Environment Quiz</a>
-</div>
+    <section class="quiz-section" aria-labelledby="misc-quizzes">
+      <div class="section-header">
+        <h2 id="misc-quizzes">Miscellaneous Quizzes</h2>
+      </div>
+      <div class="card-container">
+        <div class="card" aria-label="SAARC Mock Test Section">
+          <h3>SAARC MCQ Mock Test in Nepali</h3>
+          <p>सार्क (SAARC)</p>
+          <a href="saarc.html" class="btn">Open SAARC Mock Test</a>
+        </div>
+
+        <div class="card" aria-label="Regional Organizations Section">
+          <h3>क्षेत्रीय सङ्गठनहरू (SAARC, BIMSTEC, ASEAN, EU)</h3>
+          <p>(SAARC, BIMSTEC, ASEAN, EU)</p>
+          <a href="1.7saarc.html" class="btn">Open Regional Organizations Mock Test</a>
+        </div>
+
+        <div class="card" aria-label="Electricity Theft Regulation Section">
+          <h3>विद्युत चोरी नियन्त्रण नियमावली</h3>
+          <p>विद्युत चोरी नियन्त्रण नियमावली</p>
+          <a href="chori.html" class="btn">Open Electricity Theft Regulation Mock Test</a>
+        </div>
+
+        <div class="card" aria-label="Energy Ministry Section">
+          <h3>उर्जा जलस्रोत तथा सिचाई मन्त्रालय MCQs</h3>
+          <p>उर्जा जलस्रोत तथा सिचाई मन्त्रालय<br>(NEA 4th & 5th Level)</p>
+          <a href="urja.html" class="btn">Open Energy Ministry Mock Test</a>
+        </div>
+      </div>
+    </section>
   </main>
 
   <footer>
@@ -379,7 +510,7 @@
   </footer>
 
   <script>
-    console.log("✅ Math Portal Loaded – Loksewa Ready!");
+    console.log("✅ Lok Sewa Portal Loaded – NEA Ready!");
 
     // Dark Mode Toggle
     const toggle = document.getElementById('dark-mode-toggle');
