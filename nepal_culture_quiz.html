@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="ne">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>नेपालको संस्कृति क्विज</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: linear-gradient(45deg, #1a1a2e, #16213e);
+            overflow: hidden;
+        }
+
+        #particles-js {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+
+        .quiz-container {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            width: 90%;
+            max-width: 700px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: #fff;
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+
+        .quiz-container:hover {
+            transform: scale(1.02);
+        }
+
+        h1 {
+            font-size: 2.2em;
+            margin-bottom: 20px;
+            color: #00ffcc;
+            text-shadow: 0 0 10px #00ffcc;
+        }
+
+        .question {
+            font-size: 1.4em;
+            margin-bottom: 20px;
+            line-height: 1.4;
+        }
+
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .option {
+            background: rgba(255, 255, 255, 0.15);
+            padding: 15px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1.1em;
+            border: 2px solid transparent;
+        }
+
+        .option:hover {
+            background: rgba(255, 255, 255, 0.3);
+            border-color: #00ffcc;
+            transform: translateY(-3px);
+            box-shadow: 0 0 15px rgba(0, 255, 204, 0.5);
+        }
+
+        .option.selected {
+            background: #00ffcc;
+            color: #1a1a2e;
+            border-color: #00ffcc;
+            box-shadow: 0 0 20px rgba(0, 255, 204, 0.7);
+        }
+
+        .feedback {
+            margin-top: 20px;
+            font-size: 1.1em;
+            display: none;
+        }
+
+        .feedback.correct {
+            color: #00ff00;
+            text-shadow: 0 0 5px #00ff00;
+        }
+
+        .feedback.incorrect {
+            color: #ff3333;
+            text-shadow: 0 0 5px #ff3333;
+        }
+
+        .score {
+            margin-top: 20px;
+            font-size: 1.3em;
+            color: #ffd700;
+            text-shadow: 0 0 5px #ffd700;
+        }
+
+        .buttons {
+            margin-top: 20px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        button {
+            background: linear-gradient(45deg, #00ffcc, #007bff);
+            border: none;
+            padding: 12px 25px;
+            border-radius: 10px;
+            color: #fff;
+            font-size: 1.1em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 15px rgba(0, 255, 204, 0.5);
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 0 25px rgba(0, 255, 204, 0.8);
+        }
+
+        button:disabled {
+            background: #555;
+            cursor: not-allowed;
+            box-shadow: none;
+        }
+
+        #result {
+            display: none;
+            margin-top: 20px;
+            font-size: 1.5em;
+            color: #ffd700;
+            text-shadow: 0 0 10px #ffd700;
+        }
+
+        #restart {
+            display: none;
+            margin: 20px auto;
+        }
+
+        @media (max-width: 600px) {
+            .quiz-container {
+                padding: 20px;
+                width: 95%;
+            }
+
+            h1 {
+                font-size: 1.8em;
+            }
+
+            .question {
+                font-size: 1.2em;
+            }
+
+            .option {
+                font-size: 1em;
+                padding: 12px;
+            }
+
+            button {
+                padding: 10px 20px;
+                font-size: 1em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="particles-js"></div>
+    <div class="quiz-container">
+        <h1>नेपालको संस्कृति क्विज</h1>
+        <div class="score">स्कोर: <span id="score">0</span>/25</div>
+        <div class="question" id="question"></div>
+        <div class="options" id="options"></div>
+        <div class="feedback" id="feedback"></div>
+        <div class="buttons">
+            <button id="prev" disabled>अघिल्लो</button>
+            <button id="submit" disabled>जवाफ पेश गर्नुहोस्</button>
+            <button id="next">अर्को</button>
+        </div>
+        <div id="result"></div>
+        <button id="restart">फेरि शुरू गर्नुहोस्</button>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <script>
+        // Particle.js initialization
+        particlesJS("particles-js", {
+            particles: {
+                number: { value: 80, density: { enable: true, value_area: 800 } },
+                color: { value: "#00ffcc" },
+                shape: { type: "circle" },
+                opacity: { value: 0.5, random: true },
+                size: { value: 3, random: true },
+                line_linked: { enable: true, distance: 150, color: "#00ffcc", opacity: 0.4, width: 1 },
+                move: { enable: true, speed: 2, direction: "none", random: true }
+            },
+            interactivity: {
+                detect_on: "canvas",
+                events: { onhover: { enable: true, mode: "repulse" }, onclick: { enable: true, mode: "push" } },
+                modes: { repulse: { distance: 100, duration: 0.4 }, push: { particles_nb: 4 } }
+            },
+            retina_detect: true
+        });
+
+        // Quiz data
+        const quizData = [
+            {
+                question: "नेपालको जनसंख्याको आधारमा सबैभन्दा धेरै जनसंख्या भएको प्रदेश कुन हो?",
+                options: ["कोशी", "मधेश", "बागमती", "गण्डकी"],
+                answer: "बागमती",
+                explanation: "बागमती प्रदेशको जनसंख्या ५५,५२,५५२ छ, जुन अन्य प्रदेशभन्दा धेरै हो।"
+            },
+            {
+                question: "नेपालको जनसंख्याको आधारमा सबैभन्दा कम जनसंख्या भएको प्रदेश कुन हो?",
+                options: ["कर्णाली", "सुदूरपश्चिम", "गण्डकी", "लुम्बिनी"],
+                answer: "कर्णाली",
+                explanation: "कर्णाली प्रदेशको जनसंख्या १५,५५,२२२ छ, जुन सबैभन्दा कम हो।"
+            },
+            {
+                question: "नेपालको सबैभन्दा धेरै जनसंख्या भएको जिल्ला कुन हो?",
+                options: ["काठमाडौं", "मोरङ", "चितवन", "झापा"],
+                answer: "काठमाडौं",
+                explanation: "काठमाडौंको जनसंख्या २०,४०,५८७ छ, जुन अन्य जिल्लाभन्दा धेरै हो।"
+            },
+            {
+                question: "नेपालको सबैभन्दा कम जनसंख्या भएको जिल्ला कुन हो?",
+                options: ["मनाङ", "मुस्ताङ", "डोल्पा", "रसुवा"],
+                answer: "मनाङ",
+                explanation: "मनाङको जनसंख्या ४,५८५ छ, जुन सबैभन्दा कम हो।"
+            },
+            {
+                question: "नेपालको कुल साक्षरता दर कति छ?",
+                options: ["७६.२%", "८३.६%", "६९.८%", "८०.५%"],
+                answer: "८३.६%",
+                explanation: "नेपालको कुल साक्षरता दर ८३.६% छ।"
+            },
+            {
+                question: "नेपालमा सबैभन्दा धेरै साक्षरता भएको जिल्ला कुन हो?",
+                options: ["काठमाडौं", "ललितपुर", "भक्तपुर", "चितवन"],
+                answer: "काठमाडौं",
+                explanation: "काठमाडौं सबैभन्दा धेरै साक्षरता भएको जिल्ला हो।"
+            },
+            {
+                question: "नेपालको औसत परिवारको आकार कति छ?",
+                options: ["४.३७", "५.२५", "३.८", "४.९"],
+                answer: "४.३७",
+                explanation: "औसत परिवारको आकार ४.३७ व्यक्ति प्रति परिवार छ।"
+            },
+            {
+                question: "नेपालको २०७८ को जनगणनाको नारा के थियो?",
+                options: ["मेरो गणना, मेरो सहभागिता", "हाम्रो गणना, हाम्रो भविष्य", "जनगणना, विकासको आधार", "गणना सबैको, सहभागिता हाम्रो"],
+                answer: "मेरो गणना, मेरो सहभागिता",
+                explanation: "२०७८ को जनगणनाको नारा 'मेरो गणना, मेरो सहभागिता' थियो।"
+            },
+            {
+                question: "नेपालमा जनगणना कहिलेदेखि शुरू भएको हो?",
+                options: ["वि.सं. १९६८", "वि.सं. १९९०", "वि.सं. १९११", "वि.सं. १९४५"],
+                answer: "वि.सं. १९६८",
+                explanation: "पहिलो जनगणना वि.सं. १९६८ (सन् १९११) मा भएको हो।"
+            },
+            {
+                question: "नेपालको साहित्यमा आधुनिक कविको रूपमा कसलाई चिनिन्छ?",
+                options: ["भानुभक्त आचार्य", "गोपालप्रसाद रिमाल", "लक्ष्मीप्रसाद देवकोटा", "सिद्धिचरण श्रेष्ठ"],
+                answer: "गोपालप्रसाद रिमाल",
+                explanation: "गोपालप्रसाद रिमाललाई आधुनिक कविको रूपमा चिनिन्छ।"
+            },
+            {
+                question: "नेपालको साहित्यमा युगकविको रूपमा कसलाई चिनिन्छ?",
+                options: ["सिद्धिचरण श्रेष्ठ", "मोतिराम भट्ट", "लेखनाथ पौडेल", "शम्भुप्रसाद ढुंगेल"],
+                answer: "सिद्धिचरण श्रेष्ठ",
+                explanation: "सिद्धिचरण श्रेष्ठलाई युगकविको रूपमा चिनिन्छ।"
+            },
+            {
+                question: "‘मुनामदन’ कृतिका रचयिता को हुन्?",
+                options: ["भानुभक्त आचार्य", "लक्ष्मीप्रसाद देवकोटा", "सिद्धिचरण श्रेष्ठ", "लेखनाथ पौडेल"],
+                answer: "लक्ष्मीप्रसाद देवकोटा",
+                explanation: "‘मुनामदन’ लक्ष्मीप्रसाद देवकोटाको खण्डकाव्य हो।"
+            },
+            {
+                question: "‘स्वर्ण दर्पण’ कृतिका रचयिता को हुन्?",
+                options: ["शुक्रराज शास्त्री", "लक्ष्मीप्रसाद देवकोटा", "निलम कार्की", "रामलाल जोशी"],
+                answer: "शुक्रराज शास्त्री",
+                explanation: "‘स्वर्ण दर्पण’ शुक्रराज शास्त्रीको कृति हो।"
+            },
+            {
+                question: "रोमन म्यागासेसे पुरस्कार कहिले स्थापना भएको हो?",
+                options: ["सन् १९५७", "सन् १९५८", "सन् १९६०", "सन् १९५५"],
+                answer: "सन् १९५७",
+                explanation: "रोमन म्यागासेसे पुरस्कार सन् १९५७ मा स्थापना भएको हो।"
+            },
+            {
+                question: "नेपालमा रोमन म्यागासेसे पुरस्कार प्राप्त गर्ने पहिलो व्यक्ति को हुन्?",
+                options: ["महावीर पुन", "महेशचन्द्र रेग्मी", "भरतदत्त कोइराला", "डा. सन्दुक रुइत"],
+                answer: "महेशचन्द्र रेग्मी",
+                explanation: "महेशचन्द्र रेग्मी पहिलो नेपाली पुरस्कार प्राप्तकर्ता हुन्।"
+            },
+            {
+                question: "जगदम्बा पुरस्कारको स्थापना कहिले भएको हो?",
+                options: ["वि.सं. २०४५", "वि.सं. २०४६", "वि.सं. २०४०", "वि.सं. २०५०"],
+                answer: "वि.सं. २०४५",
+                explanation: "जगदम्बा पुरस्कार वि.सं. २०४५ मा स्थापना भएको हो।"
+            },
+            {
+                question: "जगदम्बा पुरस्कार २०७८ मा कसलाई प्रदान गरियो?",
+                options: ["मैत्रेय बहादूर थापा", "दुर्गा प्रसाद श्रेष्ठ", "टंकप्रसाद मरहट्टा", "नारायण गोपाल"],
+                answer: "दुर्गा प्रसाद श्रेष्ठ",
+                explanation: "२०७८ को जगदम्बा पुरस्कार दुर्गा प्रसाद श्रेष्ठलाई प्रदान गरियो।"
+            },
+            {
+                question: "‘भूतका भिनाजु’ कुन साहित्यकारको उपनाम हो?",
+                options: ["गोविन्द बहादूर मल्ल गोठाले", "वासुदेव लम्साल", "समतावेजी श्रेष्ठ", "तिलविक्रम नेम्वाङ"],
+                answer: "वासुदेव लम्साल",
+                explanation: "‘भूतका भिनाजु’ वासुदेव लम्सालको उपनाम हो।"
+            },
+            {
+                question: "नेपालको साहित्यमा कवि शिरोमणिको रूपमा कसलाई चिनिन्छ?",
+                options: ["लेखनाथ पौडेल", "मोतिराम भट्ट", "भानुभक्त आचार्य", "शम्भुप्रसाद ढुंगेल"],
+                answer: "लेखनाथ पौडेल",
+                explanation: "लेखनाथ पौडेललाई कवि शिरोमणिको रूपमा चिनिन्छ।"
+            },
+            {
+                question: "नेपालमा प्यागोडा शैलीका मन्दिरहरूको मुख्य विशेषता के हो?",
+                options: ["एकल छाना", "तह-तह परेको छाना", "गुम्बज आकार", "प्रस्तर संरचना"],
+                answer: "तह-तह परेको छाना",
+                explanation: "प्यागोडा शैलीका मन्दिरहरूमा तह-तह परेको छाना हुन्छ।"
+            },
+            {
+                question: "शिखर शैलीका मन्दिरहरूको विकास नेपालमा कहिले भएको हो?",
+                options: ["लिच्छविकाल", "मल्लकाल", "किरातकाल", "शाहकाल"],
+                answer: "मल्लकाल",
+                explanation: "शिखर शैलीका मन्दिरहरू मल्लकालमा विकसित भए।"
+            },
+            {
+                question: "भक्तपुरको नवदुर्गा मन्दिर कुन वास्तु शैलीमा निर्मित छ?",
+                options: ["प्यागोडा शैली", "शिखर शैली", "मुगल शैली", "स्तूप शैली"],
+                answer: "प्यागोडा शैली",
+                explanation: "भक्तपुरको नवदुर्गा मन्दिर प्यागोडा शैलीमा निर्मित छ।"
+            },
+            {
+                question: "‘याङ्माया’ कृतिका रचयिता को हुन्?",
+                options: ["निलम कार्की निहारिका", "रामलाल जोशी", "राधा पौडेल", "विजयकुमार"],
+                answer: "निलम कार्की निहारिका",
+                explanation: "‘याङ्माया’ निलम कार्की निहारिकाको कृति हो।"
+            },
+            {
+                question: "नेपालको जनसंख्याको आधारमा सबैभन्दा धेरै जनघनत्व भएको क्षेत्र कुन हो?",
+                options: ["हिमाल", "पहाड", "तराई", "काठमाडौं उपत्यका"],
+                answer: "तराई",
+                explanation: "तराई क्षेत्रको जनघनत्व ४६० जना प्रति वर्ग किमि छ।"
+            },
+            {
+                question: "नेपालमा सबैभन्दा कम जनघनत्व भएको जिल्ला कुन हो?",
+                options: ["मनाङ", "मुस्ताङ", "डोल्पा", "हुम्ला"],
+                answer: "मनाङ",
+                explanation: "मनाङको जनघनत्व ३ जना प्रति वर्ग किमि छ, जुन सबैभन्दा कम हो।"
+            }
+        ];
+
+        // Quiz logic
+        let currentQuestion = 0;
+        let score = 0;
+        let selectedOption = null;
+
+        const questionEl = document.getElementById("question");
+        const optionsEl = document.getElementById("options");
+        const feedbackEl = document.getElementById("feedback");
+        const scoreEl = document.getElementById("score");
+        const prevBtn = document.getElementById("prev");
+        const submitBtn = document.getElementById("submit");
+        const nextBtn = document.getElementById("next");
+        const resultEl = document.getElementById("result");
+        const restartBtn = document.getElementById("restart");
+
+        // Sound effects
+        const correctSound = new Audio("https://www.soundjay.com/buttons/beep-01a.mp3");
+        const incorrectSound = new Audio("https://www.soundjay.com/buttons/beep-02.mp3");
+
+        function loadQuestion() {
+            const q = quizData[currentQuestion];
+            questionEl.textContent = `${currentQuestion + 1}. ${q.question}`;
+            optionsEl.innerHTML = "";
+            q.options.forEach((option, index) => {
+                const div = document.createElement("div");
+                div.classList.add("option");
+                div.textContent = option;
+                div.addEventListener("click", () => selectOption(div, option));
+                optionsEl.appendChild(div);
+            });
+            feedbackEl.style.display = "none";
+            submitBtn.disabled = true;
+            selectedOption = null;
+            prevBtn.disabled = currentQuestion === 0;
+            nextBtn.style.display = currentQuestion === quizData.length - 1 && feedbackEl.style.display === "block" ? "none" : "block";
+        }
+
+        function selectOption(element, option) {
+            document.querySelectorAll(".option").forEach(opt => opt.classList.remove("selected"));
+            element.classList.add("selected");
+            selectedOption = option;
+            submitBtn.disabled = false;
+        }
+
+        function submitAnswer() {
+            const q = quizData[currentQuestion];
+            feedbackEl.style.display = "block";
+            if (selectedOption === q.answer) {
+                feedbackEl.textContent = `सही! ${q.explanation}`;
+                feedbackEl.classList.add("correct");
+                score++;
+                scoreEl.textContent = score;
+                correctSound.play();
+            } else {
+                feedbackEl.textContent = `गलत! सही जवाफ: ${q.answer}. ${q.explanation}`;
+                feedbackEl.classList.add("incorrect");
+                incorrectSound.play();
+            }
+            submitBtn.disabled = true;
+            if (currentQuestion === quizData.length - 1) {
+                nextBtn.style.display = "none";
+                showResult();
+            }
+        }
+
+        function showResult() {
+            resultEl.style.display = "block";
+            resultEl.textContent = `तपाईंको अन्तिम स्कोर: ${score}/25 (${(score / 25 * 100).toFixed(2)}%)`;
+            restartBtn.style.display = "block";
+        }
+
+        prevBtn.addEventListener("click", () => {
+            if (currentQuestion > 0) {
+                currentQuestion--;
+                loadQuestion();
+            }
+        });
+
+        submitBtn.addEventListener("click", submitAnswer);
+
+        nextBtn.addEventListener("click", () => {
+            if (currentQuestion < quizData.length - 1) {
+                currentQuestion++;
+                loadQuestion();
+            }
+        });
+
+        restartBtn.addEventListener("click", () => {
+            currentQuestion = 0;
+            score = 0;
+            scoreEl.textContent = score;
+            resultEl.style.display = "none";
+            restartBtn.style.display = "none";
+            loadQuestion();
+        });
+
+        // Initialize quiz
+        loadQuestion();
+    </script>
+</body>
+</html>
