@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="ne">
+<head>
+ <meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <title>📚 नेपालको भूगोल Quiz 2025 - Exam Preparation</title>
+ <meta name="description" content="Interactive Geography of Nepal Quiz for Exam Preparation, covering location, area, boundaries, and minerals. Generated on May 25, 2025.">
+ <style>
+ * {
+ margin: 0;
+ padding: 0;
+ box-sizing: border-box;
+ font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+ }
+
+ body {
+ display: flex;
+ justify-content: center;
+ align-items: center;
+ min-height: 100vh;
+ background: linear-gradient(45deg, #2c3e50, #3498db);
+ overflow: auto;
+ padding: 20px;
+ }
+
+ .container {
+ background: rgba(255, 255, 255, 0.1);
+ backdrop-filter: blur(12px);
+ border-radius: 20px;
+ padding: 30px;
+ max-width: 900px;
+ width: 100%;
+ box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+ border: 1px solid rgba(255, 255, 255, 0.18);
+ color: #fff;
+ position: relative;
+ z-index: 1;
+ }
+
+ h1 {
+ font-size: 2em;
+ text-align: center;
+ margin-bottom: 20px;
+ color: #e0e0e0;
+ text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+ }
+
+ .score {
+ font-size: 1.2em;
+ text-align: center;
+ margin-bottom: 20px;
+ color: #00ff88;
+ }
+
+ .question-container {
+ margin-bottom: 20px;
+ }
+
+ .question {
+ font-size: 1.3em;
+ margin-bottom: 15px;
+ color: #e0e0e0;
+ }
+
+ .options {
+ display: flex;
+ flex-direction: column;
+ gap: 10px;
+ }
+
+ .option {
+ background: rgba(255, 255, 255, 0.15);
+ padding: 15px;
+ border-radius: 10px;
+ cursor: pointer;
+ transition: all 0.3s ease;
+ border: 1px solid rgba(255, 255, 255, 0.2);
+ color: #fff;
+ font-size: 1.1em;
+ }
+
+ .option:hover {
+ background: rgba(255, 255, 255, 0.25);
+ transform: translateY(-2px);
+ box-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
+ }
+
+ .option.correct {
+ background: #00ff88 !important;
+ color: #000 !important;
+ }
+
+ .option.wrong {
+ background: #ff4444 !important;
+ color: #fff !important;
+ }
+
+ .explanation {
+ margin-top: 15px;
+ padding: 15px;
+ background: rgba(0, 0, 0, 0.3);
+ border-radius: 10px;
+ font-size: 1em;
+ line-height: 1.5;
+ display: none;
+ }
+
+ .next-btn {
+ display: block;
+ margin: 20px auto;
+ padding: 12px 30px;
+ background: #00ff88;
+ color: #000;
+ border: none;
+ border-radius: 10px;
+ font-size: 1.1em;
+ cursor: pointer;
+ transition: all 0.3s ease;
+ }
+
+ .next-btn:hover {
+ background: #00cc66;
+ box-shadow: 0 0 15px #00ff88;
+ transform: translateY(-2px);
+ }
+
+ canvas {
+ position: fixed;
+ top: 0;
+ left: 0;
+ width: 100%;
+ height: 100%;
+ z-index: -1;
+ }
+
+ @media (max-width: 600px) {
+ .container {
+ padding: 20px;
+ }
+
+ h1 {
+ font-size: 1.5em;
+ }
+
+ .question {
+ font-size: 1.1em;
+ }
+
+ .option {
+ font-size: 1em;
+ padding: 12px;
+ }
+ }
+ </style>
+</head>
+<body>
+ <canvas id="particle-canvas"></canvas>
+ <div class="container">
+ <h1>📚 नेपालको भूगोल Quiz 2025 - Exam Preparation</h1>
+ <div class="score">Score: <span id="score">0</span>/20</div>
+ <div id="quiz"></div>
+ <button class="next-btn" id="next-btn" style="display: none;">अर्को प्रश्न</button>
+ </div>
+
+ <script>
+ const questions = [
+ {
+ q: "नेपालको आधिकारिक नाम के हो?",
+ options: ["नेपाल गणतन्त्र", "सङ्घीय लोकतान्त्रिक गणतन्त्र नेपाल", "नेपाल अधिराज्य", "सङ्घीय गणतन्त्र नेपाल"],
+ answer: 1,
+ explanation: "सङ्घीय लोकतान्त्रिक गणतन्त्र नेपाल। टिप: Official name रट्नुहोस्।"
+ },
+ {
+ q: "नेपालको भौगोलिक अवस्थिति कुन गोलार्धमा पर्छ?",
+ options: ["दक्षिणी गोलार्ध", "पश्चिमी गोलार्ध", "उत्तरी र पूर्वी गोलार्ध", "दक्षिणी र पश्चिमी गोलार्ध"],
+ answer: 2,
+ explanation: "पृथ्वीको उत्तरी र पूर्वी गोलार्धमा। टिप: गोलार्ध रट्नुहोस्।"
+ },
+ {
+ q: "नेपालको अक्षांशीय विस्तार कति छ?",
+ options: ["26°22'–30°27' उत्तरी अक्षांश", "20°22'–30°27' उत्तरी अक्षांश", "26°22'–28°27' उत्तरी अक्षांश", "30°22'–32°27' उत्तरी अक्षांश"],
+ answer: 0,
+ explanation: "26 डिग्री 22 मिनेट - 30 डिग्री 27 मिनेट। टिप: अक्षांश रट्नुहोस्।"
+ },
+ {
+ q: "नेपालको क्षेत्रफल कति छ?",
+ options: ["147,181 वर्ग किमि", "147,516 वर्ग किमि", "104,117 वर्ग किमि", "267,577 वर्ग किमि"],
+ answer: 1,
+ explanation: "147,516 वर्ग किमि। टिप: क्षेत्रफल रट्नुहोस्।"
+ },
+ {
+ q: "विश्वमा क्षेत्रफलको आधारमा नेपालको स्थान कति हो?",
+ options: ["93 औं", "49 औं", "105 औं", "67 औं"],
+ answer: 0,
+ explanation: "93 औं स्थान। टिप: विश्व स्थान रट्नुहोस्।"
+ },
+ {
+ q: "सुगौली सन्धिपछिको नेपालको क्षेत्रफल कति थियो?",
+ options: ["147,516 वर्ग किमि", "104,117 वर्ग किमि", "267,577 वर्ग किमि", "335 वर्ग किमि"],
+ answer: 1,
+ explanation: "104,117 वर्ग किमि। टिप: सन्धि रट्नुहोस्।"
+ },
+ {
+ q: "नेपालको नयाँ नक्सा कहिले सार्वजनिक गरियो?",
+ options: ["2076 जेठ 4", "2077 जेठ 9", "2076 जेठ 9", "2077 जेठ 4"],
+ answer: 1,
+ explanation: "2077 जेठ 9 मा। टिप: मिति रट्नुहोस्।"
+ },
+ {
+ q: "नेपालको सबैभन्दा होचो भूभाग कुन हो?",
+ options: ["मुसहरनिया, झापा", "केचना कवल, झापा", "बिर्तामोड, झापा", "गौर, रौतहट"],
+ answer: 1,
+ explanation: "केचना कवल - 58 मिटर। टिप: स्थान रट्नुहोस्।"
+ },
+ {
+ q: "नेपालको औसत चौडाइ कति छ?",
+ options: ["241 किमि", "193 किमि", "145 किमि", "885 किमि"],
+ answer: 1,
+ explanation: "193 किमि। टिप: चौडाइ रट्नुहोस्।"
+ },
+ {
+ q: "नेपालको अन्तर्राष्ट्रिय सीमा कुन देशसँग छ?",
+ options: ["भारत र भुटान", "भारत र चीन", "चीन र भुटान", "भारत र बंगलादेश"],
+ answer: 1,
+ explanation: "चीन र भारत। टिप: सीमा रट्नुहोस्।"
+ },
+ {
+ q: "नेपालको पूर्वी बिन्दु कुन हो?",
+ options: ["लेलेप, ताप्लेजुङ", "दोधारा, कञ्चनपुर", "चन्द्रता भुज्याङ, हुम्ला", "लोदावरी, झापा"],
+ answer: 0,
+ explanation: "लेलेप, ताप्लेजुङ। टिप: बिन्दु रट्नुहोस्।"
+ },
+ {
+ q: "नेपालको सबैभन्दा अग्लो झरना कुन हो?",
+ options: ["ह्योत्रु झरना", "पायल्सन झरना", "लिप्ताल झरना", "नमस्ते झरना"],
+ answer: 1,
+ explanation: "पायल्सन झरना (389 मिटर)। टिप: झरना रट्नुहोस्।"
+ },
+ {
+ q: "नेपालको भौगोलिक विभाजनमा कति प्रदेश छन्?",
+ options: ["2", "3", "4", "5"],
+ answer: 1,
+ explanation: "तराई, पहाड, हिमाल। टिप: विभाजन रट्नुहोस्।"
+ },
+ {
+ q: "तराई प्रदेशको क्षेत्रफल कुल क्षेत्रफलको कति प्रतिशत छ?",
+ options: ["7%", "17.4%", "6.4%", "23%"],
+ answer: 3,
+ explanation: "कुल ~23%। टिप: प्रतिशत रट्नुहोस्।"
+ },
+ {
+ q: "नेपालको सबैभन्दा ठूलो फलाम खानी कुन हो?",
+ options: ["फुलचोकी", "धुवाबारी", "ठोस्से", "चितवन"],
+ answer: 1,
+ explanation: "धुवाबारी, नवलपुर। टिप: खानी रट्नुहोस्।"
+ },
+ {
+ q: "नेपालमा सुन कहाँ पाइन्छ?",
+ options: ["कालिगण्डकी", "फुलचोकी", "गोदावरी", "सिन्धुपाल्चोक"],
+ answer: 0,
+ explanation: "कालिगण्डकी। टिप: खनिज रट्नुहोस्।"
+ },
+ {
+ q: "नेपालको समय निर्धारण कहिले गरिएको थियो?",
+ options: ["वि.सं. 2042 वैशाख 7", "वि.सं. 2040 वैशाख 7", "वि.सं. 2045 वैशाख 7", "वि.सं. 2038 वैशाख 7"],
+ answer: 0,
+ explanation: "वि.सं. 2042 वैशाख 7। टिप: मिति रट्नुहोस्।"
+ },
+ {
+ q: "नेपालको नक्सा कुन देशको जिरुलासँग मिल्छ?",
+ options: ["भारत", "पोर्चुगल", "इटली", "जापान"],
+ answer: 1,
+ explanation: "पोर्चुगल। टिप: जिरुला रट्नुहोस्।"
+ },
+ {
+ q: "नेपालमा मार्बल कहाँ पाइन्छ?",
+ options: ["गोदावरी", "कालिगण्डकी", "फुलचोकी", "सिन्धुपाल्चोक"],
+ answer: 0,
+ explanation: "गोदावरी। टिप: खनिज रट्नुहोस्।"
+ },
+ {
+ q: "मुस्ताङमा कुन खनिज पाइन्छ?",
+ options: ["पेट्रोलियम", "नुन", "तामा", "स्लेट"],
+ answer: 1,
+ explanation: "नुन। टिप: स्थान रट्नुहोस्।"
+ }
+ ];
+
+ let currentQuestion = 0;
+ let score = 0;
+ const totalMcqs = questions.length;
+ const quizContainer = document.getElementById('quiz');
+ const scoreDisplay = document.getElementById('score');
+ const nextBtn = document.getElementById('next-btn');
+
+ const correctSound = new Audio('https://www.soundjay.com/buttons/beep-01a.mp3');
+ const wrongSound = new Audio('https://www.soundjay.com/buttons/beep-02.mp3');
+
+ function loadQuestion() {
+ const q = questions[currentQuestion];
+ quizContainer.innerHTML = `
+ <div class="question-container">
+ <div class="question">${currentQuestion + 1}. ${q.q}</div>
+ <div class="options">
+ ${q.options.map((option, index) => `
+ <div class="option" data-index="${index}">${option}</div>
+ `).join('')}
+ </div>
+ <div class="explanation" id="explanation-${currentQuestion}">${q.explanation}</div>
+ </div>
+ `;
+ document.querySelectorAll('.option').forEach(option => {
+ option.addEventListener('click', handleMcqAnswer);
+ });
+ nextBtn.style.display = 'none';
+ }
+
+ function handleMcqAnswer(e) {
+ const selectedIndex = parseInt(e.target.dataset.index);
+ const correctIndex = questions[currentQuestion].answer;
+ const explanation = document.getElementById(`explanation-${currentQuestion}`);
+
+ document.querySelectorAll('.option').forEach(option => {
+ option.style.pointerEvents = 'none';
+ if (parseInt(option.dataset.index) === correctIndex) {
+ option.classList.add('correct');
+ }
+ if (parseInt(option.dataset.index) === selectedIndex && selectedIndex !== correctIndex) {
+ option.classList.add('wrong');
+ }
+ });
+
+ explanation.style.display = 'block';
+ nextBtn.style.display = 'block';
+
+ if (selectedIndex === correctIndex) {
+ score++;
+ scoreDisplay.textContent = `${score}/${totalMcqs}`;
+ correctSound.play();
+ } else {
+ wrongSound.play();
+ }
+ }
+
+ nextBtn.addEventListener('click', () => {
+ currentQuestion++;
+ if (currentQuestion < questions.length) {
+ loadQuestion();
+ } else {
+ quizContainer.innerHTML = `
+ <div style="text-align: center;">
+ <h2>प्रश्नोत्तर समाप्त!</h2>
+ <p>तपाईंको स्कोर: ${score}/${totalMcqs}</p>
+ <p>प्रतिशत: ${(score / totalMcqs * 100).toFixed(2)}%</p>
+ </div>
+ `;
+ nextBtn.style.display = 'none';
+ }
+ });
+
+ // Particle Background
+ const canvas = document.getElementById('particle-canvas');
+ const ctx = canvas.getContext('2d');
+ canvas.width = window.innerWidth;
+ canvas.height = window.innerHeight;
+
+ const particlesArray = [];
+ const numberOfParticles = 100;
+
+ class Particle {
+ constructor() {
+ this.x = Math.random() * canvas.width;
+ this.y = Math.random() * canvas.height;
+ this.size = Math.random() * 5 + 1;
+ this.speedX = Math.random() * 3 - 1.5;
+ this.speedY = Math.random() * 3 - 1.5;
+ }
+ update() {
+ this.x += this.speedX;
+ this.y += this.speedY;
+ if (this.size > 0.2) this.size -= 0.1;
+ if (this.x < 0 || this.x > canvas.width) this.speedX *= -1;
+ if (this.y < 0 || this.y > canvas.height) this.speedY *= -1;
+ }
+ draw() {
+ ctx.fillStyle = 'rgba(255, 255, 255, 0.8)';
+ ctx.beginPath();
+ ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+ ctx.fill();
+ }
+ }
+
+ function initParticles() {
+ for (let i = 0; i < numberOfParticles; i++) {
+ particlesArray.push(new Particle());
+ }
+ }
+
+ function animateParticles() {
+ ctx.clearRect(0, 0, canvas.width, canvas.height);
+ for (let i = 0; i < particlesArray.length; i++) {
+ particlesArray[i].update();
+ particlesArray[i].draw();
+ if (particlesArray[i].size <= 0.2) {
+ particlesArray.splice(i, 1);
+ i--;
+ particlesArray.push(new Particle());
+ }
+ }
+ requestAnimationFrame(animateParticles);
+ }
+
+ initParticles();
+ animateParticles();
+
+ window.addEventListener('resize', () => {
+ canvas.width = window.innerWidth;
+ canvas.height = window.innerHeight;
+ });
+
+ loadQuestion();
+ </script>
+</body>
+</html>
