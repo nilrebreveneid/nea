@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="ne">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>⚡️ विद्युत नियमन आयोग Quiz 2025 - Exam Preparation</title>
+    <meta name="description" content="Interactive Quiz on Electricity Regulation Commission Act, 2074 for Exam Preparation. Generated on May 25, 2025.">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: linear-gradient(45deg, #1e3a8a, #3b82f6);
+            overflow: auto;
+            padding: 20px;
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(12px);
+            border-radius: 20px;
+            padding: 30px;
+            max-width: 900px;
+            width: 100%;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            color: #fff;
+            position: relative;
+            z-index: 1;
+        }
+
+        h1 {
+            font-size: 2em;
+            text-align: center;
+            margin-bottom: 20px;
+            color: #e0e0e0;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+        }
+
+        .score {
+            font-size: 1.2em;
+            text-align: center;
+            margin-bottom: 20px;
+            color: #22d3ee;
+        }
+
+        .question-container {
+            margin-bottom: 20px;
+        }
+
+        .question {
+            font-size: 1.3em;
+            margin-bottom: 15px;
+            color: #e0e0e0;
+        }
+
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .option {
+            background: rgba(255, 255, 255, 0.15);
+            padding: 15px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: #fff;
+            font-size: 1.1em;
+        }
+
+        .option:hover {
+            background: rgba(255, 255, 255, 0.25);
+            transform: translateY(-2px);
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
+        }
+
+        .option.correct {
+            background: #22d3ee !important;
+            color: #000 !important;
+        }
+
+        .option.wrong {
+            background: #ff4444 !important;
+            color: #fff !important;
+        }
+
+        .explanation {
+            margin-top: 15px;
+            padding: 15px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 10px;
+            font-size: 1em;
+            line-height: 1.5;
+            display: none;
+        }
+
+        .next-btn {
+            display: block;
+            margin: 20px auto;
+            padding: 12px 30px;
+            background: #22d3ee;
+            color: #000;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.1em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .next-btn:hover {
+            background: #06b6d4;
+            box-shadow: 0 0 15px #22d3ee;
+            transform: translateY(-2px);
+        }
+
+        canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 20px;
+            }
+
+            h1 {
+                font-size: 1.5em;
+            }
+
+            .question {
+                font-size: 1.1em;
+            }
+
+            .option {
+                font-size: 1em;
+                padding: 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <canvas id="particle-canvas"></canvas>
+    <div class="container">
+        <h1>⚡️ विद्युत नियमन आयोग Quiz 2025 - Exam Preparation</h1>
+        <div class="score">Score: <span id="score">0</span>/20</div>
+        <div id="quiz"></div>
+        <button class="next-btn" id="next-btn" style="display: none;">अर्को प्रश्न</button>
+    </div>
+
+    <script>
+        const questions = [
+            {
+                q: "विद्युत नियमन आयोग ऐन, २०७४ को प्रमाणीकरण मिति के हो?",
+                options: ["२०७४/४/१", "२०७४/४/१९", "२०७४/५/१", "२०७४/६/१"],
+                answer: 1,
+                explanation: "प्रमाणीकरण मिति: २०७४/४/१९ (Page 1)। टिप: ऐनको प्रमाणीकरण मिति रट्नुहोस्।"
+            },
+            {
+                q: "विद्युत नियमन आयोग ऐन, २०७४ को मुख्य उद्देश्य के हो?",
+                options: ["विद्युत उत्पादन बढाउन", "विद्युत बजारलाई प्रतिस्पर्धात्मक र पारदर्शी बनाउन", "विद्युत निर्यात गर्न", "निजी क्षेत्रलाई मात्र प्रोत्साहन गर्न"],
+                answer: 1,
+                explanation: "विद्युत बजारलाई प्रतिस्पर्धात्मक र पारदर्शी बनाउन (Page 1)। टिप: उद्देश्य रट्नुहोस्।"
+            },
+            {
+                q: "विद्युत नियमन आयोगको स्थापना कुन दफा अनुसार भएको हो?",
+                options: ["दफा १", "दफा २", "दफा ३", "दफा ४"],
+                answer: 2,
+                explanation: "दफा ३ बमोजिम स्थापित (Page 2)। टिप: स्थापना दफा रट्नुहोस्।"
+            },
+            {
+                q: "आयोगको केन्द्रीय कार्यालय कहाँ रहन्छ?",
+                options: ["पोखरा", "काठमाडौं उपत्यका", "विराटनगर", "नेपालगञ्ज"],
+                answer: 1,
+                explanation: "काठमाडौं उपत्यकामा (Page 2)। टिप: कार्यालय स्थान रट्नुहोस्।"
+            },
+            {
+                q: "आयोगको प्रकृति कस्तो हुन्छ?",
+                options: ["अस्थायी संस्था", "स्वायत्त र सङ्गठित संस्था", "निजी संस्था", "सरकारी विभाग"],
+                answer: 1,
+                explanation: "स्वायत्त र सङ्गठित संस्था (Page 2)। टिप: प्रकृति रट्नुहोस्।"
+            },
+            {
+                q: "आयोगको अध्यक्ष र सदस्य नियुक्तिको लागि कस्तो समिति गठन हुन्छ?",
+                options: ["सचिव, मन्त्रालयको नेतृत्वमा", "अर्थ मन्त्रालयको नेतृत्वमा", "प्रधानमन्त्रीको नेतृत्वमा", "मुख्य सचिवको नेतृत्वमा"],
+                answer: 0,
+                explanation: "सचिव, मन्त्रालयको नेतृत्वमा (Page 3)। टिप: समिति रट्नुहोस्।"
+            },
+            {
+                q: "आयोगको बैठक कति पटक बस्नुपर्छ?",
+                options: ["महिनामा एक पटक", "तीन महिनामा एक पटक", "छ महिनामा एक पटक", "वर्षमा एक पटक"],
+                answer: 0,
+                explanation: "महिनामा कम्तीमा एक पटक (Page 4)। टिप: बैठक रट्नुहोस्।"
+            },
+            {
+                q: "आयोगको बैठकमा गणपूरक सङ्ख्या कति हो?",
+                options: ["दुई जना", "तीन जना", "चार जना", "पाँच जना"],
+                answer: 1,
+                explanation: "तीन जना (Page 4)। टिप: गणपूरक सङ्ख्या रट्नुहोस्।"
+            },
+            {
+                q: "विद्युत सेवाको गुणस्तर सुनिश्चित गर्न आयोगले के गर्नुपर्छ?",
+                options: ["मापदण्ड बनाई लागू गर्न", "केवल महसूल निर्धारण गर्न", "कर्मचारी भर्ना गर्न", "बजार बन्द गर्न"],
+                answer: 0,
+                explanation: "गुणस्तर मापदण्ड बनाई लागू गर्न (Page 5)। टिप: कार्य रट्नुहोस्।"
+            },
+            {
+                q: "विद्युत महसूलमा एकाधिकार रोक्न आयोगले के गर्छ?",
+                options: ["बजार बन्द गर्छ", "एकाधिकार हुन नदिने व्यवस्था गर्छ", "कर बढाउँछ", "अनुमतिपत्र रद्द गर्छ"],
+                answer: 1,
+                explanation: "एकाधिकार रोक्ने व्यवस्था (Page 6)। टिप: महसूल रट्नुहोस्।"
+            },
+            {
+                q: "आयोगले कस्ता विवाद समाधान गर्न सक्छ?",
+                options: ["अनुमतिपत्र प्राप्त व्यक्तिहरूबीचको विवाद", "व्यक्तिगत सम्पत्तिको विवाद", "कर्मचारी भर्ना सम्बन्धी विवाद", "कर सम्बन्धी विवाद"],
+                answer: 0,
+                explanation: "अनुमतिपत्र प्राप्त व्यक्तिहरूबीचको विवाद (Page 7)। टिप: विवाद रट्नुहोस्।"
+            },
+            {
+                q: "उपभोक्ताले उजूरी दिँदा शुल्क तिर्नुपर्छ?",
+                options: ["पर्छ", "पर्दैन", "केही अवस्थामा पर्छ", "आयोगले तोके अनुसार"],
+                answer: 1,
+                explanation: "गैर-स्थानीय उपभोक्ताले शुल्क तिर्नुपर्दैन (Page 8)। टिप: उजूरी रट्नुहोस्।"
+            },
+            {
+                q: "आयोगको कोषमा कुन रकम जम्मा हुन्छ?",
+                options: ["केवल नेपाल सरकारबाट प्राप्त रकम", "विदेशी सङ्घसंस्थाबाट प्राप्त रकम", "विद्युत वितरणको १% आय", "सबै उल्लेखित"],
+                answer: 3,
+                explanation: "नेपाल सरकार, विदेशी सङ्घसंस्था, र १% आय (Page 10)। टिप: कोष रट्नुहोस्।"
+            },
+            {
+                q: "आयोगको लेखापरीक्षण कसले गर्छ?",
+                options: ["अर्थ मन्त्रालय", "महालेखापरीक्षक", "निजी लेखापरीक्षक", "आयोग स्वयं"],
+                answer: 1,
+                explanation: "महालेखापरीक्षक (Page 11)। टिप: लेखापरीक्षण रट्नुहोस्।"
+            },
+            {
+                q: "आयोगले वार्षिक प्रतिवेदन कहिलेसम्म पेश गर्नुपर्छ?",
+                options: ["आर्थिक वर्ष समाप्त भएको १ महिनाभित्र", "३ महिनाभित्र", "६ महिनाभित्र", "१२ महिनाभित्र"],
+                answer: 1,
+                explanation: "तीन महिनाभित्र (Page 11)। टिप: प्रतिवेदन रट्नुहोस्।"
+            },
+            {
+                q: "आयोगले कुन अधिकार प्रत्यायोजन गर्न सक्दैन?",
+                options: ["कर्मचारी नियुक्ति", "महसूल निर्धारण", "निर्देशन दिने", "उपसमिति गठन"],
+                answer: 1,
+                explanation: "महसूल निर्धारण प्रत्यायोजन गर्न सकिँदैन (Page 12)। टिप: प्रत्यायोजन रट्नुहोस्।"
+            },
+            {
+                q: "आयोगले नेपाल सरकारसँग सम्पर्क कसरी राख्छ?",
+                options: ["अर्थ मन्त्रालय मार्फत", "मन्त्रालय मार्फत", "प्रत्यक्ष रूपमा", "स्थानीय तह मार्फत"],
+                answer: 1,
+                explanation: "मन्त्रालय मार्फत (Page 12)। टिप: सम्पर्क रट्नुहोस्।"
+            },
+            {
+                q: "आयोगले विनियम बनाउँदा कुन विषयमा अर्थ मन्त्रालयको स्वीकृति लिनुपर्छ?",
+                options: ["कर्मचारीको पारिश्रमिक", "विवाद समाधान", "महसूल निर्धारण", "बैठक सञ्चालन"],
+                answer: 0,
+                explanation: "कर्मचारीको पारिश्रमिकमा स्वीकृति चाहिन्छ (Page 12)। टिप: विनियम रट्नुहोस्।"
+            },
+            {
+                q: "विद्युत ऐन, २०४९ मा कुन दफा संशोधन गरिएको छ?",
+                options: ["दफा १५", "दफा १६", "दफा १८", "दफा २०"],
+                answer: 1,
+                explanation: "दफा १६ संशोधन (Page 12)। टिप: संशोधन रट्नुहोस्।"
+            },
+            {
+                q: "शपथ सम्बन्धी व्यवस्था कुन बनुसूचीमा उल्लेख छ?",
+                options: ["बनुसूची १", "बनुसूची २", "बनुसूची ३", "बनुसूची ४"],
+                answer: 0,
+                explanation: "बनुसूची १ मा शपथ (Page 13)। टिप: शपथ रट्नुहोस्।"
+            }
+        ];
+
+        let currentQuestion = 0;
+        let score = 0;
+        const totalMcqs = questions.length;
+        const quizContainer = document.getElementById('quiz');
+        const scoreDisplay = document.getElementById('score');
+        const nextBtn = document.getElementById('next-btn');
+
+        const correctSound = new Audio('https://www.soundjay.com/buttons/beep-01a.mp3');
+        const wrongSound = new Audio('https://www.soundjay.com/buttons/beep-02.mp3');
+
+        function loadQuestion() {
+            const q = questions[currentQuestion];
+            quizContainer.innerHTML = `
+                <div class="question-container">
+                    <div class="question">${currentQuestion + 1}. ${q.q}</div>
+                    <div class="options">
+                        ${q.options.map((option, index) => `
+                            <div class="option" data-index="${index}">${option}</div>
+                        `).join('')}
+                    </div>
+                    <div class="explanation" id="explanation-${currentQuestion}">${q.explanation}</div>
+                </div>
+            `;
+            document.querySelectorAll('.option').forEach(option => {
+                option.addEventListener('click', handleMcqAnswer);
+            });
+            nextBtn.style.display = 'none';
+        }
+
+        function handleMcqAnswer(e) {
+            const selectedIndex = parseInt(e.target.dataset.index);
+            const correctIndex = questions[currentQuestion].answer;
+            const explanation = document.getElementById(`explanation-${currentQuestion}`);
+
+            document.querySelectorAll('.option').forEach(option => {
+                option.style.pointerEvents = 'none';
+                if (parseInt(option.dataset.index) === correctIndex) {
+                    option.classList.add('correct');
+                }
+                if (parseInt(option.dataset.index) === selectedIndex && selectedIndex !== correctIndex) {
+                    option.classList.add('wrong');
+                }
+            });
+
+            explanation.style.display = 'block';
+            nextBtn.style.display = 'block';
+
+            if (selectedIndex === correctIndex) {
+                score++;
+                scoreDisplay.textContent = `${score}/${totalMcqs}`;
+                correctSound.play();
+            } else {
+                wrongSound.play();
+            }
+        }
+
+        nextBtn.addEventListener('click', () => {
+            currentQuestion++;
+            if (currentQuestion < questions.length) {
+                loadQuestion();
+            } else {
+                quizContainer.innerHTML = `
+                    <div style="text-align: center;">
+                        <h2>प्रश्नोत्तर समाप्त!</h2>
+                        <p>तपाईंको स्कोर: ${score}/${totalMcqs}</p>
+                        <p>प्रतिशत: ${(score / totalMcqs * 100).toFixed(2)}%</p>
+                    </div>
+                `;
+                nextBtn.style.display = 'none';
+            }
+        });
+
+        // Particle Background
+        const canvas = document.getElementById('particle-canvas');
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        const particlesArray = [];
+        const numberOfParticles = 100;
+
+        class Particle {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 5 + 1;
+                this.speedX = Math.random() * 3 - 1.5;
+                this.speedY = Math.random() * 3 - 1.5;
+            }
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+                if (this.size > 0.2) this.size -= 0.1;
+                if (this.x < 0 || this.x > canvas.width) this.speedX *= -1;
+                if (this.y < 0 || this.y > canvas.height) this.speedY *= -1;
+            }
+            draw() {
+                ctx.fillStyle = 'rgba(255, 255, 255, 0.8)';
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        function initParticles() {
+            for (let i = 0; i < numberOfParticles; i++) {
+                particlesArray.push(new Particle());
+            }
+        }
+
+        function animateParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            for (let i = 0; i < particlesArray.length; i++) {
+                particlesArray[i].update();
+                particlesArray[i].draw();
+                if (particlesArray[i].size <= 0.2) {
+                    particlesArray.splice(i, 1);
+                    i--;
+                    particlesArray.push(new Particle());
+                }
+            }
+            requestAnimationFrame(animateParticles);
+        }
+
+        initParticles();
+        animateParticles();
+
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        });
+
+        loadQuestion();
+    </script>
+</body>
+</html>
