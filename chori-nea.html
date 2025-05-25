@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="ne">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>⚡️ विद्युत चोरी नियन्त्रण Quiz 2025 - Exam Preparation</title>
+    <meta name="description" content="Interactive Quiz on Electricity Theft Control Regulations, 2049 for Exam Preparation. Generated on May 25, 2025.">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: linear-gradient(45deg, #1e3a8a, #3b82f6);
+            overflow: auto;
+            padding: 20px;
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(12px);
+            border-radius: 20px;
+            padding: 30px;
+            max-width: 900px;
+            width: 100%;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            color: #fff;
+            position: relative;
+            z-index: 1;
+        }
+
+        h1 {
+            font-size: 2em;
+            text-align: center;
+            margin-bottom: 20px;
+            color: #e0e0e0;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+        }
+
+        .score {
+            font-size: 1.2em;
+            text-align: center;
+            margin-bottom: 20px;
+            color: #22d3ee;
+        }
+
+        .question-container {
+            margin-bottom: 20px;
+        }
+
+        .question {
+            font-size: 1.3em;
+            margin-bottom: 15px;
+            color: #e0e0e0;
+        }
+
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .option {
+            background: rgba(255, 255, 255, 0.15);
+            padding: 15px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: #fff;
+            font-size: 1.1em;
+        }
+
+        .option:hover {
+            background: rgba(255, 255, 255, 0.25);
+            transform: translateY(-2px);
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
+        }
+
+        .option.correct {
+            background: #22d3ee !important;
+            color: #000 !important;
+        }
+
+        .option.wrong {
+            background: #ff4444 !important;
+            color: #fff !important;
+        }
+
+        .explanation {
+            margin-top: 15px;
+            padding: 15px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 10px;
+            font-size: 1em;
+            line-height: 1.5;
+            display: none;
+        }
+
+        .next-btn {
+            display: block;
+            margin: 20px auto;
+            padding: 12px 30px;
+            background: #22d3ee;
+            color: #000;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.1em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .next-btn:hover {
+            background: #06b6d4;
+            box-shadow: 0 0 15px #22d3ee;
+            transform: translateY(-2px);
+        }
+
+        canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 20px;
+            }
+
+            h1 {
+                font-size: 1.5em;
+            }
+
+            .question {
+                font-size: 1.1em;
+            }
+
+            .option {
+                font-size: 1em;
+                padding: 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <canvas id="particle-canvas"></canvas>
+    <div class="container">
+        <h1>⚡️ विद्युत चोरी नियन्त्रण Quiz 2025 - Exam Preparation</h1>
+        <div class="score">Score: <span id="score">0</span>/25</div>
+        <div id="quiz"></div>
+        <button class="next-btn" id="next-btn" style="display: none;">अर्को प्रश्न</button>
+    </div>
+
+    <script>
+        const questions = [
+            {
+                q: "विद्युत चोरी नियन्त्रण नियमावली, २०४९ को नाम के हो?",
+                options: ["विद्युत वितरण नियमावली, २०४१", "विद्युत चोरी नियन्त्रण नियमावली, २०४९", "विद्युत नियमन नियमावली, २०७४", "विद्युत ऐन, २०४१"],
+                answer: 1,
+                explanation: "नाम: विद्युत चोरी नियन्त्रण नियमावली, २०४९ (Page 1)। टिप: नियमावलीको नाम रट्नुहोस्।"
+            },
+            {
+                q: "“ऐन” भन्नाले कुन ऐनलाई जनाउँछ?",
+                options: ["विद्युत नियमन आयोग ऐन, २०७४", "विद्युत चोरी नियन्त्रण ऐन, २०४५", "नेपाल विद्युत प्राधिकरण ऐन, २०४१", "विद्युत वितरण ऐन, २०७८"],
+                answer: 1,
+                explanation: "ऐन: विद्युत चोरी नियन्त्रण ऐन, २०४५ (Page 1)। टिप: ऐनको परिभाषा रट्नुहोस्।"
+            },
+            {
+                q: "कसूरको सूचना कसलाई दिनुपर्छ?",
+                options: ["स्थानीय तह", "नजिकको वितरक", "प्रहरी चौकी", "विद्युत नियमन आयोग"],
+                answer: 1,
+                explanation: "सूचना: नजिकको वितरक समक्ष (Page 1)। टिप: सूचना प्राप्तकर्ता रट्नुहोस्।"
+            },
+            {
+                q: "कसूरको सूचना कुन अनुसूचीको ढाँचामा दिनुपर्छ?",
+                options: ["अनुसूची-२", "अनुसूची-१", "अनुसूची-५", "अनुसूची-९"],
+                answer: 1,
+                explanation: "लिखित सूचना: अनुसूची-१ (Page 1)। टिप: अनुसूची नम्बर रट्नुहोस्।"
+            },
+            {
+                q: "कसूरको सूचनामा कुन विवरण अनिवार्य छ?",
+                options: ["सूचना दिने व्यक्तिको बैंक खाता", "कसूर भएको मिति, समय, र स्थान", "सूचना दिने व्यक्तिको मतदाता परिचयपत्र", "कसूर गर्ने व्यक्तिको जन्म मिति"],
+                answer: 1,
+                explanation: "विवरण: मिति, समय, स्थान, आदि (Page 1)। टिप: सूचना विवरण रट्नुहोस्।"
+            },
+            {
+                q: "मौखिक रूपमा दिइएको कसूरको सूचना कसले अभिलेख गर्छ?",
+                options: ["प्रहरी", "वितरक", "स्थानीय तह", "अनुसन्धान अधिकारी"],
+                answer: 1,
+                explanation: "मौखिक सूचना: वितरकले अभिलेख गर्छ (Page 2)। टिप: मौखिक सूचना रट्नुहोस्।"
+            },
+            {
+                q: "कसूरको सूचना पत्राचार वा इमेलबाट दिन सकिन्छ?",
+                options: ["सकिन्छ", "सकिँदैन", "केवल पत्राचारबाट", "केवल इमेलबाट"],
+                answer: 0,
+                explanation: "सूचना: पत्राचार, इमेलबाट (Page 2)। टिप: सूचना माध्यम रट्नुहोस्।"
+            },
+            {
+                q: "अनुसन्धान अधिकारीले कसूरको सूचना प्राप्त गरेपछि के गर्नुपर्छ?",
+                options: ["तुरुन्त जरिवाना लगाउनु", "यथाशीघ्र अनुसन्धान र तहकिकात गर्नु", "सूचना गोप्य राख्नु", "प्रहरीलाई मात्र जिम्मा दिनु"],
+                answer: 1,
+                explanation: "अनुसन्धान: यथाशीघ्र शुरू (Page 2)। टिप: अनुसन्धान प्रक्रिया रट्नुहोस्।"
+            },
+            {
+                q: "अनुसन्धान अधिकारीले अनुसन्धान गर्दा कसको सहयोग लिन सक्छ?",
+                options: ["केवल प्रहरी", "प्रहरी, स्थानीय प्रशासन, र स्थानीय निकाय", "केवल स्थानीय तह", "विद्युत नियमन आयोग"],
+                answer: 1,
+                explanation: "सहयोग: प्रहरी, प्रशासन, निकाय (Page 2)। टिप: सहयोगी निकाय रट्नुहोस्।"
+            },
+            {
+                q: "अनुसन्धान अधिकारीले कसूरदारको बयानमा के गर्नुपर्छ?",
+                options: ["बयानलाई गोप्य राख्नु", "बयानमा सही गराई राख्नु", "बयानलाई नजरअन्दाज गर्नु", "बयानलाई प्रहरीमा पठाउनु"],
+                answer: 1,
+                explanation: "बयान: सही गराई राख्नु (Page 2)। टिप: बयान प्रक्रिया रट्नुहोस्।"
+            },
+            {
+                q: "अनुसन्धान अधिकारीले सर्जामिन मुचुल्कामा कुन विवरण समावेश गर्नुपर्छ?",
+                options: ["केवल कसूरदारको नाम", "कसूरको मिति, स्थान, तरिका, र सम्बद्ध मालवस्तु", "केवल कसूरको मिति", "कसूरदारको ठेगाना मात्र"],
+                answer: 1,
+                explanation: "मुचुल्का: मिति, स्थान, तरिका, मालवस्तु (Page 3)। टिप: सर्जामिन विवरण रट्नुहोस्।"
+            },
+            {
+                q: "कसूरसँग सम्बद्ध मालवस्तु फेला परेमा अनुसन्धान अधिकारीले के गर्नुपर्छ?",
+                options: ["मालवस्तु नष्ट गर्नु", "मुचुल्का तयार गरी सम्बद्ध व्यक्तिलाई एक प्रति दिनु", "मालवस्तु प्रहरीलाई बुझाउनु", "मालवस्तु गोप्य राख्नु"],
+                answer: 1,
+                explanation: "मालवस्तु: मुचुल्का तयार (Page 3)। टिप: मालवस्तु प्रक्रिया रट्नुहोस्।"
+            },
+            {
+                q: "विद्युत खपत गणना गर्दा कुन अनुसूचीको आधार लिइन्छ?",
+                options: ["अनुसूची-१ र अनुसूची-२", "अनुसूची-३ र अनुसूची-४", "अनुसूची-५ र अनुसूची-६", "अनुसूची-९ र अनुसूची-१०"],
+                answer: 2,
+                explanation: "खपत: अनुसूची-५ र ६ (Page 4)। टिप: खपत अनुसूची रट्नुहोस्।"
+            },
+            {
+                q: "विद्युत चोरीको अवधि गणना गर्दा अधिकतम कति समय लिइन्छ?",
+                options: ["६ महिना", "१ वर्ष", "२ वर्ष", "३ वर्ष"],
+                answer: 1,
+                explanation: "अवधि: १ वर्ष (Page 4)। टिप: अवधि रट्नुहोस्।"
+            },
+            {
+                q: "यदि विद्युतीय उपकरणको क्षमता उल्लेख नभएमा के गरिन्छ?",
+                options: ["उपकरण नष्ट गरिन्छ", "प्राविधिक क्षमता जाँच गरिन्छ", "उपकरणको क्षमता अनुमान गरिन्छ", "उपकरण प्रयोग निषेध गरिन्छ"],
+                answer: 1,
+                explanation: "क्षमता: प्राविधिक जाँच (Page 4)। टिप: क्षमता जाँच रट्नुहोस्।"
+            },
+            {
+                q: "CT/PT जडान भएको ठाउँमा विद्युत चोरीको गणना कसरी गरिन्छ?",
+                options: ["केवल मिटर रिडिङबाट", "इनर्जी अकाउन्टिङ सिद्धान्तबाट", "उपभोक्ताको बयानबाट", "प्रहरीको अनुमानबाट"],
+                answer: 1,
+                explanation: "CT/PT: इनर्जी अकाउन्टिङ (Page 5)। टिप: इनर्जी अकाउन्टिङ रट्नुहोस्।"
+            },
+            {
+                q: "CT/PT मा विद्युत चोरीको उच्चतम माग कसरी मूल्याङ्कन गरिन्छ?",
+                options: ["गत ६ महिनाको आधारमा", "इनर्जी अकाउन्टिङ सिद्धान्तबाट", "उपभोक्ताको बिलबाट", "केवल मिटर रिडिङबाट"],
+                answer: 1,
+                explanation: "उच्चतम माग: इनर्जी अकाउन्टिङ (Page 5)। टिप: उच्चतम माग रट्नुहोस्।"
+            },
+            {
+                q: "यदि CT/PT मा चोरीको युनिट निर्धारण गर्न नसकिएमा के गरिन्छ?",
+                options: ["चोरीलाई नजरअन्दाज गरिन्छ", "गत १ वर्षको उच्चतम मागको आधारमा सूत्र प्रयोग गरिन्छ", "उपभोक्तालाई जरिवाना छुट दिइन्छ", "प्रहरीलाई जिम्मा दिइन्छ"],
+                answer: 1,
+                explanation: "युनिट: १ वर्षको उच्चतम माग (Page 5)। टिप: सूत्र प्रयोग रट्नुहोस्।"
+            },
+            {
+                q: "वास्तविक हानी नोक्सानी कसरी गणना गरिन्छ?",
+                options: ["कुल विद्युत युनिटको आधारमा", "कुल रकमबाट तिरेको रकम कट्टा गरेर", "केवल जरिवानाको आधारमा", "उपभोक्ताको बयानको आधारमा"],
+                answer: 1,
+                explanation: "हानी: तिरेको रकम कट्टा (Page 6)। टिप: हानी नोक्सानी रट्नुहोस्।"
+            },
+            {
+                q: "हानी नोक्सानी गणनामा कुन महसूल दर प्रयोग गरिन्छ?",
+                options: ["कसूर भएको समयको प्रचलित दर", "हालको महसूल दर", "न्यूनतम महसूल दर", "औसत महसूल दर"],
+                answer: 0,
+                explanation: "महसूल: कसूर समयको दर (Page 6)। टिप: महसूल दर रट्नुहोस्।"
+            },
+            {
+                q: "पुनरावलोकनको निवेदन कुन अनुसूचीको ढाँचामा दिनुपर्छ?",
+                options: ["अनुसूची-१", "अनुसूची-५", "अनुसूची-९", "अनुसूची-१०"],
+                answer: 2,
+                explanation: "निवेदन: अनुसूची-९ (Page 7)। टिप: पुनरावलोकन अनुसूची रट्नुहोस्।"
+            },
+            {
+                q: "पुनरावलोकन निवेदनमा कुन कागजात संलग्न गर्नुपर्छ?",
+                options: ["केवल नागरिकता प्रतिलिपि", "अनुसन्धान अधिकारीको सूचनाको प्रमाणित प्रति", "केवल बयानको प्रति", "बैंक खाता विवरण"],
+                answer: 1,
+                explanation: "कागजात: सूचनाको प्रति (Page 7)। टिप: पुनरावलोकन कागजात रट्नुहोस्।"
+            },
+            {
+                q: "ग्राहकको घरमा कुन उपकरणको विवरण अनुसूची-१ मा समावेश हुन्छ?",
+                options: ["केवल बत्ती र पंखा", "बत्ती, पंखा, फ्रिज, मोटर, आदि", "केवल मोटर", "केवल फ्रिज"],
+                answer: 1,
+                explanation: "उपकरण: बत्ती, पंखा, आदि (Page 21)। टिप: उपकरण विवरण रट्नुहोस्।"
+            },
+            {
+                q: "क्षतिपूर्ति मूल्याङ्कन तालिकामा कुन विवरण समावेश हुन्छ?",
+                options: ["केवल बिल रकम", "बिल युनिट, बिल रकम, मूल्याङ्कित युनिट, र क्षतिपूर्ति रकम", "केवल ग्राहकको नाम", "केवल मिटर रिडिङ"],
+                answer: 1,
+                explanation: "तालिका: बिल युनिट, रकम, आदि (Page 21)। टिप: क्षतिपूर्ति तालिका रट्नुहोस्।"
+            },
+            {
+                q: "हानी नोक्सानी र क्षतिपूर्तिको सूचना कुन अनुसूचीमा दिइन्छ?",
+                options: ["अनुसूची-१", "अनुसूची-५", "अनुसूची-९", "अनुसूची-१०"],
+                answer: 1,
+                explanation: "सूचना: अनुसूची-५ (Page 23)। टिप: सूचना अनुसूची रट्नुहोस्।"
+            }
+        ];
+
+        let currentQuestion = 0;
+        let score = 0;
+        const totalMcqs = questions.length;
+        const quizContainer = document.getElementById('quiz');
+        const scoreDisplay = document.getElementById('score');
+        const nextBtn = document.getElementById('next-btn');
+
+        const correctSound = new Audio('https://www.soundjay.com/buttons/beep-01a.mp3');
+        const wrongSound = new Audio('https://www.soundjay.com/buttons/beep-02.mp3');
+
+        function loadQuestion() {
+            const q = questions[currentQuestion];
+            quizContainer.innerHTML = `
+                <div class="question-container">
+                    <div class="question">${currentQuestion + 1}. ${q.q}</div>
+                    <div class="options">
+                        ${q.options.map((option, index) => `
+                            <div class="option" data-index="${index}">${option}</div>
+                        `).join('')}
+                    </div>
+                    <div class="explanation" id="explanation-${currentQuestion}">${q.explanation}</div>
+                </div>
+            `;
+            document.querySelectorAll('.option').forEach(option => {
+                option.addEventListener('click', handleMcqAnswer);
+            });
+            nextBtn.style.display = 'none';
+        }
+
+        function handleMcqAnswer(e) {
+            const selectedIndex = parseInt(e.target.dataset.index);
+            const correctIndex = questions[currentQuestion].answer;
+            const explanation = document.getElementById(`explanation-${currentQuestion}`);
+
+            document.querySelectorAll('.option').forEach(option => {
+                option.style.pointerEvents = 'none';
+                if (parseInt(option.dataset.index) === correctIndex) {
+                    option.classList.add('correct');
+                }
+                if (parseInt(option.dataset.index) === selectedIndex && selectedIndex !== correctIndex) {
+                    option.classList.add('wrong');
+                }
+            });
+
+            explanation.style.display = 'block';
+            nextBtn.style.display = 'block';
+
+            if (selectedIndex === correctIndex) {
+                score++;
+                scoreDisplay.textContent = `${score}/${totalMcqs}`;
+                correctSound.play();
+            } else {
+                wrongSound.play();
+            }
+        }
+
+        nextBtn.addEventListener('click', () => {
+            currentQuestion++;
+            if (currentQuestion < questions.length) {
+                loadQuestion();
+            } else {
+                quizContainer.innerHTML = `
+                    <div style="text-align: center;">
+                        <h2>प्रश्नोत्तर समाप्त!</h2>
+                        <p>तपाईंको स्कोर: ${score}/${totalMcqs}</p>
+                        <p>प्रतिशत: ${(score / totalMcqs * 100).toFixed(2)}%</p>
+                    </div>
+                `;
+                nextBtn.style.display = 'none';
+            }
+        });
+
+        // Particle Background
+        const canvas = document.getElementById('particle-canvas');
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        const particlesArray = [];
+        const numberOfParticles = 100;
+
+        class Particle {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 5 + 1;
+                this.speedX = Math.random() * 3 - 1.5;
+                this.speedY = Math.random() * 3 - 1.5;
+            }
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+                if (this.size > 0.2) this.size -= 0.1;
+                if (this.x < 0 || this.x > canvas.width) this.speedX *= -1;
+                if (this.y < 0 || this.y > canvas.height) this.speedY *= -1;
+            }
+            draw() {
+                ctx.fillStyle = 'rgba(255, 255, 255, 0.8)';
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        function initParticles() {
+            for (let i = 0; i < numberOfParticles; i++) {
+                particlesArray.push(new Particle());
+            }
+        }
+
+        function animateParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            for (let i = 0; i < particlesArray.length; i++) {
+                particlesArray[i].update();
+                particlesArray[i].draw();
+                if (particlesArray[i].size <= 0.2) {
+                    particlesArray.splice(i, 1);
+                    i--;
+                    particlesArray.push(new Particle());
+                }
+            }
+            requestAnimationFrame(animateParticles);
+        }
+
+        initParticles();
+        animateParticles();
+
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        });
+
+        loadQuestion();
+    </script>
+</body>
+</html>
