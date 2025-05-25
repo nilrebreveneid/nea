@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="ne">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🌍 वातावरण Quiz 2025 - Exam Preparation</title>
+    <meta name="description" content="Interactive Environment Quiz for Exam Preparation, covering greenhouse effect, conservation organizations, and wetlands. Generated on May 25, 2025.">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: linear-gradient(45deg, #1a3c34, #2ecc71);
+            overflow: auto;
+            padding: 20px;
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(12px);
+            border-radius: 20px;
+            padding: 30px;
+            max-width: 900px;
+            width: 100%;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            color: #fff;
+            position: relative;
+            z-index: 1;
+        }
+
+        h1 {
+            font-size: 2em;
+            text-align: center;
+            margin-bottom: 20px;
+            color: #e0e0e0;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+        }
+
+        .score {
+            font-size: 1.2em;
+            text-align: center;
+            margin-bottom: 20px;
+            color: #00ff88;
+        }
+
+        .question-container {
+            margin-bottom: 20px;
+        }
+
+        .question {
+            font-size: 1.3em;
+            margin-bottom: 15px;
+            color: #e0e0e0;
+        }
+
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .option {
+            background: rgba(255, 255, 255, 0.15);
+            padding: 15px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: #fff;
+            font-size: 1.1em;
+        }
+
+        .option:hover {
+            background: rgba(255, 255, 255, 0.25);
+            transform: translateY(-2px);
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
+        }
+
+        .option.correct {
+            background: #00ff88 !important;
+            color: #000 !important;
+        }
+
+        .option.wrong {
+            background: #ff4444 !important;
+            color: #fff !important;
+        }
+
+        .explanation {
+            margin-top: 15px;
+            padding: 15px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 10px;
+            font-size: 1em;
+            line-height: 1.5;
+            display: none;
+        }
+
+        .next-btn {
+            display: block;
+            margin: 20px auto;
+            padding: 12px 30px;
+            background: #00ff88;
+            color: #000;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.1em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .next-btn:hover {
+            background: #00cc66;
+            box-shadow: 0 0 15px #00ff88;
+            transform: translateY(-2px);
+        }
+
+        canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 20px;
+            }
+
+            h1 {
+                font-size: 1.5em;
+            }
+
+            .question {
+                font-size: 1.1em;
+            }
+
+            .option {
+                font-size: 1em;
+                padding: 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <canvas id="particle-canvas"></canvas>
+    <div class="container">
+        <h1>🌍 वातावरण Quiz 2025 - Exam Preparation</h1>
+        <div class="score">Score: <span id="score">0</span>/20</div>
+        <div id="quiz"></div>
+        <button class="next-btn" id="next-btn" style="display: none;">अर्को प्रश्न</button>
+    </div>
+
+    <script>
+        const questions = [
+            {
+                q: "हरितगृह प्रभावको अवधारणा ल्याउने वैज्ञानिक को हुन्?",
+                options: ["आर्थिनस", "बेस्ति जिन फैरियर", "जे.सी. फारम्यान", "थोमस मिज"],
+                answer: 1,
+                explanation: "बेस्ति जिन फैरियर (सन १८२६, France)। टिप: वैज्ञानिकको नाम रट्नुहोस्।"
+            },
+            {
+                q: "क्लोरोफ्लोरोकार्बन (CFC) पत्ता लगाउने व्यक्ति को हुन्?",
+                options: ["जे.सी. फारम्यान", "थोमस मिज", "आर्थिनस", "हेव्टर सिवालोस"],
+                answer: 1,
+                explanation: "डा. थामस मिज, सन १९३०। टिप: CFC रट्नुहोस्।"
+            },
+            {
+                q: "IUCN को स्थापना कहिले भएको थियो?",
+                options: ["1948", "1964", "1972", "1983"],
+                answer: 0,
+                explanation: "सन १९४८। टिप: स्थापना मिति रट्नुहोस्।"
+            },
+            {
+                q: "नेपाल IUCN को सदस्य कहिले भएको थियो?",
+                options: ["1964", "1973", "1987", "1992"],
+                answer: 1,
+                explanation: "सन १९७३। टिप: सदस्यता मिति रट्नुहोस्।"
+            },
+            {
+                q: "WWF को स्थापना कहिले भएको थियो?",
+                options: ["1961", "1971", "1983", "1992"],
+                answer: 0,
+                explanation: "April 29, 1961। टिप: WWF मिति रट्नुहोस्।"
+            },
+            {
+                q: "ICIMOD को मुख्यालय कहाँ छ?",
+                options: ["काठमाडौं", "ललितपुर", "नयाँ दिल्ली", "ढाका"],
+                answer: 1,
+                explanation: "ललितपुर, नेपाल। टिप: मुख्यालय रट्नुहोस्।"
+            },
+            {
+                q: "पृथ्वी सम्मेलन (Earth Summit) कहाँ र कहिले भएको थियो?",
+                options: ["1992, रियो दि जेनेरियो", "1972, स्टकहोम", "1987, टोरन्टो", "2005, क्योटो"],
+                answer: 0,
+                explanation: "June 3-14, 1992, रियो दि जेनेरियो। टिप: सम्मेलन रट्नुहोस्।"
+            },
+            {
+                q: "एजेन्डा 21 मा हस्ताक्षर गर्ने कुल राष्ट्र कति थिए?",
+                options: ["172", "179", "185", "190"],
+                answer: 1,
+                explanation: "179 राष्ट्र। टिप: राष्ट्र संख्या रट्नुहोस्।"
+            },
+            {
+                q: "नेपालमा एजेन्डा 21 लागू भएका जिल्लाहरू कुन-कुन हुन्?",
+                options: ["दाङ, सुर्खेत, कैलाली", "चितवन, कास्की, इलाम", "बर्दिया, दाङ, कञ्चनपुर", "काठमाडौं, भक्तपुर, ललितपुर"],
+                answer: 0,
+                explanation: "दाङ, सुर्खेत, कैलाली। टिप: जिल्ला रट्नुहोस्।"
+            },
+            {
+                q: "CITES को प्रभावकारी मिति कहिले हो?",
+                options: ["1973", "1975", "1987", "1992"],
+                answer: 1,
+                explanation: "1 July 1975। टिप: मिति रट्नुहोस्।"
+            },
+            {
+                q: "बर्दिया राष्ट्रिय निकुञ्जले TX2 पुरस्कार कहिले जितेको थियो?",
+                options: ["2018", "2020", "2022", "2023"],
+                answer: 2,
+                explanation: "2022 मा। टिप: पुरस्कार रट्नुहोस्।"
+            },
+            {
+                q: "पर्यावरण (Eco-tourism) को अवधारणा ल्याउने व्यक्ति को हुन्?",
+                options: ["जे.सी. फारम्यान", "हेव्टर सिवालोस लास्कुरेन", "थोमस मिज", "आर्थिनस"],
+                answer: 1,
+                explanation: "हेव्टर सिवालोस लास्कुरेन (सन १९८३)। टिप: अवधारणा रट्नुहोस्।"
+            },
+            {
+                q: "रामसार महासन्धि नेपालले कहिले अनुमोदन गरेको थियो?",
+                options: ["1971", "1975", "1987", "2003"],
+                answer: 2,
+                explanation: "सन् 1987 December 17। टिप: अनुमोदन मिति रट्नुहोस्।"
+            },
+            {
+                q: "नेपालको पहिलो रामसार सिमसार क्षेत्र कुन हो?",
+                options: ["पोखरा उपत्यकाका तालहरू", "कोशीटप्पु सिमसार क्षेत्र", "घोडाघोडी ताल", "रारा ताल"],
+                answer: 1,
+                explanation: "कोशीटप्पु (सन १९८७)। टिप: सिमसार रट्नुहोस्।"
+            },
+            {
+                q: "विश्व वातावरण दिवस कहिले मनाइन्छ?",
+                options: ["जुन 5", "अप्रिल 22", "मे 22", "जुलाई 29"],
+                answer: 0,
+                explanation: "जुन 5 मा। टिप: दिवस रट्नुहोस्।"
+            },
+            {
+                q: "विश्व सिमसार दिवस 2023 को नारा के थियो?",
+                options: ["Beat the Plastic Pollution", "Wetland Restoration", "Invest in Our Planet", "Build Back Biodiversity"],
+                answer: 1,
+                explanation: "‘Wetland Restoration’। टिप: नारा रट्नुहोस्।"
+            },
+            {
+                q: "नेपालमा वन क्षेत्रले कति प्रतिशत भूभाग ओगटेको छ?",
+                options: ["23.1%", "44.8%", "33.5%", "50.2%"],
+                answer: 1,
+                explanation: "४४.८%। टिप: प्रतिशत रट्नुहोस्।"
+            },
+            {
+                q: "नेपाल प्रकृति संरक्षण कोषको स्थापना कहिले भएको थियो?",
+                options: ["वि.सं. 2032", "वि.सं. 2042", "वि.सं. 2052", "वि.सं. 2062"],
+                answer: 0,
+                explanation: "वि.सं. २०३२ मंसिर २०। टिप: स्थापना रट्नुहोस्।"
+            },
+            {
+                q: "नेपालको सबैभन्दा ठूलो घाँसे मैदान कुन हो?",
+                options: ["कोशीटप्पु", "शुक्लाफाँटा", "खगेन्द्रमल्ली", "जनेली"],
+                answer: 1,
+                explanation: "शुक्लाफाँटा घाँसे मैदान। टिप: मैदान रट्नुहोस्।"
+            },
+            {
+                q: "Blue Planet Award 2023 कसले प्राप्त गरे?",
+                options: ["Pr. Devarati Guha", "Diane Wilson", "Pr. Richard Thomson", "Alessandra Korap"],
+                answer: 1,
+                explanation: "Diane Wilson। टिप: पुरस्कार रट्नुहोस्।"
+            }
+        ];
+
+        let currentQuestion = 0;
+        let score = 0;
+        const totalMcqs = questions.length;
+        const quizContainer = document.getElementById('quiz');
+        const scoreDisplay = document.getElementById('score');
+        const nextBtn = document.getElementById('next-btn');
+
+        const correctSound = new Audio('https://www.soundjay.com/buttons/beep-01a.mp3');
+        const wrongSound = new Audio('https://www.soundjay.com/buttons/beep-02.mp3');
+
+        function loadQuestion() {
+            const q = questions[currentQuestion];
+            quizContainer.innerHTML = `
+                <div class="question-container">
+                    <div class="question">${currentQuestion + 1}. ${q.q}</div>
+                    <div class="options">
+                        ${q.options.map((option, index) => `
+                            <div class="option" data-index="${index}">${option}</div>
+                        `).join('')}
+                    </div>
+                    <div class="explanation" id="explanation-${currentQuestion}">${q.explanation}</div>
+                </div>
+            `;
+            document.querySelectorAll('.option').forEach(option => {
+                option.addEventListener('click', handleMcqAnswer);
+            });
+            nextBtn.style.display = 'none';
+        }
+
+        function handleMcqAnswer(e) {
+            const selectedIndex = parseInt(e.target.dataset.index);
+            const correctIndex = questions[currentQuestion].answer;
+            const explanation = document.getElementById(`explanation-${currentQuestion}`);
+
+            document.querySelectorAll('.option').forEach(option => {
+                option.style.pointerEvents = 'none';
+                if (parseInt(option.dataset.index) === correctIndex) {
+                    option.classList.add('correct');
+                }
+                if (parseInt(option.dataset.index) === selectedIndex && selectedIndex !== correctIndex) {
+                    option.classList.add('wrong');
+                }
+            });
+
+            explanation.style.display = 'block';
+            nextBtn.style.display = 'block';
+
+            if (selectedIndex === correctIndex) {
+                score++;
+                scoreDisplay.textContent = `${score}/${totalMcqs}`;
+                correctSound.play();
+            } else {
+                wrongSound.play();
+            }
+        }
+
+        nextBtn.addEventListener('click', () => {
+            currentQuestion++;
+            if (currentQuestion < questions.length) {
+                loadQuestion();
+            } else {
+                quizContainer.innerHTML = `
+                    <div style="text-align: center;">
+                        <h2>प्रश्नोत्तर समाप्त!</h2>
+                        <p>तपाईंको स्कोर: ${score}/${totalMcqs}</p>
+                        <p>प्रतिशत: ${(score / totalMcqs * 100).toFixed(2)}%</p>
+                    </div>
+                `;
+                nextBtn.style.display = 'none';
+            }
+        });
+
+        // Particle Background
+        const canvas = document.getElementById('particle-canvas');
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        const particlesArray = [];
+        const numberOfParticles = 100;
+
+        class Particle {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 5 + 1;
+                this.speedX = Math.random() * 3 - 1.5;
+                this.speedY = Math.random() * 3 - 1.5;
+            }
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+                if (this.size > 0.2) this.size -= 0.1;
+                if (this.x < 0 || this.x > canvas.width) this.speedX *= -1;
+                if (this.y < 0 || this.y > canvas.height) this.speedY *= -1;
+            }
+            draw() {
+                ctx.fillStyle = 'rgba(255, 255, 255, 0.8)';
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        function initParticles() {
+            for (let i = 0; i < numberOfParticles; i++) {
+                particlesArray.push(new Particle());
+            }
+        }
+
+        function animateParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            for (let i = 0; i < particlesArray.length; i++) {
+                particlesArray[i].update();
+                particlesArray[i].draw();
+                if (particlesArray[i].size <= 0.2) {
+                    particlesArray.splice(i, 1);
+                    i--;
+                    particlesArray.push(new Particle());
+                }
+            }
+            requestAnimationFrame(animateParticles);
+        }
+
+        initParticles();
+        animateParticles();
+
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        });
+
+        loadQuestion();
+    </script>
+</body>
+</html>
