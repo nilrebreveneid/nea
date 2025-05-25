@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="ne">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>📚 दिगो विकास Quiz 2025 - NEA Exam Preparation</title>
+    <meta name="description" content="Interactive Sustainable Development Quiz for NEA Exam Preparation, covering definitions, events, and Nepal’s context. Generated on May 25, 2025.">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: linear-gradient(45deg, #2c3e50, #3498db);
+            overflow: auto;
+            padding: 20px;
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(12px);
+            border-radius: 20px;
+            padding: 30px;
+            max-width: 900px;
+            width: 100%;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            color: #fff;
+            position: relative;
+            z-index: 1;
+        }
+
+        h1 {
+            font-size: 2em;
+            text-align: center;
+            margin-bottom: 20px;
+            color: #e0e0e0;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+        }
+
+        .score {
+            font-size: 1.2em;
+            text-align: center;
+            margin-bottom: 20px;
+            color: #00ff88;
+        }
+
+        .question-container {
+            margin-bottom: 20px;
+        }
+
+        .question {
+            font-size: 1.3em;
+            margin-bottom: 15px;
+            color: #e0e0e0;
+        }
+
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .option {
+            background: rgba(255, 255, 255, 0.15);
+            padding: 15px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: #fff;
+            font-size: 1.1em;
+        }
+
+        .option:hover {
+            background: rgba(255, 255, 255, 0.25);
+            transform: translateY(-2px);
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
+        }
+
+        .option.correct {
+            background: #00ff88 !important;
+            color: #000 !important;
+        }
+
+        .option.wrong {
+            background: #ff4444 !important;
+            color: #fff !important;
+        }
+
+        .explanation {
+            margin-top: 15px;
+            padding: 15px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 10px;
+            font-size: 1em;
+            line-height: 1.5;
+            display: none;
+        }
+
+        .next-btn {
+            display: block;
+            margin: 20px auto;
+            padding: 12px 30px;
+            background: #00ff88;
+            color: #000;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.1em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .next-btn:hover {
+            background: #00cc66;
+            box-shadow: 0 0 15px #00ff88;
+            transform: translateY(-2px);
+        }
+
+        canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 20px;
+            }
+
+            h1 {
+                font-size: 1.5em;
+            }
+
+            .question {
+                font-size: 1.1em;
+            }
+
+            .option {
+                font-size: 1em;
+                padding: 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <canvas id="particle-canvas"></canvas>
+    <div class="container">
+        <h1>📚 दिगो विकास Quiz 2025 - NEA Exam Preparation</h1>
+        <div class="score">Score: <span id="score">0</span>/20</div>
+        <div id="quiz"></div>
+        <button class="next-btn" id="next-btn" style="display: none;">अर्को प्रश्न</button>
+    </div>
+
+    <script>
+        const questions = [
+            {
+                q: "दिगो विकास भनेको के हो?",
+                options: ["केवल आर्थिक वृद्धि", "वर्तमान आवश्यकता पूरा गर्दा भविष्यको सन्ततिलाई असर नपर्ने विकास", "केवल वातावरण संरक्षण", "अल्पकालीन विकास"],
+                answer: 1,
+                explanation: "वर्तमान आवश्यकता पूरा गर्दा भविष्यको सन्ततिलाई असर नपर्ने विकास। टिप: परिभाषा रट्नुहोस्।"
+            },
+            {
+                q: "दिगो विकास शब्द पहिलो पटक कसले प्रयोग गरे?",
+                options: ["Gro Harlem Brundtland", "Barbara Ward र Dubos Rene", "UNO", "IPCC"],
+                answer: 1,
+                explanation: "Barbara Ward र Dubos Rene ले सन् १९७२ मा प्रयोग गरे। टिप: इतिहास रट्नुहोस्।"
+            },
+            {
+                q: "दिगो विकासको परिभाषा कसले दियो?",
+                options: ["Rio Declaration", "Brundtland Commission", "Agenda 21", "Kyoto Protocol"],
+                answer: 1,
+                explanation: "Brundtland Commission ले ‘Our Common Future’ मा परिभाषित गर्‍यो। टिप: आयोग रट्नुहोस्।"
+            },
+            {
+                q: "Brundtland Commission को स्थापना कहिले भयो?",
+                options: ["सन् १९७२", "सन् १९८३", "सन् १९८७", "सन् १९९२"],
+                answer: 1,
+                explanation: "सन् १९८३ मा स्थापना भयो। टिप: मिति रट्नुहोस्।"
+            },
+            {
+                q: "पहिलो पृथ्वी सम्मेलन (Earth Summit) कहाँ भयो?",
+                options: ["Kyoto, Japan", "Rio de Janeiro, Brazil", "Berlin, Germany", "New York, USA"],
+                answer: 1,
+                explanation: "सन् १९९२ मा Rio de Janeiro मा भयो। टिप: स्थान रट्नुहोस्।"
+            },
+            {
+                q: "Rio Declaration कुन सम्मेलनमा जारी गरियो?",
+                options: ["Kyoto Protocol", "Earth Summit १९९२", "RIO+5", "COP 1"],
+                answer: 1,
+                explanation: "Earth Summit १९९२ मा जारी गरियो। टिप: घोषणा रट्नुहोस्।"
+            },
+            {
+                q: "Agenda 21 के हो?",
+                options: ["जलवायु परिवर्तन सम्झौता", "दिगो विकासका लागि कार्ययोजना", "जैविक विविधता संरक्षण नीति", "हरितगृह ग्यास नियन्त्रण योजना"],
+                answer: 1,
+                explanation: "दिगो विकासका लागि कार्ययोजना। टिप: Agenda 21 रट्नुहोस्।"
+            },
+            {
+                q: "UNFCCC मा नेपालले कहिले हस्ताक्षर गर्‍यो?",
+                options: ["सन् १९९२", "सन् १९९४", "सन् १९९६", "सन् २०००"],
+                answer: 1,
+                explanation: "नेपालले सन् १९९४ मा हस्ताक्षर गर्‍यो। टिप: मिति रट्नुहोस्।"
+            },
+            {
+                q: "पहिलो COP सम्मेलन कहाँ भयो?",
+                options: ["Berlin, Germany", "Kyoto, Japan", "Rio de Janeiro, Brazil", "Geneva, Switzerland"],
+                answer: 0,
+                explanation: "सन् १९९५ मा Berlin मा भयो। टिप: COP रट्नुहोस्।"
+            },
+            {
+                q: "Kyoto Protocol कहिले लागू भयो?",
+                options: ["सन् १९९७", "सन् २००५", "सन् २०१५", "सन् १९९२"],
+                answer: 1,
+                explanation: "सन् २००५ मा लागू भयो। टिप: मिति रट्नुहोस्।"
+            },
+            {
+                q: "विश्व वातावरण दिवस कहिले मनाइन्छ?",
+                options: ["जुन ५", "मे २२", "अप्रिल २२", "फेब्रुअरी २"],
+                answer: 0,
+                explanation: "हरेक वर्ष जुन ५ मा मनाइन्छ। टिप: दिवस रट्नुहोस्।"
+            },
+            {
+                q: "सन् २०२३ को विश्व वातावरण दिवसको नारा के थियो?",
+                options: ["Land Restoration", "Beat the Plastic Pollution", "Healthy Environment, Healthy Life", "Wetland Restoration"],
+                answer: 1,
+                explanation: "Beat the Plastic Pollution। टिप: नारा रट्नुहोस्।"
+            },
+            {
+                q: "विश्व सिमसार दिवस कहिले मनाइन्छ?",
+                options: ["फेब्रुअरी २", "मे २२", "जुन ५", "अप्रिल २२"],
+                answer: 0,
+                explanation: "फेब्रुअरी २ मा मनाइन्छ। टिप: दिवस रट्नुहोस्।"
+            },
+            {
+                q: "विश्व जैविक विविधता दिवस कहिले मनाइन्छ?",
+                options: ["डिसेम्बर २९", "मे २२", "अप्रिल ७", "फेब्रुअरी ४"],
+                answer: 1,
+                explanation: "मे २२ मा मनाइन्छ। टिप: दिवस रट्नुहोस्।"
+            },
+            {
+                q: "विश्व पृथ्वी दिवस पहिलो पटक कहिले मनाइयो?",
+                options: ["सन् १९७०", "सन् १९७३", "सन् १९९२", "सन् २०००"],
+                answer: 0,
+                explanation: "सन् १९७० मा मनाइयो। टिप: मिति रट्नुहोस्।"
+            },
+            {
+                q: "नेपालको चितवन राष्ट्रिय निकुञ्ज कहिले स्थापना भयो?",
+                options: ["वि.सं. २०२३", "वि.सं. २०३२", "वि.सं. २०४५", "वि.सं. २०६८"],
+                answer: 1,
+                explanation: "वि.सं. २०३२ मा स्थापना भयो। टिप: मिति रट्नुहोस्।"
+            },
+            {
+                q: "नेपालमा संरक्षित क्षेत्रले कति प्रतिशत भूभाग ओगट्छ?",
+                options: ["१५.४%", "२३.४%", "३०.२%", "१०.५%"],
+                answer: 1,
+                explanation: "२३.४% भूभाग ओगट्छ। टिप: तथ्यांक रट्नुहोस्।"
+            },
+            {
+                q: "हरितगृह प्रभाव (Greenhouse Effect) को अवधारणा कसले प्रस्तुत गरे?",
+                options: ["Arrhenius", "Barbara Ward", "Gro Harlem Brundtland", "Robert Adams"],
+                answer: 0,
+                explanation: "Arrhenius ले प्रस्तुत गरे। टिप: व्यक्ति रट्नुहोस्।"
+            },
+            {
+                q: "ISO-14000 केसँग सम्बन्धित छ?",
+                options: ["ऊर्जा व्यवस्थापन", "वातावरण व्यवस्थापन", "खाद्य सुरक्षा", "सामाजिक सुरक्षा"],
+                answer: 1,
+                explanation: "वातावरण व्यवस्थापनसँग सम्बन्धित। टिप: ISO रट्नुहोस्।"
+            },
+            {
+                q: "दिगो विकास प्रवर्द्धनका लागि नेपालमा के गर्नुपर्छ?",
+                options: ["केवल वातावरण संरक्षण", "गरिबी निवारण र नीति कार्यान्वयन", "केवल आर्थिक विकास", "केवल सामाजिक सुधार"],
+                answer: 1,
+                explanation: "गरिबी निवारण र नीति कार्यान्वयन। टिप: उपायहरू रट्नुहोस्।"
+            }
+        ];
+
+        let currentQuestion = 0;
+        let score = 0;
+        const totalMcqs = questions.length;
+        const quizContainer = document.getElementById('quiz');
+        const scoreDisplay = document.getElementById('score');
+        const nextBtn = document.getElementById('next-btn');
+
+        const correctSound = new Audio('https://www.soundjay.com/buttons/beep-01a.mp3');
+        const wrongSound = new Audio('https://www.soundjay.com/buttons/beep-02.mp3');
+
+        function loadQuestion() {
+            const q = questions[currentQuestion];
+            quizContainer.innerHTML = `
+                <div class="question-container">
+                    <div class="question">${currentQuestion + 1}. ${q.q}</div>
+                    <div class="options">
+                        ${q.options.map((option, index) => `
+                            <div class="option" data-index="${index}">${option}</div>
+                        `).join('')}
+                    </div>
+                    <div class="explanation" id="explanation-${currentQuestion}">${q.explanation}</div>
+                </div>
+            `;
+            document.querySelectorAll('.option').forEach(option => {
+                option.addEventListener('click', handleMcqAnswer);
+            });
+            nextBtn.style.display = 'none';
+        }
+
+        function handleMcqAnswer(e) {
+            const selectedIndex = parseInt(e.target.dataset.index);
+            const correctIndex = questions[currentQuestion].answer;
+            const explanation = document.getElementById(`explanation-${currentQuestion}`);
+
+            document.querySelectorAll('.option').forEach(option => {
+                option.style.pointerEvents = 'none';
+                if (parseInt(option.dataset.index) === correctIndex) {
+                    option.classList.add('correct');
+                }
+                if (parseInt(option.dataset.index) === selectedIndex && selectedIndex !== correctIndex) {
+                    option.classList.add('wrong');
+                }
+            });
+
+            explanation.style.display = 'block';
+            nextBtn.style.display = 'block';
+
+            if (selectedIndex === correctIndex) {
+                score++;
+                scoreDisplay.textContent = `${score}/${totalMcqs}`;
+                correctSound.play();
+            } else {
+                wrongSound.play();
+            }
+        }
+
+        nextBtn.addEventListener('click', () => {
+            currentQuestion++;
+            if (currentQuestion < questions.length) {
+                loadQuestion();
+            } else {
+                quizContainer.innerHTML = `
+                    <div style="text-align: center;">
+                        <h2>प्रश्नोत्तर समाप्त!</h2>
+                        <p>तपाईंको स्कोर: ${score}/${totalMcqs}</p>
+                        <p>प्रतिशत: ${(score / totalMcqs * 100).toFixed(2)}%</p>
+                    </div>
+                `;
+                nextBtn.style.display = 'none';
+            }
+        });
+
+        // Particle Background
+        const canvas = document.getElementById('particle-canvas');
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        const particlesArray = [];
+        const numberOfParticles = 100;
+
+        class Particle {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 5 + 1;
+                this.speedX = Math.random() * 3 - 1.5;
+                this.speedY = Math.random() * 3 - 1.5;
+            }
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+                if (this.size > 0.2) this.size -= 0.1;
+                if (this.x < 0 || this.x > canvas.width) this.speedX *= -1;
+                if (this.y < 0 || this.y > canvas.height) this.speedY *= -1;
+            }
+            draw() {
+                ctx.fillStyle = 'rgba(255, 255, 255, 0.8)';
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        function initParticles() {
+            for (let i = 0; i < numberOfParticles; i++) {
+                particlesArray.push(new Particle());
+            }
+        }
+
+        function animateParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            for (let i = 0; i < particlesArray.length; i++) {
+                particlesArray[i].update();
+                particlesArray[i].draw();
+                if (particlesArray[i].size <= 0.2) {
+                    particlesArray.splice(i, 1);
+                    i--;
+                    particlesArray.push(new Particle());
+                }
+            }
+            requestAnimationFrame(animateParticles);
+        }
+
+        initParticles();
+        animateParticles();
+
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        });
+
+        loadQuestion();
+    </script>
+</body>
+</html>
