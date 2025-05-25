@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="ne">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>⚡️ विद्युत वितरण विनियमावली Quiz 2025 - Exam Preparation</title>
+    <meta name="description" content="Interactive Quiz on Nepal Electricity Authority Electricity Distribution Regulations, 2078 for Exam Preparation. Generated on May 25, 2025.">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: linear-gradient(45deg, #1e3a8a, #3b82f6);
+            overflow: auto;
+            padding: 20px;
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(12px);
+            border-radius: 20px;
+            padding: 30px;
+            max-width: 900px;
+            width: 100%;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            color: #fff;
+            position: relative;
+            z-index: 1;
+        }
+
+        h1 {
+            font-size: 2em;
+            text-align: center;
+            margin-bottom: 20px;
+            color: #e0e0e0;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+        }
+
+        .score {
+            font-size: 1.2em;
+            text-align: center;
+            margin-bottom: 20px;
+            color: #22d3ee;
+        }
+
+        .question-container {
+            margin-bottom: 20px;
+        }
+
+        .question {
+            font-size: 1.3em;
+            margin-bottom: 15px;
+            color: #e0e0e0;
+        }
+
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .option {
+            background: rgba(255, 255, 255, 0.15);
+            padding: 15px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: #fff;
+            font-size: 1.1em;
+        }
+
+        .option:hover {
+            background: rgba(255, 255, 255, 0.25);
+            transform: translateY(-2px);
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
+        }
+
+        .option.correct {
+            background: #22d3ee !important;
+            color: #000 !important;
+        }
+
+        .option.wrong {
+            background: #ff4444 !important;
+            color: #fff !important;
+        }
+
+        .explanation {
+            margin-top: 15px;
+            padding: 15px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 10px;
+            font-size: 1em;
+            line-height: 1.5;
+            display: none;
+        }
+
+        .next-btn {
+            display: block;
+            margin: 20px auto;
+            padding: 12px 30px;
+            background: #22d3ee;
+            color: #000;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.1em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .next-btn:hover {
+            background: #06b6d4;
+            box-shadow: 0 0 15px #22d3ee;
+            transform: translateY(-2px);
+        }
+
+        canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 20px;
+            }
+
+            h1 {
+                font-size: 1.5em;
+            }
+
+            .question {
+                font-size: 1.1em;
+            }
+
+            .option {
+                font-size: 1em;
+                padding: 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <canvas id="particle-canvas"></canvas>
+    <div class="container">
+        <h1>⚡️ विद्युत वितरण विनियमावली Quiz 2025 - Exam Preparation</h1>
+        <div class="score">Score: <span id="score">0</span>/25</div>
+        <div id="quiz"></div>
+        <button class="next-btn" id="next-btn" style="display: none;">अर्को प्रश्न</button>
+    </div>
+
+    <script>
+        const questions = [
+            {
+                q: "नेपाल विद्युत प्राधिकरण विद्युत वितरण विनियमावली, २०७८ को नाम के हो?",
+                options: ["नेपाल विद्युत वितरण नियमावली, २०४१", "नेपाल विद्युत प्राधिकरण विद्युत वितरण विनियमावली, २०७८", "विद्युत नियमन आयोग विनियमावली, २०७४", "नेपाल विद्युत ऐन, २०४१"],
+                answer: 1,
+                explanation: "नाम: नेपाल विद्युत प्राधिकरण विद्युत वितरण विनियमावली, २०७८ (Page 7)। टिप: विनियमावलीको नाम रट्नुहोस्।"
+            },
+            {
+                q: "“प्राधिकरण” भन्नाले के बुझिन्छ?",
+                options: ["विद्युत नियमन आयोग", "नेपाल विद्युत प्राधिकरण ऐन, २०४१ बमोजिम स्थापित संस्था", "स्थानीय तह", "निजी विद्युत कम्पनी"],
+                answer: 1,
+                explanation: "प्राधिकरण: ऐनको दफा ३ बमोजिम स्थापना भएको नेपाल विद्युत प्राधिकरण (Page 7)। टिप: परिभाषा रट्नुहोस्।"
+            },
+            {
+                q: "“ग्राहक” भन्नाले कसलाई जनाउँछ?",
+                options: ["प्राधिकरणका कर्मचारी", "विद्युत उपभोग गर्ने व्यक्ति वा संस्था", "केवल सरकारी कार्यालय", "विद्युत उत्पादक कम्पनी"],
+                answer: 1,
+                explanation: "ग्राहक: प्राधिकरणबाट विद्युत उपभोग गर्ने व्यक्ति वा संस्था (Page 7)। टिप: ग्राहकको परिभाषा रट्नुहोस्।"
+            },
+            {
+                q: "“ट्रंक लाइन” भन्नाले के बुझिन्छ?",
+                options: ["११ के.भी. भन्दा कमको लाइन", "एक सबस्टेसनबाट अर्को सबस्टेसन जोड्ने ३३ के.भी. वा सोभन्दा माथिको लाइन", "ग्राहकको घरसम्मको लाइन", "निजी क्षेत्रको लाइन"],
+                answer: 1,
+                explanation: "ट्रंक लाइन: ३३ के.भी. वा माथिको सबस्टेसन जोड्ने लाइन (Page 7)। टिप: ट्रंक लाइन रट्नुहोस्।"
+            },
+            {
+                q: "“मिटर” भन्नाले के हो?",
+                options: ["विद्युत उत्पादन गर्ने यन्त्र", "ग्राहकको घरमा विद्युत खपत मापन गर्ने यन्त्र", "विद्युत प्रसारण गर्ने तार", "विद्युत नियन्त्रण गर्ने उपकरण"],
+                answer: 1,
+                explanation: "मिटर: विद्युत खपत मापन गर्ने यन्त्र (Page 7)। टिप: मिटरको परिभाषा रट्नुहोस्।"
+            },
+            {
+                q: "विद्युत सेवा प्राप्त गर्न आवेदन फारममा कुन कागजात अनिवार्य छ?",
+                options: ["मतदाता परिचयपत्र", "ग्राहकको नागरिकता प्रमाणपत्रको प्रतिलिपि", "बैंक खाता विवरण", "कर्मचारी परिचयपत्र"],
+                answer: 1,
+                explanation: "नागरिकता प्रतिलिपि अनिवार्य (Page 10)। टिप: आवेदन कागजात रट्नुहोस्।"
+            },
+            {
+                q: "औद्योगिक ग्राहकले आवेदन दिँदा कुन कागजात पेश गर्नुपर्छ?",
+                options: ["मतदाता परिचयपत्र", "उद्योग दर्ता प्रमाणपत्रको प्रतिलिपि", "परिवारको विवरण", "स्कूल प्रमाणपत्र"],
+                answer: 1,
+                explanation: "उद्योग दर्ता प्रमाणपत्र (Page 10)। टिप: औद्योगिक कागजात रट्नुहोस्।"
+            },
+            {
+                q: "विद्युत मिटर जडानका लागि CT/PT सम्बन्धी कागजात कसले प्रमाणित गर्नुपर्छ?",
+                options: ["स्थानीय तह", "उत्पादक कम्पनी", "प्राधिकरण स्वयं", "ग्राहक स्वयं"],
+                answer: 1,
+                explanation: "उत्पादकले प्रमाणित (Page 10)। टिप: CT/PT कागजात रट्नुहोस्।"
+            },
+            {
+                q: "११ के.भी./०.४ के.भी. ५० केभीए ट्रान्सफर्मरको कुल लस कति हुन्छ?",
+                options: ["750 वाट", "870 वाट", "940 वाट", "1170 वाट"],
+                answer: 1,
+                explanation: "कुल लस: 870 वाट (Page 91)। टिप: ट्रान्सफर्मर लस रट्नुहोस्।"
+            },
+            {
+                q: "३३ के.भी./०.४ के.भी. १०० केभीए ट्रान्सफर्मरको नो लोड लस कति हो?",
+                options: ["140 वाट", "290 वाट", "550 वाट", "745 वाट"],
+                answer: 1,
+                explanation: "नो लोड लस: 290 वाट (Page 91)। टिप: नो लोड लस रट्नुहोस्।"
+            },
+            {
+                q: "ट्रान्सफर्मरको लसको लागि कति प्रतिशत थप महसूल लाग्छ?",
+                options: ["५%", "१०%", "१५%", "२०%"],
+                answer: 1,
+                explanation: "१०% थप महसूल (Page 91)। टिप: थप महसूल रट्नुहोस्।"
+            },
+            {
+                q: "११ के.भी. सम्मको भोल्टेज लाइनको न्यूनतम दुरी (भवनबाट) कति हो?",
+                options: ["१.२४ मिटर", "२.०० मिटर", "४.५ मिटर", "६.१ मिटर"],
+                answer: 0,
+                explanation: "न्यूनतम दुरी: १.२४ मिटर (Page 92)। टिप: न्यूनतम दुरी रट्नुहोस्।"
+            },
+            {
+                q: "३३ के.भी. लाइनको सडक वारपार गर्दा न्यूनतम दुरी कति हुनुपर्छ?",
+                options: ["४.५ मिटर", "४.६ मिटर", "६.१ मिटर", "१.२४ मिटर"],
+                answer: 2,
+                explanation: "सडक वारपार: ६.१ मिटर (Page 92)। टिप: सडक दुरी रट्नुहोस्।"
+            },
+            {
+                q: "संयुक्त आवासमा विद्युत सेवा दिन कुन प्रमाणपत्र मान्य हुन्छ?",
+                options: ["मतदाता परिचयपत्र", "स्थानीय तहबाट प्रमाणित इकाईधनी प्रमाणपत्र", "बैंक खाता विवरण", "स्कूल प्रमाणपत्र"],
+                answer: 1,
+                explanation: "इकाईधनी प्रमाणपत्र (Page 94)। टिप: संयुक्त आवास रट्नुहोस्।"
+            },
+            {
+                q: "सिंगल फेज मिटरको एक्यूरेसी क्लास कति हो?",
+                options: ["०.२", "०.५", "१.०", "२.०"],
+                answer: 2,
+                explanation: "एक्यूरेसी क्लास: १.० (Page 95)। टिप: एक्यूरेसी क्लास रट्नुहोस्।"
+            },
+            {
+                q: "थ्री फेज एच.टी. मिटर (३ एम.भि.ए. देखि ४) को सी.टी. एक्यूरेसी कति हो?",
+                options: ["०.२", "०.५", "१.०", "२.०"],
+                answer: 1,
+                explanation: "सी.टी. एक्यूरेसी: ०.५ (Page 95)। टिप: सी.टी. एक्यूरेसी रट्नुहोस्।"
+            },
+            {
+                q: "“सर्भिस केबल” भन्नाले के बुझिन्छ?",
+                options: ["मिटरदेखि सबस्टेसनसम्मको तार", "प्राधिकरणको वितरण प्रणालीदेखि ग्राहकको मिटरसम्मको तार", "ग्राहकको घरभित्रको तार", "ट्रान्सफर्मर जोड्ने तार"],
+                answer: 1,
+                explanation: "सर्भिस केबल: वितरण प्रणालीदेखि मिटरसम्म (Page 7)। टिप: सर्भिस केबल रट्नुहोस्।"
+            },
+            {
+                q: "“अनधिकृत उपभोग” भन्नाले के हो?",
+                options: ["मिटरबिना विद्युत प्रयोग", "ऐनको दफा १६ बमोजिमको विद्युत उपभोग", "प्राधिकरणको अनुमतिमा विद्युत प्रयोग", "केवल औद्योगिक प्रयोग"],
+                answer: 1,
+                explanation: "अनधिकृत उपभोग: दफा १६ बमोजिम (Page 8)। टिप: अनधिकृत उपभोग रट्नुहोस्।"
+            },
+            {
+                q: "“विद्युत चोरी” सम्बन्धी व्यवस्था कुन ऐनमा छ?",
+                options: ["विद्युत नियमन आयोग ऐन, २०७४", "विद्युत चोरी नियन्त्रण ऐन, २०५८", "नेपाल विद्युत प्राधिकरण ऐन, २०४१", "विद्युत वितरण विनियमावली, २०७८"],
+                answer: 1,
+                explanation: "विद्युत चोरी नियन्त्रण ऐन, २०५८ (Page 8)। टिप: चोरी ऐन रट्नुहोस्।"
+            },
+            {
+                q: "“जिम्मेवार अधिकारी” भन्नाले कसलाई जनाउँछ?",
+                options: ["प्राधिकरणको स्थानीय कार्यालय प्रमुख", "विद्युत नियमन आयोगको अध्यक्ष", "ग्राहक स्वयं", "स्थानीय तहको प्रमुख"],
+                answer: 0,
+                explanation: "जिम्मेवार अधिकारी: स्थानीय कार्यालय प्रमुख (Page 8)। टिप: जिम्मेवार अधिकारी रट्नुहोस्।"
+            },
+            {
+                q: "“कम्पाउण्ड” भन्नाले के समावेश हुन्छ?",
+                options: ["केवल घरको भित्री भाग", "घर, पर्खाल, र जमिन माथि/मुनिको भाग", "केवल कार्यालय भवन", "ट्रान्सफर्मर क्षेत्र"],
+                answer: 1,
+                explanation: "कम्पाउण्ड: घर, पर्खाल, जमिन (Page 7)। टिप: कम्पाउण्ड रट्नुहोस्।"
+            },
+            {
+                q: "ट्रान्सफर्मरको नो लोड लसको लागि हर्जाना कति छ?",
+                options: ["USD 4684 प्रति कि.वाट", "USD 618 प्रति कि.वाट", "USD 1000 प्रति कि.वाट", "USD 2000 प्रति कि.वाट"],
+                answer: 0,
+                explanation: "हर्जाना: USD 4684 प्रति कि.वाट (Page 91)। टिप: हर्जाना रट्नुहोस्।"
+            },
+            {
+                q: "६३ केभीए ट्रान्सफर्मरको नो लोड लस कति हो?",
+                options: ["120 वाट", "146 वाट", "220 वाट", "255 वाट"],
+                answer: 1,
+                explanation: "नो लोड लस: 146 वाट (Page 91)। टिप: इन्टरपोलेसन रट्नुहोस्।"
+            },
+            {
+                q: "“अर्थिङ” भन्नाले के बुझिन्छ?",
+                options: ["विद्युत उत्पादन प्रक्रिया", "विद्युत उपकरणलाई जमिनमा जोडेर खतरा कम गर्ने प्रक्रिया", "मिटर जडान प्रक्रिया", "ट्रान्सफर्मर मर्मत प्रक्रिया"],
+                answer: 1,
+                explanation: "अर्थिङ: खतरा कम गर्ने प्रक्रिया (Page 8)। टिप: अर्थिङ रट्नुहोस्।"
+            },
+            {
+                q: "“महसूल” भन्नाले के हो?",
+                options: ["विद्युत सेवा वापत ग्राहकले तिर्ने रकम", "प्राधिकरणको कर्मचारी तलब", "ट्रान्सफर्मर खरिद खर्च", "विद्युत उत्पादन लागत"],
+                answer: 0,
+                explanation: "महसूल: ग्राहकले तिर्ने रकम (Page 9)। टिप: महसूल रट्नुहोस्।"
+            }
+        ];
+
+        let currentQuestion = 0;
+        let score = 0;
+        const totalMcqs = questions.length;
+        const quizContainer = document.getElementById('quiz');
+        const scoreDisplay = document.getElementById('score');
+        const nextBtn = document.getElementById('next-btn');
+
+        const correctSound = new Audio('https://www.soundjay.com/buttons/beep-01a.mp3');
+        const wrongSound = new Audio('https://www.soundjay.com/buttons/beep-02.mp3');
+
+        function loadQuestion() {
+            const q = questions[currentQuestion];
+            quizContainer.innerHTML = `
+                <div class="question-container">
+                    <div class="question">${currentQuestion + 1}. ${q.q}</div>
+                    <div class="options">
+                        ${q.options.map((option, index) => `
+                            <div class="option" data-index="${index}">${option}</div>
+                        `).join('')}
+                    </div>
+                    <div class="explanation" id="explanation-${currentQuestion}">${q.explanation}</div>
+                </div>
+            `;
+            document.querySelectorAll('.option').forEach(option => {
+                option.addEventListener('click', handleMcqAnswer);
+            });
+            nextBtn.style.display = 'none';
+        }
+
+        function handleMcqAnswer(e) {
+            const selectedIndex = parseInt(e.target.dataset.index);
+            const correctIndex = questions[currentQuestion].answer;
+            const explanation = document.getElementById(`explanation-${currentQuestion}`);
+
+            document.querySelectorAll('.option').forEach(option => {
+                option.style.pointerEvents = 'none';
+                if (parseInt(option.dataset.index) === correctIndex) {
+                    option.classList.add('correct');
+                }
+                if (parseInt(option.dataset.index) === selectedIndex && selectedIndex !== correctIndex) {
+                    option.classList.add('wrong');
+                }
+            });
+
+            explanation.style.display = 'block';
+            nextBtn.style.display = 'block';
+
+            if (selectedIndex === correctIndex) {
+                score++;
+                scoreDisplay.textContent = `${score}/${totalMcqs}`;
+                correctSound.play();
+            } else {
+                wrongSound.play();
+            }
+        }
+
+        nextBtn.addEventListener('click', () => {
+            currentQuestion++;
+            if (currentQuestion < questions.length) {
+                loadQuestion();
+            } else {
+                quizContainer.innerHTML = `
+                    <div style="text-align: center;">
+                        <h2>प्रश्नोत्तर समाप्त!</h2>
+                        <p>तपाईंको स्कोर: ${score}/${totalMcqs}</p>
+                        <p>प्रतिशत: ${(score / totalMcqs * 100).toFixed(2)}%</p>
+                    </div>
+                `;
+                nextBtn.style.display = 'none';
+            }
+        });
+
+        // Particle Background
+        const canvas = document.getElementById('particle-canvas');
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        const particlesArray = [];
+        const numberOfParticles = 100;
+
+        class Particle {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 5 + 1;
+                this.speedX = Math.random() * 3 - 1.5;
+                this.speedY = Math.random() * 3 - 1.5;
+            }
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+                if (this.size > 0.2) this.size -= 0.1;
+                if (this.x < 0 || this.x > canvas.width) this.speedX *= -1;
+                if (this.y < 0 || this.y > canvas.height) this.speedY *= -1;
+            }
+            draw() {
+                ctx.fillStyle = 'rgba(255, 255, 255, 0.8)';
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        function initParticles() {
+            for (let i = 0; i < numberOfParticles; i++) {
+                particlesArray.push(new Particle());
+            }
+        }
+
+        function animateParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            for (let i = 0; i < particlesArray.length; i++) {
+                particlesArray[i].update();
+                particlesArray[i].draw();
+                if (particlesArray[i].size <= 0.2) {
+                    particlesArray.splice(i, 1);
+                    i--;
+                    particlesArray.push(new Particle());
+                }
+            }
+            requestAnimationFrame(animateParticles);
+        }
+
+        initParticles();
+        animateParticles();
+
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        });
+
+        loadQuestion();
+    </script>
+</body>
+</html>
