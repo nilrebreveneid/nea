@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mock Test - Nepal Electricity Authority</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .option-label:hover {
+            background-color: #e5e7eb;
+            cursor: pointer;
+        }
+        .correct {
+            background-color: #34d399 !important;
+        }
+        .incorrect {
+            background-color: #f87171 !important;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 flex items-center justify-center min-h-screen">
+    <div class="bg-white p-6 rounded-lg shadow-lg w-full max-w-2xl">
+        <h1 class="text-2xl font-bold text-center mb-4">Nepal Electricity Authority Mock Test</h1>
+        
+        <!-- Timer and Score -->
+        <div class="flex justify-between mb-4">
+            <div id="timer" class="text-lg font-semibold">Time Left: 30:00</div>
+            <div id="score" class="text-lg font-semibold">Score: 0/50</div>
+        </div>
+
+        <!-- Progress Bar -->
+        <div class="w-full bg-gray-200 rounded-full h-2.5 mb-4">
+            <div id="progress-bar" class="bg-blue-600 h-2.5 rounded-full" style="width: 0%"></div>
+        </div>
+
+        <!-- Question Display -->
+        <div id="question-container">
+            <h2 id="question-number" class="text-lg font-semibold mb-2"></h2>
+            <p id="question-text" class="mb-4"></p>
+            <div id="options" class="space-y-2"></div>
+            <button id="submit-btn" class="mt-4 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Submit Answer</button>
+        </div>
+
+        <!-- Feedback -->
+        <div id="feedback" class="mt-4 text-center font-semibold"></div>
+
+        <!-- Next Question Button (Hidden Initially) -->
+        <button id="next-btn" class="mt-4 bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 hidden">Next Question</button>
+
+        <!-- Result Section (Hidden Initially) -->
+        <div id="result" class="mt-4 hidden">
+            <h2 class="text-xl font-bold text-center">Test Completed!</h2>
+            <p id="final-score" class="text-center text-lg"></p>
+            <button id="restart-btn" class="mt-4 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 block mx-auto">Restart Test</button>
+        </div>
+    </div>
+
+    <script>
+        const questions = [
+            { question: "कुने पनि Document लाई print गर्न कुने shortcut key प्रयोग गरिन्छ?", options: ["Alt + P", "Ctrl + P", "Alt + Ctrl + P", "Ctrl + A"], answer: "Ctrl + P" },
+            { question: "A र B ले कुनै काम ६ दिनमा पूरा गर्न सक्छन्। A एकलैले सो काम कति दिनमा पूरा गर्न सक्छ भने B एकलैले सो काम कति दिनमा गर्न सक्छ?", options: ["9⁴", "9⁴", "9⁰", "9²"], answer: "9⁴" },
+            { question: "यदि ६ जना मानिसले ९० दिनमा रु. २२,००० कमाउँछन् भने ३ जना मानिसले ९४ दिनमा कति कमाउँछन्?", options: ["रु. १८,०००", "रु. ३०,०००", "रु. ३१,४००", "रु. ४६,०००"], answer: "रु. ३१,४००" },
+            { question: "कुने समानमा भएको २० प्रतिशत जोडदा ९४०० हुन्छ भने?", options: ["१०००", "६००", "६०००", "४००"], answer: "६००" },
+            { question: "एउटा मिनेट हर अंशमा १३ ले बढी छ भने यदि यो मिनेटको अंश र हाम्रा ९, ९ जोडयो भने नौनी म Θ", options: ["२", "३", "५", "४"], answer: "३" },
+            { question: "२.३⁹² – १.६१² को मान कति हुन्छ?", options: ["०.७८", "२.३५", "१.२", "१.१"], answer: "२.३५" },
+            { question: "त्रिभुजको कोणहरूको अनुपात १:१:२ भए त्यो मध्ये सबैभन्दा ठूलो कोणको मान पत्ता लगाउनुहोस्।", options: ["१२०°", "१००°", "९०°", "६०°"], answer: "९०°" },
+            { question: "कम्प्युटर र अङ्कीय मार्केटिङ अङ्कीय ४:३ को अनुपातमा छ। निम्नमा मासिक खर्च ३:२ को अनुपातमा छ। तार दुबै मासिक ४०० कोषमा बचत गर्छ भने तिनीहरूको कुल मासिक आय कति हुन्छ?", options: ["रु. ६००", "रु. ४६००", "रु. ३४००", "रु. २२००"], answer: "रु. ३४००" },
+            { question: "९० देखि २० सम्मको जोर सरलहालको औसत कति हुन्छ?", options: ["१९८", "१९४", "१९६", "१९२"], answer: "१९४" },
+            { question: "निम्न मध्ये कुने संख्या आफ्नाले १९३ पटक थपदा १९३२ हुन्छ?", options: ["१०", "१६", "१२", "१९"], answer: "१०" },
+            { question: "एउटा सारी रु. ३०,००० मा किनेर रु. २६,४०० मा बेच्दा कति प्रतिशत नोक्सान हुन्छ?", options: ["१२⁴", "१०", "१४", "१२०"], answer: "१२" },
+            { question: "नेपाल विनुत प्राधिकरण, प्राविधिक र चालकमा २०८१ को प्रस्तावना विनुत: उत्पादन, प्रसारण र वितरणलाई संभाल, भरणपोषण र … गरी विनुत आपूर्ति गने उल्लेख भएका छन्।", options: ["मितव्ययी", "निमित्त", "प्रभावकारी", "सर्वसुलभ"], answer: "सर्वसुलभ" },
+            { question: "विनुत महसुल सकेलन विभिन्नमायली, २०१६ बाट कुनै प्रभाग भयो?", options: ["वि.सं. २०१६ पूरा ९", "वि.सं. २०१६ साउन ९", "वि.सं. २०१६ पूरा १", "वि.सं. २०१६ माघ ९"], answer: "वि.सं. २०१६ साउन ९" },
+            { question: "नेपालको पहिलो प्रसारण तालिका मध्ये कुन प्रदेश?", options: ["गण्डकी प्रदेश", "मधेश प्रदेश", "बागमती प्रदेश", "मध्यमाञ्चल भूमि"], answer: "बागमती प्रदेश" },
+            { question: "देशभरका मध्ये ठोटा मूल नापसकी नदी कुन हो?", options: ["कालिगण्डकी", "कर्णाली", "तामाकोशी", "त्रिशूली"], answer: "कर्णाली" },
+            { question: "श्रीमती इन्दिरा लोहनीले अंकि श्रीमती ललना लोहनीले चार छोरीहरूको जन्ममा रेखाको छ?", options: ["मंगी", "लक्की", "लोहनी", "बाहिरबाटले"], answer: "लक्की" },
+            { question: "कालमाडीको रसुवाको धुसेस्माको रजमागीले कुनै मकवान गरिएको हो?", options: ["सिद्धार्थ", "मध्यमाञ्चली", "धर्मनदर्शी", "पासाङ ल्हामु"], answer: "पासाङ ल्हामु" },
+            { question: "वि.सं. २०१६ देखि २०१९ सम्मको अवधिलाई कुनियले दसक पनि चिनाइए गरिएको हो?", options: ["कुशी लगानी दसक", "कुशी ब्यवसाय दसक", "कुशी शिक्षा दसक", "कुशी प्रवधान दसक"], answer: "कुशी लगानी दसक" },
+            { question: "नेपालको तराई क्षेत्रमा मुन्दुरा: देशभरका मध्ये कुन माटी पहिचान?", options: ["बाल्टे", "पानी", "तललिया", "कुशी"], answer: "बाल्टे" },
+            { question: "नेपालको सम्भव तुलो सौर ऊर्जा कहाँ राखेको छ?", options: ["कालमाडी", "झापातुर", "जुलकाट", "पोखरा"], answer: "झापातुर" },
+            { question: "नेपालमा वायु ऊर्जा उत्पादनको सम्भाव्यता कति अंशमा गरिएको छ?", options: ["४००० मे.वा.", "८००० मे.वा.", "३००० मे.वा.", "२००० मे.वा."], answer: "३००० मे.वा." },
+            { question: "CITES महासन्धि केसँग सम्बन्धित छ?", options: ["जलवायु तथा सक्तिकार जीवजन्तु तथा वनस्पतिक अवस्था व्यापार", "जलवायु परिवर्तन तथा अनुकूलन रणनीति", "डिजो विकास", "अटकवाद विकास अन्तरराष्ट्रीय सहकार्य"], answer: "जलवायु तथा सक्तिकार जीवजन्तु तथा वनस्पतिक अवस्था व्यापार" },
+            { question: "CFC (Chlorofluorocarbon) सँग सम्बन्धित वातिक तालिका मध्ये को हो?", options: ["ओजोनस मिस्", "ओजोन वात", "एन्डरसन", "चार्ल्स डार्विन"], answer: "ओजोन वात" },
+            { question: "नेपालको सर्वाधिक कुन धर्ममा श्रमिकहरू व्यवसाय गरिएको छ?", options: ["३२", "३३", "३८", "३४"], answer: "३४" },
+            { question: "विनुत निर्माण आयोजनाको अंश र सन्दर्भ निम्नमा सभासद्कारिस गर् गति समितिमा तल दिएका मध्ये को राखिएको?", options: ["सभासद्, ऊर्जा, जलस्रोत तथा सिँचाइ मन्त्रालय", "मन्त्री, ऊर्जा, जलस्रोत तथा सिँचाइ मन्त्रालय", "मन्त्रालयमुख्य मन्त्री विनुत विधा", "मन्त्रालयले टोकेको राजनैतिक प्रथम श्रेणीको अधिकृत"], answer: "मन्त्रालयले टोकेको राजनैतिक प्रथम श्रेणीको अधिकृत" },
+            { question: "सरलहालको वनजंगलमा नेपाल विनुत प्राधिकरण कुन क्षेत्रको सर्वसाधारण सरक्षण हो?", options: ["व्यापारिक", "सामाजिक", "सेवा", "जलस्रोत्री"], answer: "सेवा" },
+            { question: "नेपालको जलविनुत विकासको मुख्य समस्या तालिका मध्ये कुन हो?", options: ["लगानीको अभाव", "दुरदर्शको अभाव", "नीतिगत तथा प्रशासनिक जटिलता", "माटीका सर्वे"], answer: "नीतिगत तथा प्रशासनिक जटिलता" },
+            { question: "मझेरी डिस्ट्रुसन प्रणालीको भोल्टेज कति हुन्छ?", options: ["४०० भोल्ट", "९९ के.भी.", "६६ के.भी.", "११० भोल्ट"], answer: "४०० भोल्ट" },
+            { question: "सर्वोच्च जलाशययुक्त (Reservoir-based) हाइड्रोपावरको मुख्य उद्देश्य तालिका मध्ये कुन हो?", options: ["पहिल्यै लामो समयसम्म सजाय गरे आवश्यकताअनुसार उपयोग गर्ने", "सालो मझेमा विनुत उत्पादन गर्ने", "जलवायु विनुत उत्पादन गर्ने", "माटीका सर्वे"], answer: "पहिल्यै लामो समयसम्म सजाय गरे आवश्यकताअनुसार उपयोग गर्ने" },
+            { question: "ताल विन्यास मध्ये नेपालको जलविनुत सुविधामा नपर्ने कुन हो?", options: ["Diversion", "Pump storage", "Impoundment", "Geothermal"], answer: "Geothermal" },
+            { question: "पेट्रोल र डिजेल इन्जिनमा कारको दबाब बढी हुन्छ?", options: ["Petrol", "Diesel", "दुवैको समान हुन्छ", "कुनै पनि पानी होइनन्"], answer: "Diesel" },
+            { question: "डिजेल पावर प्लान्टको मुख्य मझे कुन हो?", options: ["डिजेल इन्जिन", "कुलिङ सिस्टम", "जेनेरेटर", "इन्जिन सिस्टम"], answer: "डिजेल इन्जिन" },
+            { question: "तालिका मध्ये कुन उपकरण विभिन्नको ताप अन्सर आधारीत छ?", options: ["विनुत पर्खी", "विनुत कूलर", "विनुत चार्जर", "डाइनामो"], answer: "विनुत चार्जर" },
+            { question: "इलेक्ट्रिक सुविधाको सुरक्षा गर्न उपयुक्तको प्रयोग गरिन्छ?", options: ["प्राकृत", "मझेसी", "खोलिन्छ", "चिप्ला"], answer: "प्राकृत" },
+            { question: "यदि कुनै व्यक्ति/विजुलीको झटकाको लाग्न गएको छ र उसको नाडी चल्छ भने पहिलो काम के हुन्छ?", options: ["चट्टा स्थानको जीव गर्ने", "मुल्यांकनको आगमनको लागि पानी", "टाउकोको तल र मुटु माथि उठाउने", "सिपिआर. दिने"], answer: "चट्टा स्थानको जीव गर्ने" },
+            { question: "सामाजिक सञ्जाल Facebook को मुख्यालय कहाँ राखिएको छ?", options: ["क्यालिफोर्निया", "फ्लोरिडा, न्यूयोर्क", "न्यूजर्सी"], answer: "क्यालिफोर्निया" },
+            { question: "इमेल पठाउन प्रयोग गर्ने प्रोटोकल कुन हो?", options: ["SMTP", "HTTP", "FTP", "TCP"], answer: "SMTP" }
+        ];
+
+        let currentQuestionIndex = 0;
+        let score = 0;
+        let timeLeft = 1800; // 30 minutes in seconds
+        let timerInterval;
+
+        const questionNumber = document.getElementById('question-number');
+        const questionText = document.getElementById('question-text');
+        const optionsContainer = document.getElementById('options');
+        const submitBtn = document.getElementById('submit-btn');
+        const nextBtn = document.getElementById('next-btn');
+        const feedback = document.getElementById('feedback');
+        const scoreDisplay = document.getElementById('score');
+        const progressBar = document.getElementById('progress-bar');
+        const timerDisplay = document.getElementById('timer');
+        const resultSection = document.getElementById('result');
+        const finalScore = document.getElementById('final-score');
+        const restartBtn = document.getElementById('restart-btn');
+        const questionContainer = document.getElementById('question-container');
+
+        function startTimer() {
+            timerInterval = setInterval(() => {
+                timeLeft--;
+                const minutes = Math.floor(timeLeft / 60);
+                const seconds = timeLeft % 60;
+                timerDisplay.textContent = `Time Left: ${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+                if (timeLeft <= 0) {
+                    clearInterval(timerInterval);
+                    endTest();
+                }
+            }, 1000);
+        }
+
+        function loadQuestion() {
+            const q = questions[currentQuestionIndex];
+            questionNumber.textContent = `Question ${currentQuestionIndex + 1} of ${questions.length}`;
+            questionText.textContent = q.question;
+            optionsContainer.innerHTML = '';
+            q.options.forEach((option, index) => {
+                const div = document.createElement('div');
+                div.className = 'flex items-center p-2 border rounded option-label';
+                div.innerHTML = `
+                    <input type="radio" name="option" id="option${index}" value="${option}" class="mr-2">
+                    <label for="option${index}">${option}</label>
+                `;
+                optionsContainer.appendChild(div);
+            });
+            submitBtn.classList.remove('hidden');
+            nextBtn.classList.add('hidden');
+            feedback.textContent = '';
+            updateProgressBar();
+        }
+
+        function updateProgressBar() {
+            const progress = ((currentQuestionIndex + 1) / questions.length) * 100;
+            progressBar.style.width = `${progress}%`;
+        }
+
+        function checkAnswer() {
+            const selectedOption = document.querySelector('input[name="option"]:checked');
+            if (!selectedOption) {
+                feedback.textContent = "Please select an option!";
+                return;
+            }
+
+            const userAnswer = selectedOption.value;
+            const correctAnswer = questions[currentQuestionIndex].answer;
+
+            const allOptions = document.querySelectorAll('input[name="option"]');
+            allOptions.forEach(option => {
+                const label = option.nextElementSibling;
+                if (option.value === correctAnswer) {
+                    label.parentElement.classList.add('correct');
+                }
+                if (option.value === userAnswer && userAnswer !== correctAnswer) {
+                    label.parentElement.classList.add('incorrect');
+                }
+                option.disabled = true;
+            });
+
+            if (userAnswer === correctAnswer) {
+                feedback.textContent = "Correct!";
+                feedback.classList.add('text-green-500');
+                score++;
+            } else {
+                feedback.textContent = `Incorrect! Correct answer: ${correctAnswer}`;
+                feedback.classList.add('text-red-500');
+            }
+
+            scoreDisplay.textContent = `Score: ${score}/${questions.length}`;
+            submitBtn.classList.add('hidden');
+            nextBtn.classList.remove('hidden');
+        }
+
+        function nextQuestion() {
+            currentQuestionIndex++;
+            if (currentQuestionIndex < questions.length) {
+                loadQuestion();
+            } else {
+                endTest();
+            }
+        }
+
+        function endTest() {
+            clearInterval(timerInterval);
+            questionContainer.classList.add('hidden');
+            nextBtn.classList.add('hidden');
+            resultSection.classList.remove('hidden');
+            finalScore.textContent = `Your final score: ${score}/${questions.length}`;
+        }
+
+        function restartTest() {
+            currentQuestionIndex = 0;
+            score = 0;
+            timeLeft = 1800;
+            scoreDisplay.textContent = `Score: ${score}/${questions.length}`;
+            questionContainer.classList.remove('hidden');
+            resultSection.classList.add('hidden');
+            loadQuestion();
+            startTimer();
+        }
+
+        submitBtn.addEventListener('click', checkAnswer);
+        nextBtn.addEventListener('click', nextQuestion);
+        restartBtn.addEventListener('click', restartTest);
+
+        // Start the test
+        loadQuestion();
+        startTimer();
+    </script>
+</body>
+</html>
